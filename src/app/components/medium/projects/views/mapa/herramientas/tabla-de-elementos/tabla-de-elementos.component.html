@@ -1,0 +1,233 @@
+<div id="elements-table-tool" *ngIf="isVisible && ! mostrarTablaDeDatos" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section">
+
+        <h1 class="title m-0">
+            Buscador
+            
+            <div title="Ayuda" class="float-right pointer d-inline" (click)="showTour()">
+                <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+            </div>
+
+        </h1>
+
+    </div>
+
+    <div [hidden]="mostrandoAtributosConValores" class="w-100 h-100 animate__animated animate__fadeIn animate__faster">
+        
+        <div class="selector-section" [class.for-only-one-module]="soloHayUnModulo">
+    
+            <div class="row justify-content-center section">
+            
+                <div class="col-12 p-0 mb-1">
+                
+                    <layer-selectors-section
+                    [form]="formData"
+                    [disableSelectors]="cargandoAtributos || tourIsActive"
+                    (onSelectModule)="alCambiarSelectorDeModuloOGrupo()"
+                    (onSelectGroup)="alCambiarSelectorDeModuloOGrupo()"
+                    (onSelectLayer)="alCambiarSelectorDeCapas($event)"
+                    ></layer-selectors-section>
+
+                </div>
+               
+                <div class="d-block d-xs-none p-0 col-12">
+                    <hr class="w-100 separator">
+                </div>
+                
+            </div>
+    
+        </div>
+    
+        <div class="searcher-section" [class.for-only-one-module]="soloHayUnModulo">
+    
+            <div class="row justify-content-center section"> 
+        
+                <div class="col-12 p-0">
+            
+                    <div class="w-100">
+            
+                        <label class="mb-2" for=""> <b>Atributos:</b> </label>
+            
+                        <input type="text" [disabled]="! capaSeleccionada || cargandoAtributos || tourIsActive" class="form-control form-control-sm d-inline search-field" placeholder="Buscar..." [(ngModel)]="busqueda">
+            
+                        <img src="assets/icons/SVG/LUPA.svg" class="icon search-icon" alt="lupa">
+                    
+                    </div>
+    
+                </div>
+        
+            </div>
+    
+        </div>
+    
+        <div id="elements-table-attributes-list" 
+            *ngIf="! cargandoAtributos" 
+            class="attributes-section animate__animated animate__fadeIn animate__faster"
+            [class.for-only-one-module]="soloHayUnModulo">
+        
+            <div *ngIf="atributos.length; else empty" class="row m-0 attributes-list animate__animated animate__fadeIn animate__faster"> 
+        
+                <div class="col-12 p-0 my-1 bottom-bordered text-left " *ngFor="let atributo of ( atributos | keyMatch : busqueda)">
+                       
+                    <div class="row m-0">
+    
+                        <div class="col-1 p-0 mb-2 align-items-center text-center">
+                            <label class="checkbox" for="attribute_{{atributo.id}}">
+                                
+                                <input type="checkbox" 
+                                [checked]="atributoEstaSeleccionado(atributo.nombre)" 
+                                name="attribute_{{atributo.id}}" 
+                                id="attribute_{{atributo.id}}"
+                                [disabled]="tourIsActive"
+                                (change)="actualizarAtributosSeleccionados(atributo.nombre)"
+                                >
+                                <i class="fas fa-check" *ngIf="atributoEstaSeleccionado(atributo.nombre)" ></i>
+    
+                            </label>
+                        </div>
+    
+                        <div class="col-11 pl-2 pr-0 py-0 mb-2 align-items-center">
+                            <label for="attribute_{{atributo.id}}" title="{{atributo.nombre}}" class="ml-3 text-truncate d-inline">
+                                {{atributo.nombre}}
+                            </label>
+                        </div>
+    
+                    </div>
+                </div>
+    
+            </div>
+    
+            <ng-template #empty class="row mx-0 mt-4">
+                <div class="col-12 my-4 text-center">
+                    Vacio
+                </div>
+            </ng-template>
+    
+        </div> 
+    
+        <div class="bottom-section m-0 row">
+    
+            <div class="col-5 p-0">
+                    <button 
+                    type="button" 
+                    class="btn btn-block btn-warning" 
+                    [class.btn-secondary]="! atributosSeleccionados.length"
+                    [disabled]="! atributosSeleccionados.length || tourIsActive"
+                    (click)="mostrarSeccionValoresDeAtributos()"
+                    >
+                    Continuar
+                </button>
+            </div>
+            
+            <div class="col-5 p-0">
+                <button type="button" [disabled]="tourIsActive" (click)="toggleSectionVisibilityEvent()" class="btn btn-block btn-outline-info">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <div [hidden]="! mostrandoAtributosConValores" class="w-100 h-100 animate__animated animate__fadeIn animate__faster">
+    
+        <div class="attributes-values-section">
+    
+            <div #listadoValoresAtributos class="attributes-values-list">
+
+                <ul>
+                    <li *ngFor="let atributo of atributosConValores">
+                        <div class="row m-0">
+
+                            <div class="col-12 p-0 mb-3">
+    
+                                <label class="mb-2 text-truncate" for="">{{atributo.nombre}}:</label>
+                    
+                                <ng-select
+                                    class="custom" 
+                                    *ngIf="atributo.valores.length; else campoTextoAtributoValor"
+                                    placeholder="Seleccione un valor"
+                                    [disabled]="tourIsActive"
+                                    [clearable]="false"
+                                    [items]="atributo.valores"
+                                    [(ngModel)]="valoresDeAtributosParaFiltro[atributo.nombre]"
+                                    [ngModelOptions]="{standalone: true}"
+                                    >
+                                </ng-select>
+    
+                                <ng-template #campoTextoAtributoValor>
+                                    <input [(ngModel)]="valoresDeAtributosParaFiltro[atributo.nombre]" 
+                                            [ngModelOptions]="{standalone: true}"
+                                            [disabled]="tourIsActive"
+                                            type="text" 
+                                            class="form-control form-control-xs">
+                                </ng-template>
+                        
+                            </div>
+    
+                        </div>
+                    </li>
+                </ul>
+            
+            </div>
+    
+        </div>
+
+        <div class="bottom-section m-0 row justify-content-between">
+    
+            <div class="col-5 p-0">
+                <button type="button" 
+                        class="btn btn-block btn-info" 
+                        [class.btn-secondary]="! atributosParaFiltrarTienenValoresSeleccionados()"
+                        [disabled]="! atributosParaFiltrarTienenValoresSeleccionados() || tourIsActive"
+                        (click)="mostrarTablaDeElementosFiltrados()"
+                        >
+                    Buscar
+                </button>
+            </div>
+
+            <div class="col-5 p-0">
+                <button type="button" [disabled]="tourIsActive" (click)="mostrarSeccionInicial()" class="btn btn-block btn-outline-info">
+                    Atras
+                </button>
+            </div>
+    
+        </div>
+    
+    </div>
+
+    <div *ngIf="mostrarSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+        <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+
+</div>
+
+<div *ngIf="isVisible && mostrarTablaDeDatos" [@fadeInUpOnEnter] [@fadeOutDownOnLeave] class="map-section datatable-container">
+
+    <div class="row m-0">
+        <div id="elements-table-filter-tag" class="pl-0 pr-1  col-7 col-sm-8 text-truncate">
+            {{ obtenerEtiquetaDeFiltro() }}
+        </div>
+        <div class="px-1 col-1 text-center">
+            <div title="Ayuda" class="pointer" (click)="showTour()">
+                <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+            </div>
+        </div>
+        <div id="elements-table-filter" class="pl-1 pr-0 col-4 col-sm-3">
+            <input [disabled]="tourIsActive" (keyup)="filtrarElementosEnTablaDeDatos($event)" type="text" placeholder="Escribe para buscar..." class="d-inline form-control form-control-sm datatable-searcher">
+        </div>
+        <div id="elements-table-container" class="p-0 col-12">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="text-center">
+                <thead id="elements-table-head">
+                </thead>
+                <tbody (click)="alHacerClickEnTablaDeDatos($event)">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div *ngIf="mostrarSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+        <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+
+</div>

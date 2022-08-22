@@ -1,0 +1,194 @@
+header{
+    position: absolute;
+    height: 6.33%;
+    width: 100%;
+    box-shadow: 0px 4px 5px 0px rgb(0 0 0 / 22%);
+    -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 22%);
+    -moz-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.22);
+    font-family: Raleway !important;
+    background: white;
+    left: 0;
+    top: 0;
+    position: fixed;
+    z-index: 1000;
+}
+
+.brand-section{
+    position: absolute;
+    width: 20%;
+    height: 100%;
+    padding: 0 1rem;
+    background-color: #4F4F4F;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand-section > img{
+  width: 50%;
+}
+
+.brand-section > span{
+    color: #4F4F4F;
+    font-size: .8rem;
+}
+
+.plugin-tag{
+    font-size: .9rem !important;
+    font-weight: 300;
+    color: #fff !important;
+}
+
+.collapse-button{
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff !important;
+}
+
+.bussines-section{
+    position: absolute;
+    left: 20%; /* brand section width */
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #4F4F4F;
+    font-size: .8rem;
+    padding: 0 1rem;;
+}
+
+.bussines-logo-container{
+    width: 7.5%;
+}
+
+.user-options-section{
+    position: absolute;
+    right: 0%;
+    width: 30%;
+    height: 100%;
+    color: #000;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 1rem;;
+}
+
+.circle{
+    background-color: #6E63C8;
+    display: inline-flex;
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    float: right;
+    color: #FFF;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: 1.08px;
+    line-height: 16px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.icon{
+    width: 1rem;
+    height: 1rem;    
+}
+
+.logout-window{
+    position: absolute;
+    top: 2.5rem;
+    left: 70%;
+    width: 27.5%;
+    height: auto;
+    border-radius: 3px;
+    background-color: #FFF;
+    border: 1px solid #E0E0E0;
+    box-shadow: 2px 2px 2px 0 rgb(0 0 0 / 10%);
+    z-index: 9999 !important;
+    color: #4F4F4F;
+    font-size: .8rem;
+}
+
+.top-bordered{
+    border-top: 1px solid #E0E0E0;
+}
+
+.logout-window > div > div > h6{
+    font-size: 1rem;
+    font-weight: bold;
+    color: #000;
+}
+
+.logout-window > div > div > h4{
+    font-size: .8rem;
+    font-style: italic;
+}
+
+.logout-window-option{
+    cursor: pointer;
+    transition: transform .2s;
+}
+
+.logout-window-option:hover{
+    transform: scale(1.02);
+}
+
+@media (min-width: 768px)
+{   
+    .brand-section{
+        justify-content: space-between;
+        width: 14.84%;
+    }
+
+    .bussines-section{
+        left: 14.84%; /* brand section width */
+    }
+
+    .bussines-logo-container{
+        width: 10%;
+    }
+
+    .collapse-button{
+        font-size: 1.25rem;
+    }
+
+    .icon{
+        width: 1rem;
+        height: 1rem;    
+    }
+
+    .logout-window{
+        left: 77.5%;
+        width: 20%;
+    }
+    
+}
+
+@media (min-width: 992px)
+{   
+    .logout-window{
+        left: 82.5%;
+        width: 16%;
+    }
+}
+
+@media (min-width: 1400px)
+{   
+    .logout-window{
+        left: 86.5%;
+        width: 12%;
+    }
+}
+
+@media (min-width: 1200px)
+{   
+    .icon{
+        width: 1.2rem;
+        height: 1.2rem;    
+    }
+}
+

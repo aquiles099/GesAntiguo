@@ -1,0 +1,91 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+
+    <home-view-header
+    title="nuevo usuario"
+    [enableTourButton]="false"
+    ></home-view-header>  
+
+    <form id="newUserForm" [formGroup]="form" (submit)="onSubmit()" class="col-12 d-flex align-items-center">
+        
+        <div class="row m-0 py-4 justify-content-center">
+
+            <div class="col-10 p-0">
+
+                <div class="row m-0">
+
+                    <div class="col-12 col-md-6 px-3 mb-2">
+ 
+                        <label class="mb-2" for="nombre">Nombre: <span class="required-mark">*</span></label>
+                        
+                        <input type="text" id="nombre" name="nombre" formControlName="nombre" required>
+                
+                    </div>
+        
+                    <div class="col-12 col-md-6 px-3 mb-2">
+        
+                        <label class="mb-2" for="apellidos">Apellido: <span class="required-mark">*</span></label>
+                        
+                        <input type="text" id="apellidos" name="apellidos" formControlName="apellidos" required>
+                
+                    </div>
+        
+                    <div class="col-12 col-md-6 px-3 mb-2">
+        
+                        <label class="mb-2" for="nif">NIF/NIE: <span class="required-mark">*</span></label>
+                        
+                        <input type="text" id="nif" name="nif" formControlName="nif" required>
+                
+                    </div>
+                    
+                    <div class="col-12 col-md-6 px-3 mb-2">
+                        
+                        <label class="mb-2" for="email">Email:</label>
+                        
+                        <input type="email" id="email" name="email" formControlName="email">
+                        
+                    </div>
+                    
+                    <div class="col-12 col-md-6 px-3 mb-2">
+        
+                        <label class="mb-2" for="id_usuario">Nombre usuario: <span class="required-mark">*</span></label>
+                        
+                        <input type="text" id="id_usuario" name="id_usuario" formControlName="id_usuario" required>
+                
+                    </div>
+                    
+                    <div class="col-12 col-md-6 align-self-start px-3 mb-2">
+        
+                        <label class="mb-2" for="clave">Contraseña: <span class="required-mark">*</span></label>
+                        
+                        <input #passwordField type="password" id="clave" name="clave" formControlName="clave" required>
+                    
+                        <img [src]="passwordField.type === 'password' ? 'assets/icons/visualizar.svg' : 'assets/icons/OCULTAR.svg'" 
+                            class="eye-icon pointer" 
+                            (click)="togglePasswordVisibility(passwordField)">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        
+    </form>
+
+    <div class="col-12 p-0 d-flex align-items-center justify-content-end">
+        
+        <div class="col-2 p-2">
+            <button type="submit" form="newUserForm" [disabled]="form.invalid" class="btn btn-block btn-info p-1">
+                Crear
+            </button>
+        </div>
+
+        <div class="col-2 pl-2 pr-0">
+            <a [routerLink]="['..']" class="btn btn-block btn-outline-info p-1">
+                Volver
+            </a>
+        </div>
+    </div>
+
+</div>
+

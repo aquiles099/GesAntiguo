@@ -1,0 +1,100 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="row mx-2 mb-4">
+        <div class="col-12 p-0 title">Eliminar elemento</div>
+    </div>
+
+    <div *ngIf="! selectedLayer && ! thereArelayersNearTheClick" class="row mx-2 my-1 animate__animated animate__fadeIn animate__faster">
+        <div class="col-12 p-0 property-key">
+            Seleccione o haga click cerca de un elemento.
+        </div>
+    </div>
+
+    <div *ngIf="selectedLayer && ! thereArelayersNearTheClick" class="row mx-2 my-1 animate__animated animate__fadeIn animate__faster">
+        <div class="col-12 p-0 property-key">
+            Elemento ID {{ selectedLayer.feature.id }} seleccionado.
+        </div>
+    </div>
+
+    <div *ngIf="thereArelayersNearTheClick" [class.collapsed-show]="! isCollapsed" class="row mx-2 my-1 scrollable layer-list animate__animated animate__fadeIn animate__faster">
+        <div class="col-12 px-1 py-2 bottom-bordered animate__animated animate__fadeIn animate__faster" *ngFor="let layerData of sortedLayersInPulseRange; let i = index;">
+            <div class="row m-0">
+
+                <div class="col-6 p-0 property-key">
+                    <label for="checkbox_layer_{{i}}">
+                        {{layerData.name}}
+                    </label>
+                </div>
+
+                <div class="col-6 p-0 property-value">
+
+                    <label for="checkbox_layer_{{i}}"
+                            [class.checked]="selectedLayer === layerData.layer" 
+                            class="checkbox-round">
+                        <i *ngIf="selectedLayer === layerData.layer" class="fa fa-check"></i>
+                    </label>
+
+                    <input type="checkbox" class="hide" (change)="onSelectLayer(layerData.layer)" id="checkbox_layer_{{i}}">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-0 bottom-section" >
+        <div class="col-5  p-0">
+            <button (click)="confirmationModal.show()"
+                 type="button" class="btn btn-block"
+                [disabled]="! selectedLayer" 
+                [ngClass]="{
+                    'btn-secondary': ! selectedLayer,
+                    'btn-info': selectedLayer
+                }"
+                >
+                Eliminar
+            </button>
+        </div>
+        <div class="col-5  p-0">
+            <button (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+                Cancelar
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" bsModal #confirmationModal="bs-modal" tabindex="-1" role="dialog">
+
+    <div class="modal-dialog modal-xs modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-body">
+                
+                <div class="row mx-2 text-center justify-content-center">
+
+                    <div class="col-10 my-3 modal-title">
+                        <h4>¿Eliminar elemento ID {{ selectedLayer ? selectedLayer.feature.id : ""}}?</h4>
+                    </div>
+
+                    <div class="col-5 mb-3">
+                        <button (click)="removeSelectedFeature()" class="btn btn-block btn-info">
+                            Eliminar 
+                        </button>
+                    </div>
+                    
+                    <div class="col-5 mb-3">
+                        <button (click)="confirmationModal.hide()" class="btn btn-block btn-outline-info">
+                            Cancelar
+                        </button>
+                    </div>
+                  
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

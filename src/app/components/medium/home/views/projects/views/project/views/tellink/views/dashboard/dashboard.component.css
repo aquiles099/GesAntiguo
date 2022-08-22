@@ -1,0 +1,17 @@
+.big-text{
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.box{
+    border: 1px solid #333;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 2.5rem;
+}
+
+.box > span{
+    display: block;
+    color: #F9B032;
+    font-size: 2.5rem;
+} 

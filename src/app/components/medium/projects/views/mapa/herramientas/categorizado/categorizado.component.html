@@ -1,0 +1,106 @@
+<div *ngIf="isVisible " [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section title">
+
+        Categorizado
+
+        <div title="Ayuda" class="float-right pointer d-inline" (click)="showTour()">
+            <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+        </div>
+
+    </div>
+
+    <div [hidden]="customStylesEnabled" class="selector-section animate__animated animate__fadeIn animate__faster">
+
+        <div class="row justify-content-center section">
+        
+            <div class="col-12 p-0 mb-2">
+
+                <layer-selectors-section
+                [form]="formData"
+                selectorsBottomMarginClass="mb-2"
+                [disableSelectors]="loadingAttributes || tourIsActive"
+                (onSelectModule)="alCambiarSelectorDeModuloOGrupo()"
+                (onSelectGroup)="alCambiarSelectorDeModuloOGrupo()"
+                (onSelectLayer)="eventoCapaSeleccionada($event)"
+                ></layer-selectors-section>
+
+            </div>
+                      
+            <div id="style-selector" class="col-12 p-0 mt-xs-2 mb-2">
+        
+                <label class="mb-2" for="">Estilo:</label>
+    
+                <ng-select 
+                class="custom" 
+                placeholder="Seleccione un estilo"
+                [disabled]="! formData.layer || loadingAttributes || tourIsActive"   
+                [clearable]="false" 
+                [items]="estilos"
+                bindLabel="nombre"
+                bindValue="estilo_geoserver"
+                [(ngModel)]="formData.style"
+                [ngModelOptions]="{standalone: true}"
+                (change)="eventoEstiloSeleccionado($event)"
+                >
+                </ng-select>
+                
+            </div>
+               
+            <div class="d-block d-xs-none p-0 col-12">
+                <hr class="w-100 separator">
+            </div>
+            
+        </div>
+
+    </div>
+    
+    <seccion-estilos-personalizados
+        *ngIf="customStylesEnabled"
+        [selectedLayer]="selectedLayer"
+        [attributeCategories]="attributeCategories"
+        [layerAttributeCategories]="layerAttributeCategories"
+        (showCategoryConfigurationModal)="prepareCategoryCreationModalAndShowIt($event)"
+    ></seccion-estilos-personalizados>
+  
+    <div class="_bottom-section row m-0 align-items-center" >
+
+        <div id="accept-btn" class="col-4 p-0">
+            <button type="button" [disabled]="tourIsActive" class="btn btn-block btn-info" (click)="acceptAndCloseTool()">
+                Aplicar
+            </button>
+        </div>
+        
+        <div id="initial-style-btn" class="col-4 px-2">
+            <button type="button" [disabled]="tourIsActive || ! formData.layer" class="btn btn-block" [ngClass]="{
+                'btn-info': formData.layer,
+                'btn-secondary': ! formData.layer
+            }" (click)="restoreDefaultStylesAndCloseTool()">
+                Inicial
+            </button>
+        </div>
+        
+        <div *ngIf="! customStylesEnabled" id="previous-style-btn" class="col-4 p-0 animate__animated animate__fadeIn animate__faster">
+            <button type="button" [disabled]="tourIsActive" class="btn btn-block btn-secondary" (click)="cancelAndCloseTool()">
+                Cancelar
+            </button>
+        </div>
+        
+        <div *ngIf="customStylesEnabled" class="col-4 p-0 animate__animated animate__fadeIn animate__faster">
+            <button type="button" [disabled]="tourIsActive" class="btn btn-block btn-secondary" (click)="backToStyleSelectionSection()">
+                Atras
+            </button>
+        </div>
+        
+    </div>
+
+    <div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+        <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+
+</div>
+
+<modal-creacion-de-categorias
+    (createCategory)="SeccionEstilosPersonalizados.createCategory($event)"
+    (updateCategory)="SeccionEstilosPersonalizados.updateCategory($event)"
+></modal-creacion-de-categorias>

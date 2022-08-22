@@ -1,0 +1,120 @@
+<div id="layer-controller" *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section _container">
+
+    <div class="container-fluid">
+
+        <div *ngFor="let modulo of datosDeModulos; let moduleIndex = index" class="row align-items-center">
+
+            <div class="col-12 m-2 p-0 p-sm-2 text-truncate">
+
+                <img class="icon"
+                    id="eye-icon-module-{{moduleIndex + 1}}"
+                    (click)="alternarVisibilidadDeCapaModular(modulo)"
+                    [src]=" modulo.proyectado ? 'assets/icons/SVG/VISUALIZAR.svg' : 'assets/icons/SVG/OCULTAR.svg'"
+                    alt="VISUALIZAR">
+
+                <label (click)="alternarVisibilidadDeCapaModular(modulo)" class="ml-1 title">{{modulo.nombre}}</label>
+
+                <span class="icon float-right pr-2"
+                    id="arrow-down-icon-module-{{moduleIndex + 1}}"
+                    (click)="alternarVisibilidadDeListado(modulo.nombre, 'modulo')">
+                    <i class="fas" [ngClass]="{
+                        'fa-chevron-up': ! listadoEstaColapsado(modulo.nombre,'modulo'),
+                        'fa-chevron-down': listadoEstaColapsado(modulo.nombre,'modulo')
+                    }"></i>
+                </span>
+
+            </div>
+
+            <div [collapse]="listadoEstaColapsado(modulo.nombre,'modulo')" [isAnimated]="true" class="col-12 p-0 layer-list-container scrollable" >
+
+                <div *ngFor="let grupo of modulo.grupos" class="row mx-2 mt-2 mb-0  p-sm-2 align-items-center">
+
+                    <div class="col-12 p-0">
+
+                        <img class="icon"
+                            (click)="alternarVisibilidadDeCapaGrupal(grupo)"
+                            [src]="grupo.proyectado ? 'assets/icons/SVG/VISUALIZAR.svg' : 'assets/icons/SVG/OCULTAR.svg'"
+                            alt="VISUALIZAR">
+
+                        <label (click)="alternarVisibilidadDeListado(grupo.nombre,'grupo')" class="ml-1 label">{{grupo.nombre}}</label>
+
+                        <span class="icon float-right"
+                         (click)="alternarVisibilidadDeListado(grupo.nombre,'grupo')">
+                            <i class="fas" [ngClass]="{
+                                'fa-chevron-up': ! listadoEstaColapsado(grupo.nombre,'grupo'),
+                                'fa-chevron-down': listadoEstaColapsado(grupo.nombre,'grupo')
+                            }"></i>
+                        </span>
+
+                        <div class="w-100 mt-2 bordered-bottom"></div>
+
+                        <div [collapse]="listadoEstaColapsado(grupo.nombre,'grupo')" [isAnimated]="true" class="col-12 p-0 layer-list-container" >
+                            <div *ngFor="let capa of grupo.capas; let layerIndex = index" class="row mx-2 align-items-center bordered-bottom">
+
+                                <div class="col-12 p-0 my-2 text-truncate">
+                                    <img class="icon" (click)="alternarVisibilidadDeCapaIndividual(capa)"
+                                        [src]=" capa.proyectado ? 'assets/icons/SVG/VISUALIZAR.svg' : 'assets/icons/SVG/OCULTAR.svg'"
+                                        alt="VISUALIZAR">
+
+                                    <label (click)="alternarVisibilidadDeLeyenda(capa.nombre)" class="ml-1 label">{{capa.nombre}}</label>
+
+                                    <span class="icon float-right"
+                                        id="arrow-down-layer-{{layerIndex + 1}}"
+                                      (click)="alternarVisibilidadDeLeyenda(capa.nombre)">
+                                      <i class="fas" [ngClass]="{
+                                        'fa-chevron-up': ! capaEstaColapsada(capa.nombre),
+                                        'fa-chevron-down': capaEstaColapsada(capa.nombre)
+                                    }"></i>
+                                  </span>
+
+                                  <div [collapse]="capaEstaColapsada(capa.nombre)" [isAnimated]="true"
+                                        id="legend-layer-{{layerIndex + 1}}"
+                                        class="col-12 p-0 text-center layer-list-container my-3">
+                                      <img [src]="capa.leyenda" />
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="base-layers-list" class="row align-items-center">
+
+            <div class="col-12 m-2 p-0">
+                <label class="title">MAPA BASE:</label>
+            </div>
+
+            <div class="col-12 p-2 d-flex layer-list-container _rounded-bottom">
+
+                <div *ngFor="let datosCapaBase of capasBase" class="base-layer-container mb-1 mb-sm-3">
+
+                    <img (click)="eventoCambiarCapaBase(datosCapaBase.capa)"
+                    class="base-layer-image mb-2"
+                    [class.selected]="datosCapaBase.className === nombreCapaBaseActual"
+                    src="https://saas.fisotecsolutions.com/iconosBackendDesarrollo/capas_base/{{datosCapaBase.imageName}}.jpeg"
+                    [attr.alt]="datosCapaBase.image">
+
+                    <small (click)="eventoCambiarCapaBase(datosCapaBase.capa)"
+                            class="d-block pointer" 
+                            [ngStyle]="{'font-weight': datosCapaBase.className === nombreCapaBaseActual ? 'bolder': 'normal'}">
+                        {{datosCapaBase.className}}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

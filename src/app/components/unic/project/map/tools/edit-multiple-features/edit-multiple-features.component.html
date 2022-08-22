@@ -1,0 +1,234 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section title">Edición múltiple</div>
+
+    <div class="middle-section scrollable">
+
+        <!-- Seleccion de capa. -->
+        <div *ngIf="! inEdition" class="row m-0 justify-content-center animate__animated animate__fadeIn animate__faster">
+
+            <div class="col-12 p-0 mb-3">
+                
+                <label class="mb-2" for="">Modulos:</label>
+
+                <ng-select
+                    class="custom" 
+                    placeholder="Seleccione un modulo"
+                    [clearable]="false"
+                    [items]="projectModules"
+                    [(ngModel)]="selectedModuleName"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="onChangingModuleSelector($event)"
+                    >
+                </ng-select>
+        
+            </div>
+        
+            <div class="col-12 p-0 mb-2">
+        
+                <label class="mb-2" for="">Capa:</label>
+
+                <ng-select
+                    class="custom" 
+                    placeholder="Seleccione una capa"
+                    [clearable]="false"
+                    [items]="fileLayers"
+                    bindLabel="layerName"
+                    bindValue="layerName"
+                    [(ngModel)]="selectedLayerName"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="onChangingLayerSelector($event)"
+                    >
+                </ng-select>
+            </div>
+
+        </div>
+        
+        <!-- Confirmar elementos a editar. -->
+        <div *ngIf="inEdition && ! inPropertiesEdition" class="row m-0 animate__animated animate__fadeIn animate__faster">
+          
+            <div *ngIf="! thereAreFeaturesWithinPolygon" [innerHTML]="helpText | safeHtml" class="col-12 p-0 property-key animate__animated animate__fadeIn animate__faster"></div>
+
+            <div *ngIf="thereAreFeaturesWithinPolygon" class="col-12 px-0 py-2 property-key animate__animated animate__fadeIn animate__faster">
+                {{ featuresWithinPolygon.length }} elementos seleccionados.
+            </div>
+
+            <div class="col-12 px-0 py-2 bottom-bordered animate__animated animate__fadeIn animate__faster" 
+                    *ngFor="let feature of featuresWithinPolygon; let i = index;">
+                <div class="row m-0">
+
+                    <div class="col-6 p-0 property-key">
+                        <label for="checkbox_feature_{{i}}">
+                            Elemento {{i + 1}}
+                        </label>
+                    </div>
+
+                    <div class="col-6 p-0 text-right">
+
+                        <label for="checkbox_feature_{{i}}"
+                                [class.checked]="featureIsSelected(feature.id)" 
+                                class="checkbox-round">
+                            <i *ngIf="featureIsSelected(feature.id)" class="fa fa-check"></i>
+                        </label>
+
+                        <input type="checkbox" class="hide" (change)="updateFeaturesToEdit(feature)" id="checkbox_feature_{{i}}">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmar atributos a editar. -->
+        <div *ngIf="inEdition && inConfirmationOfProperties" class="row m-0 animate__animated animate__fadeIn animate__faster">
+            
+            <div class="col-12 px-0 py-2 property-key">
+                Seleccione atributos a editar.
+            </div>
+
+            <div class="col-12 px-0 py-2 bottom-bordered animate__animated animate__fadeIn animate__faster" 
+                *ngFor="let property of featureProperties; let i = index;">
+                <div class="row m-0">
+
+                    <div class="col-6 p-0 property-key">
+                        <label for="checkbox_property_{{i}}">
+                            {{ property }}
+                        </label>
+                    </div>
+
+                    <div class="col-6 p-0 text-right">
+
+                        <label for="checkbox_property_{{i}}"
+                                [class.checked]="propertyIsSelected(property)" 
+                                class="checkbox-round">
+                            <i *ngIf="propertyIsSelected(property)" class="fa fa-check"></i>
+                        </label>
+
+                        <input type="checkbox" class="hide" (change)="updatePropertiesToEdit(property)" id="checkbox_property_{{i}}">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editar atributos. -->
+        <div *ngIf="inEdition && inEditionOfProperties" class="row m-0 animate__animated animate__fadeIn animate__faster">
+            
+            <div class="col-12 p-0">
+                <ul>
+                    <li *ngFor="let property of propertiesToEdit">
+                        <div class="row m-0 py-2 mb-2">
+                            <div class="col-6 p-0 d-flex align-items-center property-key text-truncate">{{ property }}</div>
+                            <div class="col-6 p-0">
+                                <input 
+                                type="text" 
+                                class="form-control property-value"
+                                [typeaheadScrollable]="true"        
+                                [typeahead]="featurePropertyValues[property]"
+                                [(ngModel)]="editionData[property]"
+                                >
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="bottom-section m-0 row justify-content-between align-items-center">
+    
+        <!-- Ir a dibujar poligono. -->
+        <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="! inEdition">
+            <button (click)="drawPolygon()"
+                type="button" 
+                class="btn btn-block"
+                [ngClass]="{
+                    'btn-info': selectedFileLayer,
+                    'btn-secondary': ! selectedFileLayer
+                }"
+                [disabled]="! selectedFileLayer" 
+                >
+                Siguiente
+            </button>
+        </div>
+
+        <!-- Ir a seleccion de atributos para editar. -->
+        <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="inEdition && ! inPropertiesEdition">
+            <button 
+                type="button" 
+                (click)="showConfirmationOfProperties()"
+                [disabled]="! thereAreSelectedFeaturesToEdit" 
+                class="btn btn-block"
+                [ngClass]="{
+                'btn-info' : thereAreSelectedFeaturesToEdit,
+                    'btn-secondary': ! thereAreSelectedFeaturesToEdit
+                }"
+                > 
+                Siguiente
+            </button>
+        </div>
+    
+        <!-- Ir edicion de atributos. -->
+        <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="inConfirmationOfProperties">
+            <button 
+                type="button" 
+                (click)="showEditionOfProperties()"
+                [disabled]="! thereAreSelectedPropertiesToEdit" 
+                class="btn btn-block"
+                [ngClass]="{
+                'btn-info' : thereAreSelectedPropertiesToEdit,
+                    'btn-secondary': ! thereAreSelectedPropertiesToEdit
+                }"
+                > 
+                Siguiente
+            </button>
+        </div>
+    
+        <!-- Actulizar elementos. -->
+        <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="inEditionOfProperties">
+            <button 
+                type="button" 
+                (click)="updateFeatures()"
+                [disabled]="! propertiesToEditHaveValues" 
+                class="btn btn-block"
+                [ngClass]="{
+                    'btn-warning' : propertiesToEditHaveValues,
+                    'btn-secondary': ! propertiesToEditHaveValues
+                }"
+                > 
+                Guardar
+            </button>
+        </div>
+            
+        <!-- Cerrar herramienta. -->
+        <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="! inEdition">
+            <button (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+                Cancelar
+            </button>
+        </div>
+
+        <!-- Revertir poligono / volver a seleccion de capa. -->
+        <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="inEdition && ! inPropertiesEdition">
+            <button (click)="redraw()" type="button" class="btn btn-block btn-outline-info">
+                {{ drawingPolygon ? "Volver" : "Cancelar"  }}
+            </button>
+        </div>
+    
+        <!-- Volver a confirmacion de elementos. -->
+        <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="inConfirmationOfProperties">
+            <button (click)="showFeaturesConfirmation()" type="button" class="btn btn-block btn-outline-info">
+                Volver
+            </button>
+        </div>
+    
+        <!-- Volver a confirmacion de atributos. -->
+        <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="inEditionOfProperties">
+            <button (click)="showConfirmationOfProperties()" type="button" class="btn btn-block btn-outline-info">
+                Volver
+            </button>
+        </div>
+
+    </div>
+
+</div>

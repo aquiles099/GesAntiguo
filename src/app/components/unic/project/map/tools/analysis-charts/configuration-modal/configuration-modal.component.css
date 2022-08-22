@@ -1,0 +1,178 @@
+*:not(i) {
+    font-family: "Raleway" !important;
+}
+
+.modal-header{
+    border-bottom-color: #E0E0E0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.icon{
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+}
+
+.modal-content{
+    border-radius: .7rem !important;
+}
+
+label{
+    font-size: .75rem;
+    color: #333;
+}
+
+.checkbox-round {
+    width: 1.6em;
+    height: 1.6em;
+}
+
+.checkbox-label{
+    color: #828282;
+}
+
+.chart-image-container{
+    border: 1px solid #E0E0E0;
+    width: 90%;
+    height: 110px;
+    margin: auto;
+    color: #F00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .8rem;
+}
+
+.charts-configuration-container{
+    background-color: #F2F2F2;
+    padding: 3%;
+    height: 150px;
+}
+
+.charts-configuration-container-buttons{
+    text-align: -webkit-center;
+}
+
+.charts-configuration-container-buttons > button{
+    border-radius: 2px;
+}
+
+.charts-configuration-container > div{
+    display: inline-block;
+    margin: 0;
+}
+
+.vertical-charts-container{
+    width: 25%;
+    height: 100%;
+    text-align: center;
+}
+
+.vertical-charts-container > div{
+    display: flex;
+    width: 90%;
+    height: 30%;
+}
+
+.vertical-charts-container > div:nth-child(2){
+    margin: 10% 0 10% 0;
+}
+
+.horizontal-charts-container{
+    height: 30%;
+    width: 75%;
+}
+
+.horizontal-charts-container > div{
+    display: inline-flex;
+    height: 100%;
+    width: 30%;
+}
+
+.horizontal-charts-container > div:nth-child(2){
+    margin: 0 5% 0 5%;
+}
+
+.chart-position-ref{
+    background-color: #FFF;
+    color: #26AAE2;
+    font-size: 1rem;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    transition: transform .2s;
+}
+
+.chart-position-ref:hover{
+    transform: scale(1.1);
+}
+
+.chart-position-ref.selected,
+.chart-position-ref.selected.configured{
+    border: 3px solid #F9B032;
+}
+
+.chart-position-ref.configured{
+    border: 1px solid #26AAE2;
+    background-color: rgba(38, 170, 226, .2);
+}
+
+.fa-plus{
+    font-size: 1.2rem;
+}
+
+.btn-block{
+    font-size: .8rem;
+    border-radius: 0;
+}
+
+.child-modal-backdrop{
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(218, 218, 218, 0.3);
+    width: 100%;
+    height: 100%;
+}
+
+.small-modal{
+    font-size: .9rem;
+} 
+
+.ng-select.custom ::ng-deep .ng-select-container  {            
+    min-height: 0px;
+    border-radius: 0;
+}
+
+.sm-modal-title{
+    font-size: .8rem;
+}
+
+@media (min-width: 768px)
+{   
+    .modal-xl > .modal-content > .modal-body{
+        padding: 3.5% 7% !important;
+    }
+
+    label{
+        font-size: .875rem;
+    }
+   
+    .chart-image-container{
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (min-width: 992px)
+{   
+}
+
+@media (min-width: 1280px)
+{
+ 
+ 
+}

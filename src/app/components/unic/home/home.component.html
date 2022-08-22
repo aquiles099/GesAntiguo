@@ -1,0 +1,15 @@
+<!-- HEADER -->
+<home-header (toggleSideBarMenuVisibility)="toggleSideBarMenuVisibility()"></home-header>
+
+<!-- SIDEBAR MENU -->
+<home-sidebar-menu (onSelectOption)="onSelectMenuOption($event)"></home-sidebar-menu>
+
+<!-- BODY -->
+<div class="_container">
+
+    <router-outlet></router-outlet>
+
+</div>
+
+<project-creation-modal
+></project-creation-modal>

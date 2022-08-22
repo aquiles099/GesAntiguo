@@ -1,0 +1,117 @@
+<div bsModal #modal="bs-modal" (onHidden)="onHiddenModal()" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-md modal-dialog-centered" role="document">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<h4 class="modal-title">{{inEdition ? "Editar" : "Añadir"}} categoria</h4>
+				<button type="button" class="close" (click)="modal.hide()" aria-label="Close">
+                    <img src="assets/icons/SVG/CERRARVENTANA.svg" class="icon" alt="cerrar">
+                </button>
+			</div>
+
+			<div class="modal-body">
+
+                <hr class="mt-0 w-100">
+                
+                <form #form="ngForm" id="categoryConfigurationForm" (submit)="onSubmit()" class="row text-left justify-content-center">
+
+                    <div class="col-10 mb-4">
+                        
+                        <label class="col-12 p-0 mb-2">Valor:</label>
+
+                        <ng-select 
+                        #value="ngModel"
+                        placeholder="Seleccione valor"
+                        [(ngModel)]="formData.value"
+                        name="value" 
+                        required
+                        class="custom" 
+                        [clearable]="false">
+                            <ng-option [value]="value" *ngFor="let value of propertyValues">
+                                {{value}}
+                            </ng-option>
+
+                        </ng-select>
+
+                    </div>
+
+                    <div class="col-10 mb-4">
+
+                        <label class="col-12 p-0 mb-2">Forma:</label>
+
+                        <ng-select 
+                            name="shape" 
+                            class="custom" 
+                            [clearable]="false"
+                            [items]="shapeOptions" 
+                            required 
+                            placeholder="Seleccione forma"
+                            bindLabel="label" 
+                            bindValue="value" 
+                            #shape="ngModel" 
+                            [(ngModel)]="formData.shape"
+                            >
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                               <div class="container text-center">
+
+                                   <h4 class="m-0" >{{item.label}}</h4>
+
+                                   <div *ngIf="layerGeometryType === 'POINT'" 
+                                        style="width: 1.5rem; height: 1.5rem; margin: 0 auto;" 
+                                        [innerHTML]="getShapeSvgIcon(item.value) | safeHtml">
+                                   </div>
+                               </div>
+
+                            </ng-template>
+
+                        </ng-select>
+                    </div>
+
+                    <div class="col-3 mb-4">
+                        <label class="col-12 p-0 mb-2">Color:</label>
+                        <input style="width: 100%;" [(colorPicker)]="formData.color" [style.background]="formData.color"/>
+                    </div>
+
+                    <div class="col-7 mb-4">    
+                    
+                        <label class="mb-2">Tamaño:</label>
+
+                        <div class="row m-0">
+    
+                            <div class="p-0" [ngClass]="{
+                                'col-5': layerGeometryType === 'POINT',
+                                'col-12': layerGeometryType !== 'POINT'
+                            }">
+                                <mat-slider
+                                thumbLabel
+                                [displayWith]="formatSliderLabel"
+                                tickInterval="auto"
+                                step="1"
+                                [min]="minShapeSize"
+                                [max]="maxShapeSize" 
+                                [(value)]="formData.size"
+                                aria-label="Tamaño"></mat-slider>
+                            </div>
+
+                            <div *ngIf="formData.shape && layerGeometryType === 'POINT'" class="col-7 p-0 animate__animated animate__fadeIn animate__faster">
+                                <div class="text-center" [innerHTML]="getShapeSvgIcon(formData.shape, true) | safeHtml"></div>    
+                            </div> 
+
+                        </div>
+        
+                    </div>
+
+                </form>
+
+                <hr class="mt-0 w-100">
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="reset" (click)="resetForm()" form="categoryConfigurationForm" class="btn btn-secondary">Limpiar</button>
+                <button type="submit" [disabled]="form.invalid" form="categoryConfigurationForm" class="btn btn-primary">{{inEdition ? "Actualizar" : "Añadir"}}</button>
+            </div>
+
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

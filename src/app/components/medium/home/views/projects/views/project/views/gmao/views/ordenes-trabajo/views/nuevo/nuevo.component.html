@@ -1,0 +1,314 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+
+<div class="col-12 p-0">
+  <div class="container">
+    <br>
+      <br>
+      <br>
+      <div class="parametros valor">        
+          <div class="container">
+              <br>
+              <div class="row valor">
+                  <div class="col-1 col11">
+                      <img [src]="proyecto.icono" alt="icono" class="escudo_proyecto" />
+                  </div>
+                  <div class="col-3">
+                      <strong>Proyecto: </strong> <span>{{proyecto.nombre}}</span>
+                      <div class="espacio_vertical">
+                          <strong>Módulos: </strong><span *ngFor="let modulos of proyecto.modulos">  <img [src]="modulos.icono_modulo" alt="icono" class="icon_modulo" /></span>
+                      </div>
+                  </div>
+              </div>
+              <br>
+              <br>
+              <br>
+              <div class="valor nueva_solicitud border"> <!-- aqui  empieza -->
+                <div class="row p-4">
+                    <div class=" col-6 ">
+                    </div>
+                    <div class="col-6  pr-4" align="right">
+                        <div>
+                           <span class="fecha_creacion">Fecha de creación:</span> <span class="fecha"> &nbsp;{{data_solicitud.fecha | date:'dd/MM/yyyy'}}</span>
+                        </div>
+                    </div>
+                    <div class=" col-6 ">
+                      <div class="form-group el_margin_bottom">
+                              <label for="exampleInputEmail1" class="fecha_creacion">Procedencia*</label>
+                              <select name="WorkOrderType" [(ngModel)]="data_solicitud.id_procedencia" class="form-control text_input tamano_inputs" [disabled]="isDisabled" (change)="cambio_procedencia($event.target.value)">
+                               <option value="">Seleccione</option>
+                                <option value="{{item.id}}" *ngFor="let item of procedencia; let i = index">{{item.descripcion}}</option>
+                              </select>
+                              <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==1">
+                                  <strong>Advertencia!</strong> {{mensaje}}.
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                          </div>
+                          <div class="form-group el_margin_bottom" *ngIf="muestra_procedencia==1">
+                              <label for="" class="fecha_creacion">Describa la procedencia* </label>
+                              <input type="text" name="txt_procedencia" [(ngModel)]="data_solicitud.descripcion_procedencia" placeholder="Ingrese procedencia" class="form-control text_input" [disabled]="isDisabled">
+                              <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==5">
+                                  <strong>Advertencia!</strong> {{mensaje}}.
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                          </div>
+                        <div class="form-group el_margin_bottom">
+                            <label for="exampleInputEmail1" class="fecha_creacion">Tipo de Orden*</label>
+                            <select name="WorkOrderType" [(ngModel)]="data_solicitud.tipo_id" class="form-control text_input tamano_inputs" [disabled]="isDisabled">
+                              <option value="">Seleccione</option>
+                              <option value="{{item.description}}" *ngFor="let item of var_tipo; let i = index">{{item.description}}</option>
+                            </select>
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==2">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group el_margin_bottom">
+                            <label for="" class="fecha_creacion">Dirección*</label>
+                             <input type="text" name="txt_descripcion" value="{{data_solicitud.direccion_2}}" [(ngModel)]="data_solicitud.direccion_2" (ngModelChange)="buildAddressSearcherObserver()"  [typeahead]="direccionesSugerida$" [typeaheadAsync]="true" [typeaheadWaitMs]="1500" (typeaheadOnSelect)="busca_direccion()" placeholder="Ingrese una dirección" class="form-control text_input" [disabled]="isDisabled">
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==3">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                                <span aria-hidden="true">&times;</span></button>
+                          </div>
+                        </div>
+                        <div class="form-group el_margin_bottom">
+                            <label for="" class="fecha_creacion">{{titulo_elemento}}</label>
+                            <select name="WorkOrderType" [(ngModel)]="data_solicitud.elemento_id"  (ngModelChange)="cambia_elemento(data_solicitud.elemento_id)" class="form-control text_input tamano_inputs" [disabled]="isDisabled" placeholder="Seleccionar elemento o zona próxima en el mapa">
+                            <option value="" *ngIf="zona_seleccionada==0 && item_elemento==null">Ingrese una dirección ó seleccione una zona o elemento en el mapa</option>
+                              <option value="" *ngIf="zona_seleccionada==1 && item_elemento==null">Zona seleccionada por dirección manual</option>
+                              <option value="" *ngIf="zona_seleccionada==2">Zona seleccionada en el mapa</option>
+                              <option value="{{item.id_luminaria}}" selected *ngFor="let item of item_elemento; let i = index">{{item.id_luminaria}}</option>
+                              <!-- <option value="1" *ngIf="item_elemento!=null">Volver a seleccionar elemento o zona próxima en el mapa</option>
+                              <option value="2" *ngIf="item_elemento!=null">Seleccionar zona en el mapa</option> -->
+                            </select>
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==9">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        </div>
+                        <!-- *** -->
+                        <div class="form-group el_margin_bottom">
+                            <label for="" class="fecha_creacion">Prioridad*</label>
+                            <select name="tipo" class="form-control text_input tamano_inputs" [(ngModel)]="data_solicitud.prioridad_id" [disabled]="isDisabled">
+                            <option value="">Seleccione</option>
+                            <option value="{{item.id_prioridad}}" *ngFor="let item of var_prioridad; let i = index">{{item.description}}</option>
+                          </select>
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==4">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        </div>
+                        <div class="form-group el_margin_bottom">
+                            <label for="" class="fecha_creacion">Usuario*</label>
+                            <select name="tipo" class="form-control text_input tamano_inputs" [(ngModel)]="data_solicitud.id_usuario" [disabled]="isDisabled">
+                                <option value="">Seleccione</option>
+                                <option value="{{item.id_usuario}}" *ngFor="let item of var_usuario; let i = index">{{item.nombre}} {{item.apellidos}}</option>
+                            </select>
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==8">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        </div>
+                        <div class="form-group el_margin_bottom">
+                            <label for="" class="fecha_creacion">Descripción*</label>
+                            <textarea name="txt_descripcion" [(ngModel)]="data_solicitud.descripcion" placeholder="Ingrese una descripción" class="form-control text_input" [disabled]="isDisabled"></textarea>
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==6">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- ** -->
+                        <div class="form-group el_margin_bottom">
+                            <label for="" class="fecha_creacion">Observaciones</label>
+                            <textarea name="txt_descripcion" [(ngModel)]="data_solicitud.comentarios" placeholder="Ingrese Observaciones" class="form-control text_input" [disabled]="isDisabled"></textarea>
+                            
+                        </div>
+                            <br>
+                            <br>
+                            <br>
+                        
+                        <!-- *** -->
+                        <div class="form-group archivos el_margin_bottom">
+                            <label for="" class="fecha_creacion text_input">Adjuntar archivos</label>
+                            <input type="file" (change)="fileEvent($event)" class="form-control-file text_input" [disabled]="isDisabled">
+                        </div>
+                         <div>
+                          <br>
+                          <div *ngFor="let item of add_archivos; let i = index">
+                              &nbsp;&nbsp;{{item.name}} <a class="cursor_pointer" (click)="elimina_imagen(i)">Eliminar</a>
+                          </div>
+                        </div>
+                    </div>                    
+                    <div class="col-6">
+                     <div class="form-group el_margin_bottom">
+                        <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==7">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                            </div>
+                        <!-- *********MAPA************ -->
+                        <br>
+                        <app-mapa-leaft (lo_que_envio_mapa)="datos_solicitud_elemento_seleccionado($event)"></app-mapa-leaft>
+                        <br>
+                        <!-- ******fin mapa***** -->
+                      </div>
+                    </div>
+                </div>
+                <div class="p-4">
+                  <!-- el inventario -->
+                    <div class="row pr-6">
+                      <div class="col-3">
+                          <div class="form-group el_margin_bottom">
+                            <label for="" class="fecha_creacion">Almacen*</label>
+                            <select name="tipo" class="form-control text_input tamano_inputs"  [disabled]="isDisabled" [(ngModel)]="data_inventario.nombre_almacen">
+                              <option value="">Seleccione</option>
+                              <option value="{{item.nombre}}" *ngFor="let item of almacen; let i = index">{{item.nombre}}</option>
+                            </select>
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert_inventario==1">
+                              <strong>Advertencia!</strong> {{mensaje}}.
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                          <div class="form-group el_margin_bottom">
+                                <label for="" class="fecha_creacion">Tipo*</label>
+                                <select name="tipo" class="form-control text_input tamano_inputs"  [disabled]="isDisabled" [(ngModel)]="data_inventario.id_tipo_inventario" (ngModelChange)="get_inventario_id_tipo_inventario_id_empresa(data_inventario.id_tipo_inventario)">
+                                  <option value="">Seleccione</option>
+                                  <option value="{{item.id}}" *ngFor="let item of tipo_inventario; let i = index">{{item.description}}</option>
+                                </select>
+                                <!-- <input type="text" name="tipo" class="form-control text_input tamano_inputs" [disabled]="isDisabled" [(ngModel)]="data_inventario.tipo_inventario_id"> -->
+                                <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert_inventario==2">
+                                    <strong>Advertencia!</strong> {{mensaje}}.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                          <div class="form-group el_margin_bottom">
+                            <label for="" class="fecha_creacion">Artículo*</label>
+                            <select name="tipo" class="form-control text_input tamano_inputs"  [disabled]="isDisabled" [(ngModel)]="data_inventario.id_inventario">
+                              <option value="">Seleccione</option>
+                              <option value="{{item.id_inventario}}" *ngFor="let item of inventario; let i = index">{{item.descripcion_inventario}}</option>
+                            </select>
+                            <!-- <input type="text" name="tipo" class="form-control text_input tamano_inputs" [disabled]="isDisabled" [(ngModel)]="data_inventario.cantidad"> -->
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert_inventario==3">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-2">
+                          <div class="form-group el_margin_bottom">
+                                <label for="" class="fecha_creacion">Cantidad*</label>
+                                <input type="text" name="tipo" class="form-control text_input tamano_inputs" [disabled]="isDisabled" [(ngModel)]="data_inventario.cantidad">
+                                <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert_inventario==4">
+                                    <strong>Advertencia!</strong> {{mensaje}}.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1" align="center">
+                           <div class="boton">
+                              <button class="btn btn_agregar btn-light  btn-lg" [disabled]="isDisabled" (click)="agregar_inventario()">Agregar</button>&nbsp;&nbsp; 
+                           </div>
+                        </div>
+                        <!-- aqui la grilla -->
+                        <div class="col-12">
+                          <table width="100%" class="table-condensed table-bordered table-striped color_table table-hover">
+                            <thead class="color_table">
+                                <tr class="cabecera">
+                                  <th scope="col" style="text-align: center;">id</th>
+                                  <th scope="col" style="text-align: center;">Almacen</th>
+                                  <th scope="col" style="text-align: center;">Tipo</th>
+                                  <th scope="col" style="text-align: center;">Nombre</th>
+                                  <th scope="col" style="text-align: center;">Cantidad</th>
+                                  <th scope="col" style="text-align: center;">Acciones</th>
+                                </tr>
+                              </thead>
+                            <tbody>
+                                <tr *ngIf="carga_datos==2">
+                                    No hay datos que mostrar 
+                                </tr>
+                                 <ng-container class="animate__animated animate__fadeIn" *ngFor="let item of inventario_guardar; let i = index">
+                                  <tr *ngIf="i >= valor_0 && i<valor_1" class="animate__animated animate__fadeIn cursor_pointer" > 
+                                    <td style="text-align: center;">{{item.id_inventario}}</td>
+                                    <td style="text-align: center;">{{item.nombre_almacen}}</td>
+                                    <td style="text-align: center;">{{item.nombre_tipo_inventario}}</td>
+                                    <td style="text-align: center;">{{item.nombre}}</td>
+                                    <td style="text-align: center;" >{{item.cantidad}}</td>
+                                    <td style="text-align: center;" (click)="borrar_inventario(i)"><img src="assets/icons/trash-outline.svg" class="tamano_icon" alt=""></td>
+                                  </tr>
+                                     </ng-container>
+                              </tbody>
+                        </table>
+                        <hr>
+                        <br>
+                        </div>
+                              <!-- ************** -->
+                          </div>
+                    <!-- *** termina inventario *** -->
+                </div>
+            </div> <!-- aqui termina -->
+              <br>
+              <div class="row botones">
+                  <div class="col-1">
+                      &nbsp;
+                  </div>
+                  <div class="col-11" align="right">
+                    <button class="btn color_btn_crear_solicitud btn_crear_consulta btn-lg tamano_texto_boton" *ngIf="viene_solicitud==1" (click)="guardar_orden_solicitud()" [disabled]="isDisabled">
+                      <div class="lds-ring" *ngIf="isDisabled==true">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                      Guardar con los datos de la solicitud
+                    </button>
+                    <button class="btn color_btn_crear btn_crear_consulta btn-lg tamano_texto_boton" (click)="onClickguardar()" [disabled]="isDisabled">
+                      <div class="lds-ring" *ngIf="isDisabled==true">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                      Guardar y enviar
+                    </button>
+                      <button class="btn btn1 btn-light  btn-lg btn_crear_consulta tamano_texto_boton" [disabled]="isDisabled" (click)="volver()">Cancelar</button>&nbsp;&nbsp;
+                  </div>
+              </div>
+              <br>
+              <br>
+              <br>
+              <br>
+          </div>
+      </div>
+    
+
+
+
+  </div>
+</div>

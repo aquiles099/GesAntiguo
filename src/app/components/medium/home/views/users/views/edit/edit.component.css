@@ -1,0 +1,11 @@
+label{
+    color: #333;
+    font-size: .875rem;
+    font-weight: bold;
+  }
+
+  .eye-icon{
+    margin-left: -7.5%;
+    width: 1rem;
+    opacity: .5;
+  }

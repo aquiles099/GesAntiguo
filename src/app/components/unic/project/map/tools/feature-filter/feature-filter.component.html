@@ -1,0 +1,174 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section title">
+        Filtrado
+    </div>
+
+    <div class="selector-section">
+
+        <div class=" row justify-content-center section">
+        
+            <div class="col-12 p-0 mb-2">
+        
+                <label class="mb-2" for="">Modulo:</label>
+    
+                <ng-select
+                    class="custom" 
+                    placeholder="Seleccione un modulo"
+                    [clearable]="false"
+                    [items]="modules"
+                    [(ngModel)]="selectedModuleName"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="onChangeModuleSelector($event)"
+                    >
+                </ng-select>
+        
+            </div>
+           
+            <div class="col-12 p-0 mb-2">
+        
+                <label class="mb-2" for="">Capa:</label>
+    
+                <ng-select
+                    class="custom" 
+                    placeholder="Seleccione una capa"
+                    [clearable]="false"
+                    [items]="fileLayers"
+                    bindLabel="layerName"
+                    bindValue="layerName"
+                    [(ngModel)]="selectedFileLayerName"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="onChangeFileLayerSelect($event)"
+                    >
+                </ng-select>
+        
+            </div>
+           
+            <div class="col-12 p-0 mt-xs-2 mb-2">
+        
+                <label class="mb-2" for="">Propiedades:</label>
+    
+                <ng-select
+                    class="custom" 
+                    placeholder="Seleccione una propiedad"
+                    [disabled]=" ! selectedFile"
+                    [clearable]="false"
+                    [(ngModel)]="filterProperty"
+                    [ngModelOptions]="{standalone: true}"
+                    >
+                    <ng-option [value]="property" *ngFor="let property of featurePropertiesOfSelectedFile">
+                        {{property}} 
+                        <span *ngIf="property" class="text-info">{{ selectedFile.propertyHasFilter(property) ? "- FILTRO" : "" }}</span>
+                    </ng-option>
+                </ng-select>
+                
+            </div>
+    
+            <div class="d-block d-xs-none p-0 col-12">
+                <hr class="w-100 separator">
+            </div>
+            
+        </div>
+
+    </div>
+
+    <div class="searcher-section">
+
+        <div class="row justify-content-center section"> 
+    
+            <div class="col-12 p-0">
+        
+                <div class="w-100">
+        
+                    <label class="mb-2" for=""> <b>Valores:</b> </label>
+        
+                    <input type="text" [disabled]="! filterProperty" class="form-control form-control-sm d-inline search-field" placeholder="Buscar..." [(ngModel)]="search">
+        
+                    <img src="assets/icons/SVG/LUPA.svg" class="icon search-icon" alt="lupa">
+                
+                </div>
+
+            </div>
+    
+        </div>
+
+    </div>
+
+
+    <div *ngIf="filterProperty" class="feature-property-values-section">
+    
+        <div *ngIf="selectedFile.getValuesByFeatureProperty(filterProperty).length > 0; else empty" class="row feature-property-values animated__animated animate__fadeIn animate__faster"> 
+    
+            <div class="col-12 p-0 my-1 bottom-bordered property-value " *ngFor="let value of ( selectedFile.getValuesByFeatureProperty(filterProperty) | keyMatch : search)">
+                   
+                <div class="row m-0">
+
+                    <div class="col-1 p-0 mb-2 align-items-center text-center">
+                        <label class="checkbox" for="feature_value_{{value}}">
+                            
+                            <input type="checkbox" 
+                            (change)="addOrRemoveValueOnPropertyFilter(value)" 
+                            [checked]="selectedFile.valueExistsOnPropertyFilter(value, filterProperty)" 
+                            name="feature_value_{{value}}" 
+                            id="feature_value_{{value}}">
+
+                            <i class="fas fa-check" *ngIf="selectedFile.valueExistsOnPropertyFilter(value, filterProperty)" ></i>
+
+                        </label>
+                    </div>
+
+                    <div class="col-11 pl-2 pr-0 py-0 mb-2 align-items-center">
+                        <label for="feature_value_{{value}}" title="{{value}}" class="ml-3 text-truncate d-inline">
+                            {{value}}
+                        </label>
+                    </div>
+
+                </div>
+                
+            </div>
+
+        </div>
+
+        <ng-template #empty class="w-100 mt-1">
+            Vacio
+        </ng-template>
+
+    </div> 
+
+    <div class="_bottom-section row m-0 align-items-center" >
+
+        <div class="col-4 p-1">
+            <button type="button" (click)="toggleSectionVisibilityEvent()" class="btn btn-block btn-info">
+                Aceptar
+            </button>
+        </div>
+
+        <div class="col-4 p-1">
+            <button 
+            (click)="removeFilterOnProperty()"
+            type="button" class="btn btn-block"
+            [disabled]="! filterProperty || ! selectedFile.propertyHasFilter( filterProperty )"
+            [ngClass]="{
+                '_btn-outline-secondary': ! filterProperty || ! selectedFile.propertyHasFilter( filterProperty ),
+                'btn-outline-info': filterProperty && selectedFile.propertyHasFilter( filterProperty )
+            }">
+                Eliminar filtro capa
+            </button>
+        </div>
+        
+        <div class="col-4 p-1">
+            <button 
+            (click)="removeFilterOnAllLayers()"
+            type="button" class="btn btn-block"
+            [disabled]="! isThereAnyLayerWithActiveFilter"
+            [ngClass]="{
+                '_btn-outline-secondary': ! isThereAnyLayerWithActiveFilter,
+                'btn-outline-info': isThereAnyLayerWithActiveFilter
+            }">
+                Eliminar todo
+            </button>
+        </div>
+      
+    </div>
+
+</div>

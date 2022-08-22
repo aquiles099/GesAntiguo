@@ -1,0 +1,126 @@
+.map-section{
+    padding: 0 !important;
+    width: 42.5% !important;
+}
+
+.section{
+    padding: 0 1rem;
+}
+
+.header-section,
+.middle-section,
+._bottom-section{
+    position: absolute;
+    width: 100% !important;
+    padding: 0 2rem;
+}
+
+.header-section{
+    top: 2.5%;
+    height: 5%;
+}
+
+.middle-section{
+    top: 10%;
+    height: 80%;
+}
+
+._bottom-section{
+    height: 10%;
+    bottom: 0 !important;
+}
+
+._scrollable{
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 97.5%;
+}
+
+ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    padding-right: 1rem;
+}
+
+.property-key{
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    font-size: .8rem;
+}
+
+.property-value{
+    border: 1px solid #E0E0E0;
+    border-radius: 1px;
+    text-align: left !important;
+    font-size: .75rem;
+}
+
+.checkbox {
+    border: 1px solid #000;
+    cursor: pointer;
+    font-size: .75rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    text-align: center;
+}
+
+.checkbox input {
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    position: absolute !important;
+}
+
+.ng-select.custom ::ng-deep .ng-select-container  {            
+    font-size: .75rem !important;
+}
+
+.form-control{
+    padding: 0.3rem 0.5rem !important;
+}
+
+._bs-timepicker-field ::ng-deep .bs-timepicker-field {            
+    font-size: .75rem !important;
+}
+
+@media (min-width: 567px)
+{   
+   
+}
+
+@media (min-width: 768px)
+{   
+}
+
+@media (min-width: 992px)
+{   
+   
+}
+
+@media (min-width: 1200px)
+{   
+   
+}
+
+@media (min-width: 1400px)
+{   
+   
+}
+
+@media (min-width: 1600px)
+{   
+    .map-section{
+        width: 47.5% !important;
+    }    
+}
+
+@media (min-width: 1920px)
+{   
+    .map-section{
+        width: 40% !important;
+    }    
+}

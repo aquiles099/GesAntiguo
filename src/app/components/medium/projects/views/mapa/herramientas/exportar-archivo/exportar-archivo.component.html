@@ -1,0 +1,202 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+  <div class="row mx-2 mb-4">
+      <div class="col-12 p-0 title">
+        
+        Exportar archivo
+
+        <div title="Ayuda" class="float-right pointer d-inline" (click)="showTour()">
+            <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+        </div>
+
+      </div>
+  </div>
+
+  <div *ngIf="showingForm" class="row mx-2 my-1">
+      <div class="col-12 px-1 py-2">
+        <b>Proyección del archivo de descarga:</b>
+        <br><br>
+        {{ nombreProyeccion }} <span id="project-projection">(EPSG {{ project.proyeccion }})</span>
+      </div>
+  </div>
+
+  <!-- form -->
+
+  <form id="export-layer-data-form" 
+        [ngClass]="{
+            'animate__fadeIn': showingForm,
+            'd-none': ! showingForm
+        }" 
+        #exportLayerDataForm="ngForm" 
+        (submit)="onSubmitForm()" 
+        class="row mx-2 justify-content-center section animate__animated animate__faster"
+        >
+
+        <div class="col-12 p-0">
+
+            <layer-selectors-section
+            [form]="formObject"
+            selectorsBottomMarginClass="mb-2"
+            [disableSelectors]="tourIsActive"
+            (onSelectModule)="onChangeModuleOrGroupSelector()"
+            (onSelectGroup)="onChangeModuleOrGroupSelector()"
+            (onSelectLayer)="eventoCapaSeleccionada($event)"
+            ></layer-selectors-section>
+
+        </div>
+    
+    
+      <div id="format-selector" class="col-12 p-0 mt-xs-2 mb-2">
+
+          <label class="mb-2" for="">Formato:</label>
+
+          <ng-select
+              class="custom" 
+              placeholder="Seleccionar formato"
+              [disabled]="tourIsActive"
+              [clearable]="false"
+              required
+              [items]="formatos"
+              [(ngModel)]="formObject.formato"
+              name="formato"
+              >
+          </ng-select>
+          
+      </div>
+      
+      <div id="selection-mode-selector" class="col-12 p-0 mt-xs-2 mb-2">
+
+          <label class="mb-2" for="">Modo de selección:</label>
+
+          <ng-select
+              class="custom" 
+              placeholder="Seleccionar modo"
+              [disabled]="tourIsActive || ! capaSeleccionada"
+              [clearable]="false"
+              required
+              [(ngModel)]="formObject.modo_seleccion"
+              name="modo_seleccion"
+              >
+              <ng-option *ngFor="let option of modosDeSeleccion"
+                [value]="option.value"
+                [disabled]="
+                option.value === 'specific_command_centers' && 
+                capaSeleccionada && capaSeleccionada.nombre_formateado !== 'centro_mando'"
+                >
+                  {{option.name}}
+              </ng-option>
+          </ng-select>
+          
+      </div>
+
+      <div class="d-block d-xs-none p-0 col-12">
+          <hr class="w-100 separator">
+      </div>
+      
+    </form>
+
+    <!-- drawing polygon -->
+    <div *ngIf="drawing" class="row mx-2 animate__animated animate__fadeIn animate__faster">
+
+        <div class="col-12 p-0">
+            Encierre los elementos que desea exportar dibujando un polígono sobre el mapa.
+            <br><br> 
+            Para dibujar polígono, haga click sobre el mapa para crear los vértices y click sobre el vértice inicial para terminar.
+        </div>
+
+    </div>
+    
+    <!-- selecting command centers -->
+    <div *ngIf="selectingCommandCenters" id="command-centers-listing" class="row mx-2 command-centers-listing animate__animated animate__fadeIn animate__faster scrollable">
+
+        <div class="col-12 p-0 my-2" *ngFor="let cm of commandCenters">
+            
+            <div class="row m-0">
+
+                <div class="col-10 p-0 text-truncate">
+                    <label for="checkbox_{{cm}}" title="{{cm}}" class="text-truncate d-inline">
+                        {{cm}}
+                    </label>
+                </div>
+
+                <div class="col-2 p-0 text-center">
+                    
+                    <label class="checkbox" for="checkbox_{{cm}}">
+                        
+                        <input type="checkbox" 
+                        (change)="updateSelectedCms(cm)" 
+                        [checked]="cmIsSelected(cm)" 
+                        [disabled]="tourIsActive" 
+                        name="checkbox_{{cm}}" 
+                        id="checkbox_{{cm}}">
+
+                        <i class="fas fa-check" *ngIf="cmIsSelected(cm)" ></i>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div [ngClass]="{
+            'animate__fadeIn': showingForm,
+            'animate__fadeOut': ! showingForm
+        }" 
+        class="row m-0 bottom-section animate__animated animate__faster" >
+
+      <div id="export-btn" class="col-6">
+          <button [disabled]="exportLayerDataForm.form.invalid || tourIsActive" type="submit" form="export-layer-data-form" class="btn btn-block btn-info">
+              {{  formObject.modo_seleccion === 'all' ? "Exportar" : "Siguiente"}}
+          </button>
+      </div>
+
+      <div class="col-6">
+          <button (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+              Cancelar
+          </button>
+      </div>
+  
+    </div>
+  
+    <div *ngIf="! showingForm" class="row justify-content-center m-0 bottom-section animate__animated animate__fadeIn animate__faster">
+
+        <div *ngIf="selectingCommandCenters" class="col-4 px-0">
+            <button [disabled]="! thereAreSelectedCms" type="button" (click)="applyFilterInSelectedLayerAndMakeRequest()" class="btn btn-block btn-info">
+                Exportar
+            </button>
+        </div>
+
+        <div  *ngIf="selectingCommandCenters && ! allCmsAreSelected" class="col-4 px-1 animate__animated animate__fadeIn animate__faster">
+            <button 
+            (click)="selectAllCms()" 
+            [disabled]="tourIsActive" 
+            type="button" 
+            class="btn btn-block btn-info"
+            >
+                Todos
+            </button>
+        </div>
+
+        <div *ngIf="selectingCommandCenters && allCmsAreSelected" class="col-4 px-1 animate__animated animate__fadeIn animate__faster">
+            <button 
+            (click)="unselectAllCms()" 
+            type="button" 
+            class="btn btn-block btn-info"
+            >
+                Ninguno
+            </button>
+        </div>
+
+        <div [ngClass]="{'col-8': drawing, 'col-4': selectingCommandCenters}" class="px-0">
+            <button (click)="returnToForm()" type="button" class="btn btn-block btn-outline-info">
+                Atras
+            </button>
+        </div>
+
+    </div>
+
+</div>

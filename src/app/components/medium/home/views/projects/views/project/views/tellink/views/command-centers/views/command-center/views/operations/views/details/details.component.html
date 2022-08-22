@@ -1,0 +1,181 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0 text-center text-md-left">
+
+    <home-view-header
+    title="detalles de actuación"
+    [enableTourButton]="false"
+    ></home-view-header>    
+       
+    <form [formGroup]="form" class="col-12 d-flex align-items-center"> 
+        
+        <div class="row mx-0 px-3 py-2 mt-3">
+
+            <div class="col-12 col-sm-3 px-2 mb-2" [ngSwitch]="form.get('type').value">
+
+                <label class="mb-2" for="type">Tipo:</label>
+                <br>
+
+                <span *ngSwitchCase="1" class="text-info"> Consultar estado </span>
+                <span *ngSwitchCase="2" class="text-danger"> Apagar salida </span>
+                <span *ngSwitchCase="3" class="text-success"> Encender salida </span>
+
+            </div>
+            
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="digital_output_number">Salida digital:</label>
+
+                <input type="text"  formControlName="digital_output_number" name="digital_output_number">
+
+            </div>
+
+            <div class="col-12 col-sm-3 px-2 mb-2" [ngSwitch]="form.get('status_flag').value">
+
+                <label class="mb-2" for="status_flag">Estado:</label>
+                <br>
+
+                <span *ngSwitchCase="0" class="text-info"> En curso </span>
+                <span *ngSwitchCase="1" class="text-info"> En curso </span>
+                <span *ngSwitchCase="2" class="text-success"> Finalizada </span>
+                <span *ngSwitchCase="3" class="text-danger"> Finalizada con error </span>
+
+            </div>
+          
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="">Fecha:</label>
+                <br>
+
+                <span>
+                    {{ form.get('date').value | date: 'd' }} de
+                    {{ form.get('date').value | date: 'MMMM, y':'GMT':'es-ES' }},
+                    {{ form.get('date').value | date: 'hh:mm': 'GMT':'es-ES' }}
+                </span>
+                
+            </div>
+
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="text">Mensaje:</label>
+
+                <textarea  formControlName="text" name="text"></textarea>
+
+            </div>
+
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="voltage1">Tensión fase 1 (V):</label>
+
+                <input type="text"  formControlName="voltage1" name="voltage1">
+
+            </div>
+
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="voltage2">Tensión fase 2 (V):</label>
+
+                <input type="text"  formControlName="voltage2" name="voltage2">
+
+            </div>
+
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="voltage3">Tensión fase 3 (V):</label>
+
+                <input type="text"  formControlName="voltage3" name="voltage3">
+
+            </div>
+            
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="current1">Corriente fase 1 (A):</label>
+
+                <input type="text"  formControlName="current1" name="current1">
+
+            </div>
+
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="current2">Corriente fase 2 (A):</label>
+
+                <input type="text"  formControlName="current2" name="current2">
+
+            </div>
+
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="current3">Corriente fase 3 (A):</label>
+
+                <input type="text"  formControlName="current3" name="current3">
+
+            </div>
+            
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="active_power">Potencia activa actual (kW):</label>
+
+                <input type="text"  formControlName="active_power" name="active_power">
+
+            </div>
+            
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="reactive_power">Potencia reactiva actual (kVAr):</label>
+
+                <input type="text"  formControlName="reactive_power" name="reactive_power">
+
+            </div>
+          
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="apparent_power">Potencia aparente actual (kVA):</label>
+
+                <input type="text"  formControlName="apparent_power" name="apparent_power">
+
+            </div>
+          
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="power_factor">Factor de potencia:</label>
+
+                <input type="text"  formControlName="power_factor" name="power_factor">
+
+            </div>
+           
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="absolute_active_energy">Energía activa consumida (kWh):</label>
+
+                <input type="text"  formControlName="absolute_active_energy" name="absolute_active_energy">
+
+            </div>
+           
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="absolute_reactive_energy">Energía reactiva (kVArh):</label>
+
+                <input type="text"  formControlName="absolute_reactive_energy" name="absolute_reactive_energy">
+
+            </div>
+          
+            <div class="col-12 col-sm-3 px-2 mb-2">
+
+                <label class="mb-2" for="user">Usuario:</label>
+
+                <input type="text"  formControlName="user" name="user">
+
+            </div>
+                                
+        </div>
+        
+    </form>
+
+    <div class="col-12 d-flex align-items-center justify-content-end">
+        
+        <div class="col-2 p-2">
+            <a routerLink=".." class="btn btn-block btn-info p-1">
+                Aceptar
+            </a>
+        </div>
+    </div>
+
+</div>

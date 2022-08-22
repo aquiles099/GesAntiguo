@@ -1,0 +1,159 @@
+<div *ngIf="isVisible" id="edit-multiple-elements-tool" [@fadeInRightOnEnter] [@fadeOutRightOnLeave]
+  class="map-section">
+
+    <div class="title mb-4">
+
+      Edición múltiple
+
+      <div title="Ayuda" class="float-right pointer d-inline" (click)="showTour()">
+        <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+      </div>
+
+    </div>
+
+    <!-- SELECCIÓN DE CAPA -->
+    <div [hidden]="! primeraVentana">
+
+      <div class="col-12 p-0 mb-3">
+
+        <layer-selectors-section [form]="formData" [disableSelectors]="tourIsActive"
+          (onSelectModule)="onChangeModuleOrGroupSelector()" (onSelectGroup)="onChangeModuleOrGroupSelector()"
+          (onSelectLayer)="onChangeLayerSelector($event)"></layer-selectors-section>
+
+      </div>
+
+      <div class="d-block d-xs-none p-0 col-12 mt-2">
+        <hr class="w-100 separator">
+      </div>
+
+    </div>
+
+    <!-- DIBUJO DEL POLÍGONO -->
+    <div *ngIf="segundaVentana" class="cajaEdicionMultiple">
+      <p>Encierre los elementos a editar en un polígono sobre el mapa</p>
+    </div>
+
+    <!-- SELECCIÓN DE ELEMENTOS -->
+    <div *ngIf="terceraVentana" class="divValores">
+      <section>
+        <ul>
+          <li style="margin-left: -1em;" class="elementoCheck">
+            <mat-checkbox [checked]="checkTodos" (change)="selectTodos($event)">TODOS</mat-checkbox>
+          </li>
+          <li class="elementoCheck" *ngFor="let val of valores">
+            <mat-checkbox [checked]=" val[1]" (change)="eventoValorSeleccionado($event, val[0])">{{
+              val[0] }}
+            </mat-checkbox>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- SELECCIÓN DE ATRIBUTOS -->
+    <div *ngIf="cuartaVentana" class="divValores">
+      <p>Seleccione atributos a editar</p>
+      <section>
+        <ul>
+          <li style="margin-left: -1em;" class="elementoCheck">
+            <mat-checkbox [checked]="checkTodosAtr" (change)="selectTodosAtributos($event)">TODOS</mat-checkbox>
+          </li>
+          <li class="elementoCheck" *ngFor="let atr of atributos">
+            <mat-checkbox [checked]=" atr[1]" (change)="eventoAtributoSeleccionado($event, atr[0])">{{
+              atr[0] }}
+            </mat-checkbox>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- EDICIÓN DE ATRIBUTOS -->
+    <div *ngIf="quintaVentana" class="divValores">
+
+      <div *ngFor="let atre of atributosEditables" class="itemTipo">
+
+        <div *ngIf="atre[1] === 'Texto'" class="itemValue bottom-bordered row">
+          <label class="tituloItem col-4"> {{ atre[0] }}</label>
+
+          <input type="text" class="inputAncho col-8" value="{{atre[4]}}"
+            (change)="campoEditado(atre, $event.target.value)" />
+        </div>
+
+
+        <div *ngIf="atre[1] === 'Número entero'" class="itemValue bottom-bordered row">
+          <label class="tituloItem col-4"> {{ atre[0] }}</label>
+          <input class="inputAncho col-8" type="number" min="0" step="1" value="{{atre[4]}}"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            (change)="campoEditado(atre, $event.target.value)" />
+        </div>
+
+
+        <div *ngIf="atre[1] === 'Número real'" class="itemValue bottom-bordered row">
+          <label class="tituloItem col-4"> {{ atre[0] }}</label>
+          <input class="inputAncho col-8" type="number" value="{{atre[4]}}"
+            (change)="campoEditado(atre, $event.target.value)" />
+        </div>
+
+        <div *ngIf="atre[1] === 'Booleano'" class="itemValue bottom-bordered row">
+          <label class="tituloItem col-4"> {{ atre[0] }}</label>
+          <select class="inputAncho col-8" (change)="campoEditado(atre, $event.target.value)">
+            <option *ngFor="let o of opcionesBooleano" [value]="o" [selected]="o === atre[4]">{{ o }}
+            </option>
+          </select>
+        </div>
+
+        <div *ngIf="atre[1] === 'Fecha Completa'" class="itemValue bottom-bordered row">
+          <label class="tituloItem col-4"> {{ atre[0] }}</label>
+          <input type="date" class="inputAncho col-8" value="{{atre[4] | date:'yyyy-MM-dd'}}"
+            (change)="campoEditado(atre, $event.target.value)" />
+        </div>
+
+        <div *ngIf="atre[1] === 'Hora'" class="itemValue bottom-bordered row">
+          <label class="tituloItem col-4"> {{ atre[0] }}</label>
+          <input type="time" class="inputAncho col-8" value="{{atre[4]}}"
+            (change)="campoEditado(item, $event.target.value + ':00')" />
+        </div>
+
+        <div *ngIf="atre[1] === 'dominio'" class="itemValue bottom-bordered row">
+          <label class="tituloItem col-4"> {{ atre[0] }}</label>
+          <select class="inputAncho col-8" (change)="campoEditado(atre, $event.target.value)">
+            <option disabled selected value>Seleccione una opción</option>
+            <option *ngFor="let o of atre[3]" [value]="o" [selected]="o === atre[4]">{{ o }}
+            </option>
+          </select>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- BOTONES -->
+    <div class="elementoSelectButton">
+
+      <label id="edit-multiple-elements-accept-btn" *ngIf="mostrarSiguienteCapaSeleccionada" class="btn mr-1"
+        [ngClass]="activarSiguiente ? 'btnSiguiente' : 'btnDisabled'"
+        (click)="onClickSiguienteCapaSeleccionada()">Siguiente</label>
+
+      <label *ngIf="mostrarSiguienteElementosSeleccionados" class="btn mr-1"
+        [ngClass]="activarSiguienteEle ? 'btnSiguiente' : 'btnDisabled'"
+        (click)="onClickSiguientElementosSeleccionados()">Siguiente</label>
+
+      <label *ngIf="mostrarSiguienteAtributo" class="btn mr-1"
+        [ngClass]="activarSiguienteAtr ? 'btnSiguiente' : 'btnDisabled'"
+        (click)="onClickSiguienteAtributo()">Siguiente</label>
+
+      <label *ngIf="mostrarGuardar" class="btn btnGuardar mr-1" (click)="onClickGuardar()">Guardar</label>
+
+      <label *ngIf="mostrarCancelar" class="btn mr-1" (click)="onClickCancelar()">Cancelar</label>
+
+      <label *ngIf="mostrarRedibujar" class="btn mr-1" (click)="onClickRedibujar()">Borrar</label>
+
+    </div>
+
+    <!-- SPINNER DE CARGA -->
+    <div id="spinnerCargaMapa" *ngIf="!mapReady" class="h-100" [ngClass]="!mapReady ? 'loading' : 'notLoading'">
+      <mat-progress-spinner mode="indeterminate" color="accent">
+
+      </mat-progress-spinner>
+    </div>
+
+  </div>

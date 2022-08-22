@@ -1,0 +1,99 @@
+.map-section{
+    padding: 0 !important;
+}
+
+.section{
+    padding: 0 1rem;
+}
+
+.header-section,
+.selector-section,
+.recent-templates-section,
+.all-templates-section,
+.bottom-section{
+    position: absolute;
+    width: 100% !important;
+    padding: 0 2rem;
+}
+
+.header-section{
+    top: 2.5%;
+    height: 7.5%;
+}
+
+.selector-section{
+    top: 10%;
+    height: 45%;
+    transition: all .2s;
+}
+
+.recent-templates-section{
+    top: 55%;
+    height: 17.5%;
+    padding-top: .5rem;
+    padding-bottom: 1rem;
+    transition: all .2s;
+}
+
+.all-templates-section{
+    top: 72.5%;
+    height: 17.5%;
+    padding-top: .5rem;
+    padding-bottom: 1rem;
+    transition: all .2s;
+}
+
+.bottom-section{
+    height: 10% !important;
+    bottom: 0 !important;
+}
+
+.scrollable{
+    max-height: 85% !important;
+    overflow-y: auto;
+}
+
+/* listados */
+
+.selector-section.sheet{
+    height: 32.5%;
+}
+
+.recent-templates-section.sheet{
+    top: 42.5%;
+    height: 23.75%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.all-templates-section.sheet{
+    top: 65%;
+    height: 23.75%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.scrollable.sheet{
+    max-height: 80% !important;
+}
+
+/*  */
+
+label{
+    font-size: .875rem;
+    color: #4F4F4F;
+}
+
+.template-title{
+    color: #39F;
+}
+
+.icon{
+    width: 1.2rem !important;
+    height: 1.2rem !important;
+}
+
+@media (min-width: 567px)
+{
+
+}

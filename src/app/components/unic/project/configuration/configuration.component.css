@@ -1,0 +1,36 @@
+.map-container{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 50%; 
+}
+
+.spinner{
+    position: absolute;
+    left: 0;
+    top: 5.92%;
+    display: flex;
+    width: 100%;
+    height: 94.08%;
+    background: #fff;
+    z-index: 1001;
+}
+
+mat-spinner{ 
+    margin: auto;
+}
+
+.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: var(--fisotec-main-color);
+}
+
+@media (min-width: 567px)
+{ 
+    .map-container{
+        left: 45%;
+        width: 55%;
+        height: 100%; 
+    } 
+      
+}

@@ -1,0 +1,106 @@
+<div class="row mx-1 pb-2 item animate__animated animate__fadeIn animate__faster" (mouseleave)="hideOptionsList()">
+    
+    <div class="col-12 mb-4 p-0">
+
+        <div *ngIf="project.modulos.length || project.usuarios?.length" 
+                class="info-header" 
+                [class.on-tour]="tourIsActive">
+
+            <div class="row h-100 m-0 align-items-center">
+                
+                <div class="col-6 text-left px-2 project-modules-icons">
+                    <img *ngFor="let module of project.modulos | slice:0:3" class="module-icon mx-1"
+                        [attr.title]="module.modulo" [src]="module.icono_modulo">
+                    <span *ngIf="(project.modulos.length - 3) > 0">
+                        + {{ project.modulos.length - 3 }}
+                    </span>
+                </div>
+
+                <div class="col-6 text-right px-1 project-users">
+                    <div *ngFor="let user of project.usuarios | slice:0:3; let i = index" class="user-badge"
+                        [attr.title]="user.nombre" [ngStyle]="{
+                        'background-color': badgeColors[i],
+                        'color': badgeColors[i] === '#FFF' ? '#000' : '#FFF'
+                    }">
+                        {{ getUserNameInitials( user.nombre ) }}
+                    </div>
+                    <span *ngIf="(project.usuarios?.length - 3) > 0">
+                        + {{ project.usuarios?.length - 3 }}
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+ 
+        <div #loading class="w-100 h-100 project-zone-image-spinner">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <img class="img-fluid w-100 d-none project-zone-image" 
+            #projectImg 
+            [src]="project.url_osm" 
+            [attr.alt]="project.nombre"
+            (load)="onLoadProjectImage(projectImg, loading)" 
+            (click)="projectActionEvent(project,'open')"
+            >
+
+    </div>
+
+    <div class="col-2 px-0">
+        <img class="project-icon" [src]="project.icono" alt="proyecto_icono">
+    </div>
+
+    <div class="px-2" [ngClass]="{
+        'col-8': inGisSmartUnic,
+        'col-7': ! inGisSmartUnic
+    }">
+        <h4 class="text-truncate" [attr.title]="project.nombre">{{project.nombre}}</h4>
+        <h6 class="last-access-tag" *ngIf="! inGisSmartUnic">{{ project.ultimo_acceso ? getLastAccess(project.ultimo_acceso) : "sin registro" }}</h6>
+    </div>
+
+    <div class="col-2 px-0" *ngIf="! inGisSmartUnic">
+        
+        <span class="w-100 h-100 pointer" 
+                (click)="toggleFavoriteState(project)"
+                [attr.title]="project.favorito ? 'Remover de favoritos' : 'Añadir a favoritos'">
+            <img class="star add-project-to-favorite" [class._disabled]="sendingRequest" [src]="project.favorito ? 'assets/icons/SVG/FAVORITO_R.svg' : 'assets/icons/SVG/FAVORITO.svg'" alt="icono-favorito">
+        </span>
+        
+    </div>
+
+    <div *ngIf="inNewHome; else optionListCol"  class="col-1 px-0 options-list-col">
+
+        <button type="button" class="btn-transparent w-100 h-100" 
+                [routerLink]="[project.id_proyecto, 'acciones']"
+                [disabled]="tourIsActive">
+
+            <img class="options-icon float-right" src="assets/icons/SVG/3PUNTOS.svg" alt="icono-puntos">
+            
+        </button>
+
+    </div>
+
+    <ng-template #optionListCol>
+
+        <div [ngClass]="{'col-2': inGisSmartUnic, 'col-1': ! inGisSmartUnic}" class="px-0 options-list-col" (click)="toggleOptionsListVisibility()">
+    
+            <span class="w-100 h-100 pointer">
+                <img class="options-icon float-right" src="assets/icons/SVG/3PUNTOS.svg" alt="icono-puntos">
+            </span>
+    
+            <div #optionsListContainer [class.medium]="! inGisSmartUnic" class="options-list-container d-none rounded">
+                <ul class="options-list">
+                    
+                    <li *ngFor="let option of options" (click)="projectActionEvent(project, option.action)" class="my-2 text-truncate">
+                        <img [src]="option.iconUrl" [attr.alt]="option.label" class="d-inline-block mx-2">
+                        {{ option.label }}
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+
+    </ng-template>
+    
+</div>

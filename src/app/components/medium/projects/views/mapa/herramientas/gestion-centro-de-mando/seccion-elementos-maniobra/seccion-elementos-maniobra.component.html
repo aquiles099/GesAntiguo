@@ -1,0 +1,257 @@
+<li>
+                        
+    <form #form="ngForm" class="row m-0 align-items-center py-1 mb-2">
+
+        <!-- regulacion -->
+        
+        <div class="col-12 col-md-4 mb-2 px-1 property-key">
+            <label title="tipo_regulacion" for="">
+                Regulación
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-4 mb-2 px-1">
+           
+            <ng-select
+                class="custom" 
+                [clearable]="false"
+                [items]="getAttributeByField('tipo_regulacion').dominios"
+                [(ngModel)]="template['tipo_regulacion']"
+                id="tipo_regulacion"
+                name="tipo_regulacion"
+                placeholder="Seleccione..."
+                >
+            </ng-select>
+
+        </div>
+      
+        
+        <div class="col-6 col-md-4 mb-2 px-1">
+          
+            <ng-select
+                class="custom" 
+                [clearable]="false"
+                [items]="getAttributeByField('marca_regulacion').dominios"
+                [(ngModel)]="template['marca_regulacion']"
+                name="marca_regulacion"
+                placeholder="Seleccione..."
+                >
+            </ng-select>
+
+        </div>
+      
+        <!-- reloj -->
+
+        <div class="col-12 col-md-4 mb-2 px-1 property-key">
+            <label title="reloj" for="">
+                Reloj
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-4 mb-2 px-1">
+           
+            <ng-select
+                class="custom" 
+                [clearable]="false"
+                [items]="getAttributeByField('tipo_reloj').dominios"
+                [(ngModel)]="template['tipo_reloj']"
+                name="tipo_reloj"
+                placeholder="Seleccione..."
+                >
+            </ng-select>
+
+        </div>
+      
+        
+        <div class="col-6 col-md-4 mb-2 px-1">
+          
+            <ng-select
+                class="custom" 
+                [clearable]="false"
+                [items]="getAttributeByField('marca_reloj').dominios"
+                [(ngModel)]="template['marca_reloj']"
+                name="marca_reloj"
+                placeholder="Seleccione..."
+                >
+            </ng-select>
+
+        </div>
+       
+        <!-- celula -->
+
+        <div class="col-12 col-md-4 mb-2 px-1 property-key">
+            <label title="celula" for="">
+                Célula
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-4 mb-2 px-1">
+           
+            <label class="checkbox" for="celula">
+                    
+                <input 
+                type="checkbox" 
+                [checked]="template['celula']" 
+                name="celula" 
+                [(ngModel)]="template['celula']"
+                (change)="onChangeCheckboxInput('marca_celula', template['celula'])"
+                id="celula">
+
+                <i class="fas fa-check" *ngIf="template['celula']" ></i>
+
+            </label>
+
+        </div>      
+        
+        <div class="col-6 col-md-4 mb-2 px-1">
+          
+            <ng-select
+                class="custom" 
+                [clearable]="false"
+                [disabled]="! template['celula']"
+                [items]="getAttributeByField('marca_celula').dominios"
+                name="marca_celula"
+                [(ngModel)]="template['marca_celula']"
+                placeholder="Seleccione..."
+                >
+            </ng-select>
+
+        </div>
+      
+        <!-- interruptor manual -->
+
+        <div class="col-12 col-md-4 mb-2 px-1 property-key">
+            <label title="interruptor manual" for="">
+                Interruptor manual
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-4 mb-2 px-1">
+           
+            <label class="checkbox" for="interruptor_manual">
+                    
+                <input 
+                type="checkbox" 
+                [checked]="template['interruptor_manual']" 
+                name="interruptor_manual" 
+                [(ngModel)]="template['interruptor_manual']"
+                (change)="onChangeCheckboxInput('marca_interruptor_manual', template['interruptor_manual'])"
+                id="interruptor_manual">
+
+                <i class="fas fa-check" *ngIf="template['interruptor_manual']" ></i>
+
+            </label>
+
+        </div>      
+        
+        <div class="col-6 col-md-4 mb-2 px-1">
+          
+            <ng-select
+                class="custom" 
+                [clearable]="false"
+                [disabled]="! template['interruptor_manual']"
+                [items]="getAttributeByField('marca_interruptor_manual').dominios"
+                name="marca_interruptor_manual"
+                [(ngModel)]="template['marca_interruptor_manual']"
+                placeholder="Seleccione..."
+                >
+            </ng-select>
+
+        </div>
+      
+        <!-- telegestion -->
+
+        <div class="col-12 col-md-4 mb-2 px-1 property-key">
+            <label title="Telegestion" for="">
+                Telegestión
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-4 mb-2 px-1">
+           
+            <ng-select
+                class="custom" 
+                [clearable]="false"
+                [items]="getAttributeByField('tipo_telegestion').dominios"
+                name="tipo_telegestion"
+                [(ngModel)]="template['tipo_telegestion']"
+                placeholder="Seleccione..."
+                >
+            </ng-select>
+
+        </div>      
+        
+        <div class="col-6 col-md-4 mb-2 px-1">
+          
+            <ng-select
+                class="custom" 
+                [clearable]="false"
+                [items]="getAttributeByField('marca_telegestion').dominios"
+                name="marca_telegestion"
+                [(ngModel)]="template['marca_telegestion']"
+                placeholder="Seleccione..."
+                >
+            </ng-select>
+
+        </div>
+      
+        <!-- hora inicio - fin -->
+
+        <div class="col-12 col-md-4 mb-2 px-1 property-key">
+            <label title="horas inico - fin">
+                Hora inicio - fin
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-4 mb-2 px-1">
+
+            <timepicker
+            id="hora_inicio" 
+            name="hora_inicio" 
+            [(ngModel)]="template['hora_inicio']"
+            class="_bs-timepicker-field"
+            [mousewheel]="true"
+            [arrowkeys]="true"
+            [showMeridian]="false"
+            [hoursPlaceholder]="'hh'"
+            [minutesPlaceholder]="'mm'"
+            ></timepicker>
+                      
+        </div>
+
+        <div class="col-6 col-md-4 mb-2 px-1">
+          
+            <timepicker
+            id="hora_fin" 
+            name="hora_fin" 
+            [(ngModel)]="template['hora_fin']"
+            class="_bs-timepicker-field"
+            [mousewheel]="true"
+            [arrowkeys]="true"
+            [showMeridian]="false"
+            [hoursPlaceholder]="'hh'"
+            [minutesPlaceholder]="'mm'"
+            ></timepicker>
+            
+        </div>
+       
+        <div class="col-12 px-1 property-key">
+          
+            <label for="observaciones_elementos_maniobra">Observaciones</label>
+
+        </div>
+        
+        <div class="col-12 px-1">
+          
+            <textarea 
+            name="observaciones_elementos_maniobra" 
+            [(ngModel)]="template['observaciones_elementos_maniobra']"
+            id="observaciones_elementos_maniobra" 
+            class="form-control property-value"
+            ></textarea>
+            
+        </div>
+
+    </form>
+
+</li>

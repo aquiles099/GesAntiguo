@@ -1,0 +1,44 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0 text-center text-md-left">
+
+    <div class="col-12 title mb-3">
+        Dispositivos
+    </div>
+    
+    <div class="col-12">
+
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover table-responsive-sm text-center">
+            <thead>
+                <tr>
+                    <th data-priority="1">Nombre</th>
+                    <th data-priority="3">Codigo</th>
+                    <th data-priority="4">Locacion</th>
+                    <th data-priority="5">Fecha de registro</th>
+                    <th data-priority="2">Accion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let device of devices">
+                    <td>{{device.name}}</td> 
+                    <td>{{device.code}}</td> 
+                    <td>{{device.location.name}}</td> 
+                    <td>{{device.created_at | date:"yyyy-MM-dd"}}</td> 
+                    <td>
+                        <button (click)="true"
+                            type="button" title="Editar" class="btn btn-sm btn-success btn-block">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button (click)="true"
+                            type="button" title="Ver detalles" class="btn btn-sm btn-warning btn-block">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                        <button type="button" title="Eliminar" (click)="true" class="btn btn-sm btn-danger btn-block">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td> 
+                </tr>
+            </tbody>
+        </table>        
+
+    </div>
+
+</div>

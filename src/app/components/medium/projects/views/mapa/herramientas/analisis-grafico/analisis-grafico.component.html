@@ -1,0 +1,34 @@
+<div *ngIf="isVisible" [@fadeInOnEnter] [@fadeOutOnLeave] class="container-fluid">
+    
+    <modal-de-configuracion
+        (onHide)="onHideConfigurationModal($event)"
+    ></modal-de-configuracion>
+
+    <img src="assets/icons/SVG/AYUDA.svg" *ngIf="isActive" (click)="showTour()" class="tour-btn icon" alt="Ayuda">
+
+    <div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+    <div *ngFor="let chartData of chartsData" 
+            [attr.data-position]="chartData.configuration.position" 
+            #chartContainerRef
+            class="chart-container chart-{{chartData.configuration.position}} animate__animated animate__fadeIn animate__faster">
+    
+            <grafico-de-analisis 
+                *ngIf="chartData.configuration.chartType !== 'linear_gauge'"
+                [configuration]="chartData.configuration"
+                [width]="chartContainerRef.offsetWidth"
+                [height]="chartContainerRef.offsetHeight"
+            ></grafico-de-analisis>
+
+            <indicador-lineal
+                *ngIf="chartData.configuration.chartType === 'linear_gauge'"
+                [configuration]="chartData.configuration"
+            ></indicador-lineal>
+    
+    </div>
+
+    <vista-exportacion
+        [chartsData]="chartsData"
+    ></vista-exportacion>
+
+</div>

@@ -1,0 +1,25 @@
+@media(min-width: 576px)
+{
+    .scrollable.layer-list{
+        max-height: 85% !important;
+    }
+
+    .modal-content{
+        border-radius: .7rem;
+    }
+    
+    .modal-title{
+        font-size: 1rem;
+    }
+    
+    .close{
+        width: .9rem;
+        height: .9rem;
+        cursor: pointer;
+    }
+    
+    .modal-body > .btn-block{
+        font-size: .8rem;
+        font-weight: bold;
+    }
+}

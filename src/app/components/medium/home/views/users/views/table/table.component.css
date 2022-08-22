@@ -1,0 +1,54 @@
+.finder{
+    padding: 0.25rem 1.75rem !important;
+}
+
+.magnifying-glass{
+    margin-left: -96.5%;
+}
+
+.table-col{
+    height: 74%;
+}
+  
+.user-badge{
+    border-radius: 50%;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -.45rem;
+    font-size: .7rem; 
+    font-weight: bolder;
+  }
+  
+.tag-label{
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: .875rem;
+}  
+
+table, th, tr, td{
+    border: none !important;
+} 
+
+@media(min-width: 576px)
+{
+    .modal-content{
+        border-radius: .7rem;
+    }
+    
+    .modal-title{
+        font-size: 1rem;
+    }
+    
+    .close{
+        width: .9rem;
+        height: .9rem;
+        cursor: pointer;
+    }
+    
+    .modal-body > .btn-block{
+        font-size: .8rem;
+        font-weight: bold;
+    }
+}

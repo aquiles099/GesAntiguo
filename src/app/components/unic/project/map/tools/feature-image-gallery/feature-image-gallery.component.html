@@ -1,0 +1,177 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section">
+
+        <div class="row m-0 mb-4">
+            <div class="col-12 p-0 title">
+                Galería
+            </div>
+        </div>
+
+    </div>
+
+    <div *ngIf="inTheGallery" class="options-section animate__animated animate__fadeIn animate__faster">
+        <div class="row m-0 align-items-center">
+
+            <div class="col-6 p-0">
+
+                <span class="file-name text-truncate animate__animated animate__fadeIn animate__faster" *ngIf="selectedFeatureImage">
+                    {{ selectedFeatureImage.file_name }}
+                    <br>
+                </span>
+                <span class="file-upload-date animate__animated animate__fadeIn animate__faster" *ngIf="selectedFeatureImage">
+                    {{ selectedFeatureImage.upload_date | date: 'd' }} de
+                    {{ selectedFeatureImage.upload_date | date: 'MMMM, y':'GMT':'es-ES' }},
+                    {{ selectedFeatureImage.upload_date | date: 'hh:mm': 'GMT':'es-ES' }}
+                </span>
+
+                <span class="file-name animate__animated animate__fadeIn animate__faster" *ngIf="! selectedFeatureImage">
+                    Añada una imagen.
+                </span>
+
+            </div>
+
+            <div class="col-6 p-0 text-right">
+
+                <label for="feature_image_input">
+                    <img title="cargar imagen" src="assets/icons/SVG/CARGAR.svg" class="icon mx-2" alt="cargar">
+                    <input (change)="onChangeImageInput($event)" type="file" multiple accept=".png,.jpeg,.jpg"
+                        id="feature_image_input" class="hide">
+                </label>
+
+                <button [disabled]="! selectedFeatureImage" (click)="removeImage()" title="Eliminar" class="btn-transparent">
+                    <img src="assets/icons/SVG/PAPEPERA.svg" class="icon mx-2"
+                        alt="papelera">
+                </button>
+
+                <button [disabled]="! selectedFeatureImage" (click)="carouselModal.show()" title="ampliar" class="btn-transparent">
+                    <img  src="assets/icons/SVG/AMPLIAR.svg" class="icon mx-2" alt="ampliar">
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <div [class.in-the-gallery]="inTheGallery" class="main-section">
+
+        <div *ngIf="inTheGallery" class="image-container big-image animate__animated animate__fadeIn animate__faster">
+            <img *ngIf="selectedFeatureImage" (click)="toggleFullscreen($event)" class="feature-image" [src]="selectedFeatureImage.src"
+                [attr.alt]="selectedFeatureImage.name">
+        </div>
+
+        <div *ngIf="! selectedLayer && ! thereArelayersNearTheClick && ! inTheGallery"
+            class="row m-0 my-1 animate__animated animate__fadeIn animate__faster">
+            <div class="col-12 p-0 property-key">
+                Seleccione o haga click cerca de un elemento.
+            </div>
+        </div>
+
+        <div *ngIf="thereArelayersNearTheClick && ! inTheGallery"
+            class="row m-0 my-1 scrollable layer-list animate__animated animate__fadeIn animate__faster">
+            <div class="col-12 px-1 py-2 bottom-bordered animate__animated animate__fadeIn animate__faster"
+                *ngFor="let layerData of sortedLayersInPulseRange; let i = index;">
+                <div class="row m-0">
+
+                    <div class="col-6 p-0 property-key">
+                        <label for="checkbox_layer_{{i}}">
+                            {{layerData.name}}
+                        </label>
+                    </div>
+
+                    <div class="col-6 p-0 text-right">
+
+                        <label for="checkbox_layer_{{i}}" [class.checked]="selectedLayer === layerData.layer"
+                            class="checkbox-round">
+                            <i *ngIf="selectedLayer === layerData.layer" class="fa fa-check"></i>
+                        </label>
+
+                        <input type="checkbox" class="hide" (change)="onSelectLayer(layerData.layer)"
+                            id="checkbox_layer_{{i}}">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div [class.in-the-gallery]="inTheGallery" class="_bottom-section">
+
+        <div *ngIf="inTheGallery" class="row m-0 h-100 align-items-center">
+
+            <div *ngFor="let featureImage of featureImageCollection; let i = index"
+                class="col-3 h-75 px-1 animate__animated animate__fadeIn animate__faster">
+                <div class="image-container" [class.selected-image]="featureImage === selectedFeatureImage" (click)="onSelectImage(featureImage)">
+                    <img class="feature-image" [src]="featureImage.src" [attr.alt]="featureImage.name">
+                </div>
+            </div>
+
+        </div>
+
+        <div *ngIf="! inTheGallery" class="row m-0 h-100 align-items-center justify-content-between">
+
+            <div class="col-5  p-0 animate__animated animate__fadeIn animate__faster" *ngIf="! inTheGallery">
+                <button (click)="showGallery()" type="button" class="btn btn-block" [disabled]="! selectedLayer"
+                    [ngClass]="{
+                        'btn-secondary': ! selectedLayer,
+                        'btn-info': selectedLayer
+                    }">
+                    Continuar
+                </button>
+            </div>
+
+            <div class="col-5  p-0 animate__animated animate__fadeIn animate__faster" *ngIf="! inTheGallery">
+                <button (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+                    Cancelar
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" bsModal #carouselModal="bs-modal" tabindex="-1" role="dialog">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+                <div class="row text-center align-items-center mx-4">
+
+                    <div class="col-12 p-0">
+                        <img src="assets/icons/SVG/CERRARVENTANA.svg" alt="cerrar" (click)="carouselModal.hide()" class="icon close float-right">
+                    </div>
+                    
+                    <div class="col-2 p-0">
+                        <div (click)="changeCarouselImage('left')">
+                            <i class="custom-carousel-control fa fa-chevron-left"></i>
+                        </div>
+                    </div>
+                    <div class="col-8 p-0">
+
+                        <carousel [(activeSlide)]="selectedFeatureImageIndex" [isAnimated]="true">
+                            <slide *ngFor="let image of featureImageCollection" >
+                                <img (click)="toggleFullscreen($event)" [src]="image.src" [attr.alt]="image.name" class="feature-image">
+                            </slide>
+                        </carousel>
+
+                    </div>
+                    <div class="col-2 p-0">
+                        <div (click)="changeCarouselImage('right')">
+                            <i class="custom-carousel-control fa fa-chevron-right"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

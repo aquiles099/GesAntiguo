@@ -1,0 +1,168 @@
+#ventanaEdicionMultiple {
+  width: 100% !important;
+  overflow-y: hidden;
+  overflow-x: hidden !important;
+}
+
+.cajaEdicionMultiple{
+  text-align: justify;
+  margin-top: 10%;
+}
+
+.elementoSelectgrupo{
+  text-align: justify;
+  margin-left: 5px;
+  margin-top: 7%;
+}
+.elementoSelectgrupo label{
+  color: #4F4F4F;
+  font-family: Raleway !important;
+  font-size: 14px !important;
+  line-height: 16px !important;
+  width: 100%;
+}
+
+.select{
+  box-sizing: border-box;
+  height: 35px;
+  border-radius: 2px;
+  background-color: #FAFAFA;
+  border: 1px solid #E0E0E0;
+  width: 78%;
+}
+.select::after{
+  border-color: #999 transparent transparent;
+  border-style: solid;
+  border-width: 5px 5px 2.5px;
+}
+
+.elementoSelectButton {
+  position: absolute;
+  background-color: transparent !important;
+  text-align: center !important;
+  height: 6vh;
+  border-radius: 10%;
+  font-weight: bold;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.elementoSelectButton label {
+  background-color: #FFF;
+  border-radius: 3px;
+  border: 1px solid #26AAE2;
+  color: #26AAE2;
+  font-size: 14px;
+  font-family: Raleway !important;
+  margin-right: 1.2em;
+  width: 40%;
+
+}
+
+.btnDisabled {
+  cursor: not-allowed !important;
+  color: #FFF !important;
+  background-color: #BDBDBD !important;
+  border: none !important;
+}
+
+.btnSiguiente {
+  color: #FFF !important;
+  background-color: #26AAE2 !important;
+}
+
+.btnGuardar{
+  background-color: #F9B032 !important;
+  border: 1px solid #F9B032 !important;
+  color: white !important;
+}
+
+.hidden{
+
+  overflow: scroll;
+  height: 98%;
+
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: .9rem;
+  height: .6rem;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background-color: #FFF;
+  background-clip: padding-box;
+  border: .7rem solid transparent;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #F2F2F2 !important;
+}
+
+.loading ::ng-deep .mat-progress-spinner circle {
+  stroke: rgb(33, 141, 143);
+  stroke: var(--fisotec-main-color);
+}
+.loading {
+  position: absolute;
+  z-index: 10000;
+  width: 100%;
+  height: 100%!important;
+  background-color: #eae2e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0%;
+  right: 0%;
+}
+.divValores {
+  height: 70vh;
+  overflow-y: auto;
+  padding-left: 28px;
+  margin-top: 7%;
+  width: 100%;
+}
+
+ul {
+  list-style-type: none;
+  text-align: left !important;
+  padding:  0 !important;
+  margin: 0 !important;
+}
+section{
+  box-sizing: border-box;
+}
+li{
+  border-bottom: 1px solid #E0E0E0;
+  width: 100%;
+  padding-left: 5%;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+
+.itemValue {
+  padding: 1em 0;
+  margin: 0 !important;
+ }
+
+.inputAncho {
+  width: 100%;
+  height: 2em;
+  margin-right: 0;
+  margin-left: auto;
+  border-radius: 3px;
+  background-color: #F6F6F6;
+  border: 1px solid #E0E0E0;
+  }
+
+  .tituloItem{
+    width: 33%;
+    color: #4F4F4F;
+    font-family: Raleway !important;
+    font-size: 15px !important;
+    line-height: 18px;
+  }

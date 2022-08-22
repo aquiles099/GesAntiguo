@@ -1,0 +1,113 @@
+<form #form="ngForm">
+
+    <li *ngFor="let attributeData of attributes">
+                            
+        <div class="row m-0 py-1 align-items-center">
+    
+            <div class="col-5 p-0 mb-2 property-key" *ngIf="attributeData.campo !== 'id_centro_mando'">
+                <label [attr.title]="attributeData.nombre" for="property_{{attributeData.campo}}">
+                    {{ attributeData.nombre }}
+                </label>
+            </div>
+    
+            <div class="col-7 p-0 mb-2 text-center" *ngIf="! attributeData.dominio && attributeData.campo !== 'id_centro_mando'">
+    
+                <div class="w-100" [ngSwitch]="attributeData.tipo">
+    
+                    <input
+                    id="property_{{attributeData.campo}}"
+                    *ngSwitchCase="'Texto'" 
+                    type="text"
+                    class="form-control property-value"
+                    [disabled]="attributeData.campo === 'localizacion'"
+                    name="{{attributeData.campo}}"
+                    [(ngModel)]="template[attributeData.campo]"
+                    >
+    
+                    <input
+                    id="property_{{attributeData.campo}}"
+                    *ngSwitchCase="'Número entero'" 
+                    type="number" 
+                    step="1"
+                    min="0"
+                    class="form-control property-value"
+                    name="{{attributeData.campo}}"
+                    [(ngModel)]="template[attributeData.campo]"
+                    >
+    
+                    <input
+                    id="property_{{attributeData.campo}}"
+                    *ngSwitchCase="'Número real'" 
+                    type="number"
+                    step=".01"
+                    min="0" 
+                    class="form-control property-value"
+                    name="{{attributeData.campo}}"
+                    [(ngModel)]="template[attributeData.campo]"
+                    >
+    
+                    <input
+                    id="property_{{attributeData.campo}}"
+                    *ngSwitchCase="'Fecha Completa'" 
+                    type="text"
+                    class="form-control property-value"
+                    name="{{attributeData.campo}}"
+                    [(ngModel)]="template[attributeData.campo]"
+                    bsDatepicker
+                    [bsConfig]="{ 
+                        adaptivePosition: true,
+                        isAnimated: true
+                    }">
+    
+                    <timepicker
+                    id="property_{{attributeData.campo}}" 
+                    *ngSwitchCase="'Hora'" 
+                    class="_bs-timepicker-field"
+                    name="{{attributeData.campo}}"
+                    [(ngModel)]="template[attributeData.campo]"
+                    [mousewheel]="true"
+                    [arrowkeys]="true"
+                    [showMeridian]="false"
+                    [hoursPlaceholder]="'hh'"
+                    [minutesPlaceholder]="'mm'"
+                    ></timepicker>
+    
+                    <label *ngSwitchCase="'Booleano'" class="checkbox" for="property_{{attributeData.campo}}">
+                        
+                        <input 
+                        type="checkbox" 
+                        [checked]="template[attributeData.campo]" 
+                        name="{{attributeData.campo}}"
+                        [(ngModel)]="template[attributeData.campo]"
+                        id="property_{{attributeData.campo}}">
+    
+                        <i class="fas fa-check" *ngIf="template[attributeData.campo]" ></i>
+    
+                    </label>
+    
+                </div>
+    
+            </div>
+    
+            <div class="col-7 p-0 mb-2" *ngIf="attributeData.dominio && attributeData.campo !== 'id_centro_mando'">
+    
+                <ng-select
+                    class="custom" 
+                    [clearable]="false"
+                    name="{{attributeData.campo}}"
+                    [(ngModel)]="template[attributeData.campo]"
+                    (change)="onChangeAttributeSelector($event, attributeData.campo)"
+                    placeholder="Seleccione..."
+                    >
+                    <ng-option [value]="attributeData.campo === 'vial' ? domain.id_vial : domain" *ngFor="let domain of attributeData.dominios">
+                        {{ attributeData.campo === 'vial' ? domain.id_vial : domain}}
+                    </ng-option>
+                </ng-select>
+                
+            </div>
+            
+        </div>
+    
+    </li>
+
+</form>

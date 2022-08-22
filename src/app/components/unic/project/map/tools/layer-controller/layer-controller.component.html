@@ -1,0 +1,98 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section _container">
+
+    <div class="container-fluid">
+
+        <div *ngIf="fileLayers.length > 0" class="row align-items-center">
+        
+            <div class="col-12 m-2 p-0 p-sm-2">
+    
+                <img class="icon" 
+                    (click)="toggleLayersVisibility()"
+                    [src]=" thereAreProjectedLayers() ? 'assets/icons/SVG/VISUALIZAR.svg' : 'assets/icons/SVG/OCULTAR.svg'" 
+                    alt="VISUALIZAR">
+    
+                <label class="ml-1 title">ENERGY</label> 
+    
+                <span class="icon float-right pr-2" 
+                    (click)="toggleModuleListingVisibility()">
+                    <i class="fas" [ngClass]="{
+                        'fa-chevron-up': ! moduleListingIsCollapsed,
+                        'fa-chevron-down': moduleListingIsCollapsed
+                    }"></i>
+                </span>
+    
+            </div>
+    
+            <div [collapse]="moduleListingIsCollapsed" [isAnimated]="true" class="col-12 p-0 layer-list-container scrollable" >
+    
+                <div *ngFor="let moduleName of projectModules" class="row mx-2 mt-2 mb-0  p-sm-2 align-items-center">
+    
+                    <div class="col-12 p-0">
+    
+                        <img class="icon" 
+                            (click)="toggleModuleVisibility(moduleName)"
+                            [src]=" theModuleHasProjectedLayers(moduleName) ? 'assets/icons/SVG/VISUALIZAR.svg' : 'assets/icons/SVG/OCULTAR.svg'" 
+                            alt="VISUALIZAR">
+    
+                        <label (click)="toggleModuleVisibility(moduleName)" class="ml-1 label">{{moduleName}}</label> 
+    
+                        <span class="icon float-right" 
+                         (click)="toggleLayersListingVisibility(moduleName)">
+                            <i class="fas" [ngClass]="{
+                                'fa-chevron-up': ! layersListingIsCollapsed[moduleName],
+                                'fa-chevron-down': layersListingIsCollapsed[moduleName]
+                            }"></i> 
+                        </span>
+                        
+                        <div class="w-100 mt-2 bordered-bottom"></div>
+    
+                        <div [collapse]="layersListingIsCollapsed[moduleName]" [isAnimated]="true" class="col-12 p-0 layer-list-container" >
+                            <div *ngFor="let layer of getLayersPerModule(moduleName)" class="row mx-2 align-items-center bordered-bottom">
+                
+                                <div (click)="toggleLayerVisibility(layer)" class="col-12 p-0 my-2 text-truncate">
+                                    
+                                    <img class="icon" 
+                                        [src]=" layer.isProjected ? 'assets/icons/SVG/VISUALIZAR.svg' : 'assets/icons/SVG/OCULTAR.svg'" 
+                                        alt="VISUALIZAR">
+
+                                    <label class="ml-1 label">{{layer.layerName}}</label> 
+                                </div>
+                            </div>
+                        </div>
+    
+                    </div>
+                
+                </div>
+    
+            </div>
+        
+        </div>
+       
+        <div class="row align-items-center">
+    
+            <div class="col-12 m-2 p-0">
+                <label class="title">MAPA BASE:</label> 
+            </div>
+                        
+            <div class="col-12 p-2 d-flex layer-list-container _rounded-bottom">
+
+                <div *ngFor="let layerData of baseLayers" class="base-layer-container mb-1 mb-sm-3">
+        
+                        <img 
+                        (click)="changeBaseLayerEvent(layerData.layer)" 
+                        class="base-layer-image mb-2" 
+                        [class.selected]="layerData.className === currentBaseLayer" 
+                        src="https://saas.fisotecsolutions.com/iconosBackendDesarrollo/capas_base/{{layerData.imageName}}.jpeg" 
+                        [attr.alt]="layerData.imageName">
+            
+                        <small  class="d-block" [ngStyle]="{'font-weight': layerData.className === currentBaseLayer ? 'bolder': 'normal'}">{{layerData.className}}</small>
+                
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

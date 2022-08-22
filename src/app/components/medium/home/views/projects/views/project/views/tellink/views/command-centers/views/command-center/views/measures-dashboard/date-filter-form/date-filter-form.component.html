@@ -1,0 +1,83 @@
+<div class="row m-0 align-items-center">
+
+    <div class="col-12 pl-0 col-md-3 form-group">
+        
+        <label class="mb-2" for=""><b>Frecuencia</b>:</label>
+
+        <ng-select
+            class="custom d-block" 
+            [clearable]="false"
+            [disabled]="sendingForm"
+            [items]="frequencies"
+            bindLabel="key"
+            bindValue="value"
+            [(ngModel)]="form.frecuency"
+            [ngModelOptions]="{standalone: true}"
+            (change)="onChangeFrecuencySelector()"
+            placeholder="Seleccione..."
+            >
+        </ng-select>
+        
+    </div>
+
+    <div class="col-12 col-md-3 form-group">
+
+        <label class="mb-2" for=""><b>Fecha</b>:</label>
+
+        <input *ngIf="form.frecuency !== 'minute'" 
+            type="text"
+            placeholder="inicio - fin"
+            class="form-control animate__animated animate__fadeIn animate__faster"
+            [disabled]="sendingForm"
+            [(ngModel)]="form.date"
+            bsDaterangepicker
+            [bsConfig]="bsDateRangePickerConfig"
+            (bsValueChange)="onDaterangePickerValueChange($event)"
+            >
+       
+        <input *ngIf="form.frecuency === 'minute'" 
+            type="text"
+            placeholder="dd/mm/aaaa"
+            class="form-control animate__animated animate__fadeIn animate__faster"
+            [disabled]="sendingForm"
+            [(ngModel)]="form.date"
+            bsDatepicker
+            [bsConfig]="bsDatePickerConfig"
+            >
+    </div>
+   
+    <div *ngIf="form.frecuency === 'minute'" class="animate__animated animate__fadeIn animate__faster time-picker-col col-12 col-md-2 px-2">
+
+        <div class="row m-0 h-100 align-items-center">
+            <div class="col-5 pl-0 pr-2">
+                <label for=""><b>Hora inicio</b>:</label>
+            </div>
+            <div class="col-7 px-0">
+                <timepicker [showMeridian]="false" (change)="onTimePickerValueChange('startTime')" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [minuteStep]="15" [disabled]="sendingForm" [(ngModel)]="form.startTime"></timepicker>
+            </div>
+        </div>
+
+    </div>
+   
+    <div *ngIf="form.frecuency === 'minute'" class="animate__animated animate__fadeIn animate__faster time-picker-col col-12 col-md-2 px-2">
+
+        <div class="row m-0 h-100 align-items-center">
+            <div class="col-5 pl-0 pr-2">
+                <label  for=""><b>Hora fin</b>:</label>
+            </div>
+            <div class="col-7 px-0">
+                <timepicker [showMeridian]="false" (change)="onTimePickerValueChange('endTime')" onkeypress='return event.charCode >= 48 && event.charCode <= 57' [minuteStep]="15" [disabled]="sendingForm" [(ngModel)]="form.endTime"></timepicker>
+            </div>
+        </div>
+
+    </div>
+
+    <div [class.offset-md-4]="form.frecuency !== 'minute'" class="col-12 col-md-2 pr-0">
+
+        <button type="button" [disabled]="sendingForm" (click)="onSubmitEvent()" class="btn btn-info py-1 btn-block">
+            Consultar
+        </button>
+
+    </div>
+        
+</div>

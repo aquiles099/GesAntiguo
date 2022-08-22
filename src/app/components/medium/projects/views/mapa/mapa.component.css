@@ -1,0 +1,358 @@
+/*FUENTES*/
+@font-face {
+  font-family: 'Raleway';
+  src: url(/../assets/fonts/Raleway/static/Raleway-Regular.ttf) format("truetype");
+}
+@font-face {
+  font-family: 'Raleway Extrabold';
+  src: url(/../assets/fonts/Raleway/static/Raleway-ExtraBold.ttf) format("truetype");
+}
+@font-face {
+  font-family: 'Raleway Light';
+  src: url(/../assets/fonts/Raleway/static/Raleway-Light.ttf) format("truetype");
+}
+
+/* Spinner */
+.loading {
+    position: absolute;
+    z-index: 10000;
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notLoading {
+    display: none;
+}
+
+.loading ::ng-deep .mat-progress-spinner circle {
+  stroke: rgb(33, 141, 143);
+  stroke: var(--fisotec-main-color);
+}
+
+.none {
+    display: none;
+}
+
+/* Exportar imagen */
+.imprimirImagenCarga {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: grey;
+  opacity: 0.7;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imprimirImagenCarga ::ng-deep .mat-progress-spinner circle {
+  stroke: black;
+}
+
+.imprimirImagenCarga div p {
+  font-weight: bold;
+  font-size: 3em;
+  color: black;
+}
+
+
+/* Sidenav */
+.container {
+    width: auto;
+    height: 60vh;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+
+.sidenav {
+    padding: 0;
+    border: none;
+    height: auto;
+    width: auto;
+    background-color:  transparent !important;
+}
+
+.sidenav-content {
+    display: flex;
+    height: auto;
+    width: auto;
+}
+
+.hoverFis:hover {
+    color: grey !important;
+}
+
+.drawerLeft {
+    position: absolute;
+    top: 5em;
+    z-index: 1000;
+}
+
+.borderDatos {
+    border-radius: 0 10% 10% 0;
+}
+
+.drawerRight {
+    position: absolute;
+    top: 8vh;
+    right: 1em;
+    z-index: 1000;
+    opacity: 1;
+    min-height: 75vh;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+
+.paddingLayer {
+    padding: 0;
+}
+.paddingDatos {
+    padding: .5em;
+}
+
+.botoneraEstilo {
+    background-color: white !important;
+    width: 100% !important;
+    min-height: 30px;
+    overflow-x: auto;
+    z-index: 900;
+    box-shadow: 4px 4px 2px 0 rgba(189,189,189,0.47);
+}
+
+.mapaBaseEst {
+  font-family: Raleway;
+    color: black;
+    background-color: #FFF;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.mapaBase {
+  width: 100%;
+  margin-right: 0 !important;
+  margin-left: auto !important;
+  padding: 0;
+  min-width: 20vw;
+}
+
+.mapaSelec {
+  border: 2px solid #39F;
+}
+
+.noSelec {
+  border: none;
+}
+
+.mapaTitulo {
+  text-align: left;
+  font-weight: 700;
+  font-size: .8em;
+  color: #BDBDBD;
+  width: 100%;
+  height: 5vh;
+  margin: 0 !important;
+}
+
+.labelMapaBase {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+  margin-top: 1vh;
+  height: 3vh;
+}
+
+
+.mBase {
+  background: linear-gradient(180deg, #F8F8F8 5vh, #FFF 5vh);
+  border-radius: 0 0 10px 10px;
+}
+
+.cont {
+    height: 94vh;
+    overflow-y: hidden;
+}
+
+@media only screen and (max-height: 730px) {
+
+}
+
+.hidden {
+    visibility: hidden !important;
+}
+
+#ventanaFiltro {
+    width: auto !important;
+    min-width: 20% !important;
+    background-color: #FFF;
+    height: 88vh;
+    padding: 0 1em;
+    margin-top: 6vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 999;
+    opacity: 1;
+    text-align: center;
+}
+
+.elementoSelect {
+    text-align: left;
+    font-weight: bold;
+    height: 6vh;
+}
+
+#h2Filtrado {
+  text-align: left;
+  margin-top: 5vh;
+}
+
+.elementoSelectLabel {
+    text-align: center;
+    font-weight: bold;
+    padding-top: 2vh;
+    height: 5vh;
+}
+
+.elementoSelectButton {
+  position: absolute;
+    background-color: transparent !important;
+    border-radius: 10%;
+    text-align: center;
+    font-weight: bold;
+    height: 6vh;
+    bottom: 0;
+}
+
+.elementoSelectButton label {
+  background-color: #FFF;
+  border-radius: 3px;
+  border: 1px solid #26AAE2;
+    color: #26AAE2;
+    font-size: .8em;
+    font-family: Raleway;
+    margin-right: .2em;
+}
+
+
+.filtroSegPlanoColor {
+  background-color: rgb(217, 235, 236);
+    background-color: var(--fisotec-color-claro);
+}
+
+.animacionEntra {
+    animation-name: animacionEn;
+    animation-duration: 1s;
+}
+
+@keyframes animacionEn {
+    0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+.mat-select {
+    width: fit-content !important;
+    min-width: 100% !important;
+}
+
+::ng-deep .mat-form-field-infix {
+    min-width: 75px !important;
+    width: fit-content !important;
+}
+
+::ng-deep mat-select .mat-select-value {
+    width: fit-content;
+    min-width: 2ch;
+    max-width: 25ch;
+}
+::ng-deep mat-select .mat-select-placeholder {
+    width: fit-content;
+    min-width: 10ch;
+}
+
+.divValores {
+    height: 44vh;
+    padding: 0 0 0 3vh !important;
+    overflow-y: auto;
+}
+
+ul {
+    list-style-type: none;
+    text-align: left !important;
+    padding:  0 !important;
+    margin: 0 !important;
+}
+
+.elementoCheck {
+    height: 2.5vh;
+}
+
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+    opacity: 0.03 !important;
+    background-color: rgb(12 101 193) !important;
+
+  }
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: rgb(12 101 193);
+
+  }
+
+  ::ng-deep .mat-checkbox:not(.mat-checkbox-disabled) .mat-checkbox-ripple .mat-ripple-element {
+    background-color: rgb(12 101 193);
+
+  }
+
+#infoPdf {
+  background-color:white;
+  text-align: center;
+}
+
+#infoPdf table {
+  margin-left: auto;
+  margin-right: 0px;
+}
+
+#infoPdf table tr td{
+  border: 1px solid black;
+  padding: 1em;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.none {
+  display: none !important;
+}
+
+.logo {
+  height: 5em;
+}
+
+.cursorHelp {
+  cursor: help;
+}
+
+.cursorNotAllowed {
+  cursor: not-allowed;
+}
+
+.cursorCrossHair {
+  cursor: crosshair;
+}
+
+.desactivado {
+  cursor: not-allowed !important;
+  opacity: .5;
+}

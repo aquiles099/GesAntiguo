@@ -1,0 +1,222 @@
+.spinner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(255, 255, 255, 0.4) !important;
+    z-index: 999;
+    }
+  
+  .project-icon{
+    width: 50% !important;
+    height: auto !important;
+  }
+  
+  label{
+    font-size: .8rem;
+    font-weight: bold;
+  }
+  
+  input:not([type="radio"]){
+    padding: .5rem 2rem !important;
+  }
+  
+  .magnifying-glass{
+    margin-left: -96.5%;
+  }
+  
+  .table-col{
+    height: 78.5% !important;
+  }
+  
+  .empty{
+    font-size: 2rem;
+    width: 100%;
+    text-align: center;
+  }
+  
+  table{
+    text-align: center;
+    border: none !important;
+    font-size: .8rem !important;
+    /* PARA QUE SE AJUSTE AL DISE;O DE INVISION */
+    padding-right: .5%;
+    margin-left: -5%;
+    width: 110%;
+  }
+  
+  thead{
+    border:none;
+    width: calc( 100% - .95rem ) !important
+  }
+  
+  tbody {
+      display:block;
+      height: 57.5vh;
+      overflow:auto;
+  }
+  
+  thead, tbody tr {
+      display:table;
+      width:100%;
+      table-layout:fixed;
+  }
+  
+  th, tr, td{
+    border: none;
+    font-weight: normal;
+  }
+  
+  tr:nth-child(odd) {
+    background-color: #FAFAFA;
+  }
+  
+  .table-titles th {
+    background-color: white;
+    font-weight: bolder;
+    font-size: 1em;
+  }
+  
+  .table-subtitles th, .group-name {
+    color: #828282;
+    font-weight: normal;
+  }
+  
+  th, td{
+    padding: .5rem .25rem;
+  }
+  
+  .right-bordered {
+    border-right: 1px solid #E0E0E0 !important;
+  }
+  
+  .user-badge{
+    border-radius: 50%;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -.45rem;
+    font-size: .7rem; 
+    font-weight: bolder;
+  }
+  
+  
+  /*  */
+  
+    
+    [type="checkbox"]{
+      box-sizing: border-box;
+      height: 20px;
+      width: 20px;
+      background-color: #FFF;
+      border: 1px solid #808080;
+      margin-top: 1%;
+      position: absolute
+    }
+  
+  
+    .divcheckoenergetis2{
+      display: flex;
+    }
+    .divcheckoe{
+    position: absolute;
+    }
+    .divcheckoepermiso1
+    {
+      display: block;
+    }
+    .divcheckoenergetis2permiso1{
+      display: block;
+    }
+    .checkbookTelemedida{
+      box-sizing: border-box;
+      height: 20px;
+      width: 20px;
+      background-color: #FFF;
+      border: 1px solid #808080;
+    
+      margin: 0 auto !important;
+    }
+    .ngx-form-checkbox input:checked + .ngx-form-icon::before {
+      background-clip: padding-box !important;
+    
+      border-left-width: 0 !important;
+      border-top-width: 0 !important;
+      content: "" !important;
+      height: 12px !important;
+      left: 50% !important;
+      margin-left: -3px !important;
+      margin-top: -8px !important;
+      position: absolute !important;
+      top: 50% !important;
+      transform: rotate(
+    45deg);
+      width: 6px;
+    }
+    
+    .ngx-form-checkbox input:checked + .ngx-form-icon.custom-checkbox-color {
+      background: #ffffff;
+      border: #29ABE2;
+    }
+    #selectAllCheckbox2{
+      box-sizing: border-box;
+      height: 20px;
+      width: 20px;
+      border: 1px solid #808080 !important;
+      border-radius: 0.1rem;
+      left: 0;
+      top: 0.2rem;
+      transition: all 0.2s ease;
+      border: 0.05rem solid #e7e9ed;
+      cursor: pointer;
+      display: inline-block;
+      position: absolute;
+    
+    }
+    
+    .inputDisabled {
+      cursor: not-allowed !important;
+    
+      box-sizing: border-box;
+      height: 20px;
+      width: 20px;
+      border: 1px solid #808080 !important;
+      border-radius: 0.1rem;
+      left: 0;
+      top: 0.2rem;
+      transition: all 0.2s ease;
+    
+      cursor: pointer;
+      display: inline-block;
+      position: absolute;
+    }
+    
+    .botonDisabled {
+      cursor: not-allowed !important;
+      opacity: .3;
+    }
+    
+    .inputActivo {
+      border: 1px solid #29ABE2 !important;
+      box-sizing: border-box;
+      height: 20px;
+      width: 20px;
+      border-radius: 0.1rem;
+      left: 0;
+      top: 0.2rem;
+      transition: all 0.2s ease;
+      border: 0.05rem solid #e7e9ed;
+      cursor: pointer;
+      display: inline-block;
+      position: absolute;
+    }
+    
+    input:checked + .inputDisabled::before{
+      border: 0.1rem solid #000 !important;
+    }
+    input:checked + .inputActivo::before{
+      border: 0.1rem solid #29ABE2 !important;
+    }
+    
+    

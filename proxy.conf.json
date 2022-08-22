@@ -1,0 +1,24 @@
+{
+  "/cgi-bin/*": {
+    "target": "https://saas.fisotecsolutions.com",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/api": {
+    "target": "https://api.dexcell.com/v3",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  },
+  "/index.php": {
+    "target": "http://srv.uvax.es:8084/API/web/index.php",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel":"debug",
+    "pathRewrite": {
+      "^/index.php": ""
+    }
+  }
+}

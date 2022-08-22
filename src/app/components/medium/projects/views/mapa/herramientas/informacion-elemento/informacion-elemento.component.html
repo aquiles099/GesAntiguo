@@ -1,0 +1,111 @@
+<div id="element-information-tool" *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section title">
+        
+        Información de elemento
+
+        <div title="Ayuda" class="float-right pointer d-inline" (click)="showTour()">
+            <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+        </div>
+
+    </div>
+
+    <div class="middle-section">
+
+        <div *ngIf="! elementsInClickRange.length && ! showingInfo" class="row mx-0 my-1">
+            <div class="col-12 p-0 property-key">
+                <span *ngIf="! selectedElement" class="animate__animated animate__fadeIn animate__faster">
+                    Haga click encima o cerca de un elemento para seleccionarlo.
+                </span>
+            </div>
+        </div>
+    
+        <div *ngIf="elementsInClickRange.length > 1 && ! showingInfo" class="row mx-0 my-1 scrollable layer-list animate__animated animate__fadeIn animate__faster">
+            <div class="col-12 px-0 py-2 bottom-bordered animate__animated animate__fadeIn animate__faster" *ngFor="let element of elementsInClickRange; let i = index;">
+                <div class="row m-0">
+    
+                    <div class="col-6 p-0 property-key">
+                        <label for="checkbox_layer_{{i}}">
+                            {{element.label | titlecase}}
+                        </label>
+                    </div>
+    
+                    <div class="col-6 p-0 property-value">
+    
+                        <label for="checkbox_layer_{{i}}"
+                                [class.checked]="selectedElement === element" 
+                                class="checkbox-round">
+                            <i *ngIf="selectedElement === element" class="fa fa-check"></i>
+                        </label>
+    
+                        <input type="checkbox" class="hide" (change)="onSelectElement(element)" id="checkbox_layer_{{i}}">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        <div *ngIf="showingInfo"  class="h-100 w-100 animate__animated animate__fadeIn animate__faster">
+
+            <ul class="h-100 _scrollable">
+                <li *ngFor="let propertyData of selectedElement.data">
+                    <div class="row m-0 py-2 mb-2 bottom-bordered">
+
+                        <div class="col-6 p-0 d-flex align-items-center property-key">
+                            <label [attr.title]="propertyData.label">
+                                {{ propertyData.label }}
+                            </label>
+                        </div>
+
+                        <div class="col-6 p-0 text-center" >
+
+                            <input
+                            readonly
+                            type="text" 
+                            class="form-control _property-value"
+                            [value]="propertyData.value"
+                            >
+
+                        </div>
+
+                    </div>
+                </li>
+            </ul>
+                
+        </div>
+
+    </div>
+    
+    <div class="_bottom-section">
+        <div class="row m-0 h-100 align-items-center justify-content-between" >
+            
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="! showingInfo">
+                <button (click)="showInfo()" 
+                        type="button" 
+                        class="btn btn-block"
+                        [disabled]="! selectedElement || tourIsActive" 
+                        [ngClass]="{
+                            'btn-secondary': ! selectedElement,
+                            'btn-info': selectedElement
+                        }">
+                    Continuar
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="! showingInfo">
+                <button [disabled]="tourIsActive" (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+                    Cancelar
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="showingInfo">
+                <button (click)="clear()" type="button" class="btn btn-block btn-outline-info">
+                    Volver
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+        <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+
+</div>

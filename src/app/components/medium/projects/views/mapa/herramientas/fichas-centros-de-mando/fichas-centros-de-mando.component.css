@@ -1,0 +1,28 @@
+.checkbox {
+    border: 1px solid #000;
+    cursor: pointer;
+    font-size: .75rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    position: absolute;
+}
+
+.checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.bottom-bordered{
+    border-color: #F8F8F8;
+    border-width: 2px;
+}
+
+@media(min-width: 576px)
+{
+    .scrollable.command-centers-listing{
+        max-height: 82.5% !important;
+    }
+}

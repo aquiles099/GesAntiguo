@@ -1,0 +1,10 @@
+.time-picker-col ::ng-deep .bs-timepicker-field {
+    width: 2.25rem;
+    padding: 0.275rem 0.15rem;
+    height: 2.25rem;
+    font-size: .85rem;
+}
+
+.table-col{
+    height: 70% !important;
+}

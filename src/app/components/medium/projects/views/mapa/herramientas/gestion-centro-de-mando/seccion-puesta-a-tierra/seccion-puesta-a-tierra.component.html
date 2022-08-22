@@ -1,0 +1,100 @@
+<li *ngIf="hasAttributeData">
+                        
+    <form #form="ngForm" class="row m-0 align-items-center py-1 mb-2">
+        
+        <div class="col-6 col-md-3 mb-2 px-1 property-key">
+            <label title="existe" for="existe">
+                Exite
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-9 mb-2 px-1">
+           
+            <label class="checkbox" for="existe">
+                    
+                <input 
+                type="checkbox" 
+                [checked]="template['existe']" 
+                name="existe" 
+                [(ngModel)]="template['existe']"
+                id="existe">
+
+                <i class="fas fa-check" *ngIf="template['existe']" ></i>
+
+            </label>
+
+        </div>
+  
+        <!-- tipo -->
+        
+        <div class="col-6 col-md-3 mb-2 px-1 property-key">
+            <label title="tipo" for="tipo">
+                Tipo
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-9 mb-2 px-1">
+           
+            <ng-select
+                id="tipo"
+                class="custom" 
+                [clearable]="false"
+                [items]="getAttributeByField('tipo').dominios"
+                name="tipo"
+                [(ngModel)]="template['tipo']"
+                [disabled]="! template['existe']"
+                placeholder="Seleccione..."
+                >
+            </ng-select>
+
+        </div>
+  
+        <!-- seccion -->
+        
+        <div class="col-6 col-md-3 mb-2 px-1 property-key">
+            <label title="Sección línea principal" for="seccion">
+                Sección línea principal
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-9 mb-2 px-1">
+           
+            <input
+            id=""
+            type="number" 
+            step="1"
+            min="0"
+            class="form-control property-value"
+            name="seccion"
+            [(ngModel)]="template['seccion']"
+            [disabled]="! template['existe']"
+            >
+
+        </div>
+      
+        <!-- resistencia -->
+        
+        <div class="col-6 col-md-3 mb-2 px-1 property-key">
+            <label title="Resistencia (Ohmios)" for="resistencia">
+                Resistencia (Ohmios)
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-9 mb-2 px-1">
+           
+            <input
+            id="resistencia"
+            type="number" 
+            step="1"
+            min="0"
+            class="form-control property-value"
+            name="resistencia"
+            [(ngModel)]="template['resistencia']"
+            [disabled]="! template['existe']"
+            >
+
+        </div>
+      
+    </form>
+    
+</li>

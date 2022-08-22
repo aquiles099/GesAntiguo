@@ -1,0 +1,194 @@
+<div class="modal fade" bsModal #modal="bs-modal" [config]="{backdrop: 'static'}" (onHidden)="clear()" tabindex="-1" role="dialog">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header text-center my-2">
+                
+                <h4 class="modal-title w-100 mb-0">
+
+                    NUEVO PROYECTO
+
+                    <div title="Ayuda" class="ml-4 pointer d-inline" (click)="showTour()">
+                        <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+                    </div>
+
+                </h4>
+
+                <button type="button" class="close pull-right" (click)="modal.hide()" aria-label="Close">
+                    <img src="assets/icons/SVG/CERRARVENTANA.svg" class="icon" alt="cerrar">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+                
+                <hr class="mt-0 w-100">
+
+                <form #newProjectForm [formGroup]="form" class="form-row m-0" enctype="multipart/form-data" (submit)="onSubmit(newProjectForm)">
+
+                    <div class="col-12 p-0 mt-3 mb-4 sub-title">
+                        <span>PASO 1 DE 2:</span> &nbsp; DATOS DEL PROYECTO
+                    </div>
+
+                    <div class="col-12 col-md-6 p-0 mt-2 pr-3">
+
+                        <label class="mb-2" for="">Identificación:</label>
+                        <input id="project-title-input" type="text" name="name" formControlName="name" required class="form-control form-control-sm mb-4" placeholder="Nombre del proyecto">
+
+                        <label class="mb-2" for="">Icono del proyecto:</label>
+
+                        <div class="row mx-0 mb-4">
+
+                            <div class="col-4 pr-2 icon-preview-container">
+                                <img id="project-icon-preview" class="icon-preview pointer" (click)="toggleFullscreen($event)" [src]="projectIconSrc" alt="icono">
+                            </div>
+
+                            <div class="col-8 pl-4 align-self-end">
+                                <label id="project-icon-upload" class="btn btn-sm btn-outline-secondary load-icon-btn rounded-lg" for="projectIcon">
+                                    <img class="icon" src="assets/icons/SVG/CARGAR.svg" alt="icono-cargar">
+                                    &nbsp;
+                                    Cargar imagen
+                                </label>
+                                <input 
+                                accept=".png, .jpg, .jpeg" 
+                                formControlName="icon" 
+                                required 
+                                type="file" 
+                                name="icon" 
+                                id="projectIcon"
+                                (change)="onSelectProjectIcon($event)">
+                            </div>
+
+                        </div>
+                        
+                        <label class="mb-2" for="">Ubicación:</label>
+                        <ng-select
+                            id="project-province"
+                            class="mb-3" 
+                            formControlName="province" 
+                            name="province" 
+                            required 
+                            [clearable]="false"
+                            [items]="provinces"
+                            bindLabel="nombre"
+                            bindValue="codigo"
+                            (change)="onChangeProvinceSelect($event)"
+                        >
+                        </ng-select>
+
+                        <ng-select
+                            id="project-municipality"
+                            formControlName="municipality" 
+                            name="municipality" 
+                            required 
+                            [clearable]="false"
+                            [loading]="loadingMunicipalities"
+                            [loadingText]="'Cargando municipios...'"
+                            [items]="municipalities"
+                            bindLabel="nombre"
+                            bindValue="id"
+                        >
+                        </ng-select>
+
+                    </div>
+
+                    <div class="col-12 col-md-6 p-0 mt-2 pl-3 mt-3 mt-md-2">
+                        
+                        <label class="mb-2" for="">Selecciona el/los módulos deseados:</label>
+
+                        <div id="project-modules-container" class="row mb-2 module-checkboxes">
+                            
+                            <div *ngFor="let module of modules; let i = index" id="project-module-{{i + 1}}" class="col-12">
+
+                                <div class="row mb-2">
+
+                                    <div class="col-2">
+                                        <!-- <input *ngIf="module.activo; else unavailable" #moduleCheckbox name="modules[]" [value]="module.id" type="checkbox" (change)="detectChanges()" id="module_{{module.id}}" class="form-control form-control-sm"> -->
+                                        <input #moduleCheckbox name="modules[]" [value]="module.id" type="checkbox" (change)="detectChanges()" id="module_{{module.id}}" class="form-control form-control-sm">
+                                    </div>
+
+                                    <div class="col-10 p-1 align-self-center">
+
+                                        <label class="module-label text-truncate" for="module_{{module.id}}">
+                                            <span>
+                                                <img class="icon" [src]="module.icono" alt="icono__{{module.modulo_nombre}}">
+                                            </span>
+                                            &nbsp;
+                                            {{module.modulo_nombre}}
+                                        </label>
+
+                                        <span role="button" class="float-right pointer" 
+                                            data-toggle="collapse" 
+                                            [attr.data-target]="'#module_groups' + module.id"
+                                            aria-expanded="false" 
+                                            [attr.aria-controls]="'module_groups' + module.id"
+                                            (click)="detectChanges(500)"
+                                            >
+                                            <i class="fas" [ngClass]="{
+                                                'fa-caret-down': ! moduleGroupsContainerIsCollapse(groups),
+                                                'fa-caret-up': moduleGroupsContainerIsCollapse(groups)
+                                            }" ></i>
+                                        </span>
+
+                                        <div #groups id="module_groups{{module.id}}" class="module-{{ i + 1 }}-groups row m-0 collapse">
+
+                                            <div *ngFor="let group of module.groups" class="col-12 ">
+
+                                                <div class="row mb-2">
+
+                                                    <div class="col-2 p-2">
+                                                        <!-- <input *ngIf="group.activo; else unavailable" [checked]="moduleCheckbox.checked" name="groups[]" [value]="group.id" type="checkbox" id="group_{{group.id}}" class="form-control form-control-sm"> -->
+                                                        <input [checked]="moduleCheckbox.checked" name="groups[]" [value]="group.id" type="checkbox" id="group_{{group.id}}" class="form-control form-control-sm">
+                                                    </div>
+
+                                                    <div class="col-10 align-self-center">
+                                                        <label class="group-label text-truncate" for="group_{{group.id}}">
+                                                            <span>
+                                                                <img class="icon" [src]="group.icono" alt="icono__{{group.nombre}}">
+                                                            </span>
+                                                            &nbsp;
+                                                            {{group.nombre}}
+                                                        </label>
+                                                    </div>
+
+                                                </div> 
+
+                                            </div>
+
+                                        </div>
+            
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <button type="submit" [disabled]="form.invalid || sendingForm"  class="d-none d-md-block btn btn-block btn-info submit-btn py-2 px-4">
+                            {{submitButtonText}} 
+                        </button>
+
+                    </div>
+
+                    <div class="col-12 col-md-6 d-block d-md-none">
+                        <br>
+                        <button type="submit" [disabled]="form.invalid || sendingForm"  class="btn btn-block btn-info submit-btn pt-2 px-4">
+                            {{submitButtonText}} 
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<ng-template #unavailable>
+    <i class="fas fa-ban text-muted"></i>
+</ng-template>

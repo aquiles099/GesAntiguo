@@ -1,0 +1,78 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="row mx-2 mb-4">
+        <div class="col-12 p-0 title">
+            Copiar elemento
+        </div>
+    </div>
+
+    <div class="row mx-2 my-1 animate__animated animate__fadeIn animate__faster">
+
+        <div class="col-12 p-0 mb-3 property-key" [innerHTML]="helpText">
+        </div>
+
+        <div *ngIf="imagesOfSelectedFeature" class="col-12 p-0 d-flex align-items-center property-key">
+            <label class="checkbox" for="copy_images_checkbox">
+                            
+                <input type="checkbox" 
+                [checked]="imageCopyingEnabled" 
+                (change)="toggleImageCopyingEnabledState()" 
+                name="copy_images_checkbox" 
+                id="copy_images_checkbox">
+
+                <i class="fas fa-check" *ngIf="imageCopyingEnabled" ></i>
+                
+            </label> 
+            &nbsp;&nbsp; Copiar imagenes.
+        </div>
+
+    </div>
+
+    <div class="row m-0 bottom-section" >
+        <div class="col-5">
+
+            <button *ngIf="buildingFeatureState === 'waiting'" 
+                (click)="drawLayer()"
+                 type="button" 
+                 class="btn btn-block animate__animated animate__fadeIn animate__faster"
+                [disabled]="! selectedLayer" 
+                [ngClass]="{
+                    'btn-secondary': ! selectedLayer,
+                    'btn-warning': selectedLayer
+                }"
+                >
+                Continuar
+            </button>
+          
+            <button *ngIf="buildingFeatureState === 'inProgress'" 
+                (click)="saveChanges()"
+                 type="button" 
+                 class="btn btn-block animate__animated animate__fadeIn animate__faster"
+                [disabled]="! thereAreCopiedFeatures" 
+                [ngClass]="{
+                    'btn-secondary': ! thereAreCopiedFeatures,
+                    'btn-info': thereAreCopiedFeatures
+                }"
+                >
+                Guardar
+            </button>
+
+        </div>
+        <div class="col-5">
+            
+            <button *ngIf="buildingFeatureState === 'waiting'" 
+                    (click)="toggleSectionVisibilityEvent()" 
+                    type="button" 
+                    class="btn btn-block btn-outline-info animate__animated animate__fadeIn animate__faster">
+                Cancelar
+            </button>
+
+            <button *ngIf="buildingFeatureState === 'inProgress'" (click)="clear()" type="button" class="btn btn-block btn-outline-info animate__animated animate__fadeIn animate__faster">
+                Deshacer
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

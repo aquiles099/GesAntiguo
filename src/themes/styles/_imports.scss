@@ -1,0 +1,62 @@
+// Bootstrap functions
+@import "~bootstrap/scss/functions";
+// Bootstrap variables
+@import "~bootstrap/scss/variables";
+// Bootstrap mixins
+@import "~bootstrap/scss/mixins";
+// Custom mixins
+
+// Bootstrap Reset and dependencies
+@import "~bootstrap/scss/print";
+
+// Bootstrap Core CSS
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/code";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/tables";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/transitions";
+
+// Bootstrap Components
+@import "~bootstrap/scss/dropdown";
+@import "~bootstrap/scss/button-group";
+@import "~bootstrap/scss/input-group";
+@import "~bootstrap/scss/custom-forms";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+@import "~bootstrap/scss/card";
+@import "~bootstrap/scss/breadcrumb";
+@import "~bootstrap/scss/pagination";
+@import "~bootstrap/scss/badge";
+@import "~bootstrap/scss/jumbotron";
+@import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/progress";
+@import "~bootstrap/scss/media";
+@import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/close";
+
+// Bootstrap Components w/ JavaScript
+@import "~bootstrap/scss/modal";
+@import "~bootstrap/scss/tooltip";
+@import "~bootstrap/scss/popover";
+@import "~bootstrap/scss/carousel";
+
+// Bootstrap Utility classes
+@import "~bootstrap/scss/utilities";
+
+// Custom components
+@import '~ngx-toastr/toastr-bs4-alert';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+// Own files
+@import "./globals";
+
+@import './node_modules/leaflet-graphicscale/src/Leaflet.GraphicScale.scss';
+@import '~leaflet-mouse-position/src/L.Control.MousePosition.css';
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+
+@import "~ngx-easy-table/style.scss";

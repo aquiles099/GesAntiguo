@@ -1,0 +1,4 @@
+._scrollable{
+    max-height: 50vh !important;
+    overflow-y: scroll;
+}

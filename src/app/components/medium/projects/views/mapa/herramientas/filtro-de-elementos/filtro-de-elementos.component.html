@@ -1,0 +1,165 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section title">
+
+        Filtrado
+
+        <div title="Ayuda" class="float-right pointer d-inline" (click)="showTour()">
+            <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+        </div>
+
+    </div>
+
+    <div class="selector-section" [class.for-only-one-module]="thereIsOnlyOneModule">
+
+        <div class="row justify-content-center section">
+        
+            <div class="col-12 p-0 mb-2">
+
+                <layer-selectors-section
+                [form]="formData"
+                [disableSelectors]="tourIsActive"
+                selectorsBottomMarginClass="mb-2"
+                (onSelectModule)="onChangeModuleOrGroupSelector()"
+                (onSelectGroup)="onChangeModuleOrGroupSelector()"
+                (onSelectLayer)="onChangeLayerSelector($event)"
+                ></layer-selectors-section>
+
+            </div>
+
+            <div id="filter-elements-attribute-selector" class="col-12 p-0 mt-xs-2 mb-2">
+        
+                <label class="mb-2" for="">Atributo:</label>
+    
+                <ng-select
+                    class="custom" 
+                    placeholder="Seleccione una propiedad"
+                    [disabled]=" ! formData.layer || tourIsActive"
+                    [clearable]="false"
+                    [(ngModel)]="formData.property"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="onChangePropertySelector()"
+                    >
+                    <ng-option [value]="property.nombre" *ngFor="let property of properties">
+                        {{property.nombre}} 
+                    </ng-option>
+                </ng-select>
+                
+            </div>
+    
+            <div class="d-block d-xs-none p-0 col-12">
+                <hr class="w-100 separator">
+            </div>
+            
+        </div>
+
+    </div>
+
+    <div id="filter-elements-attributes-finder" class="searcher-section" [class.for-only-one-module]="thereIsOnlyOneModule">
+
+        <div class="row justify-content-center section"> 
+    
+            <div class="col-12 p-0">
+        
+                <div class="w-100">
+        
+                    <label class="mb-2" for=""> <b>Valores:</b> </label>
+        
+                    <input type="text" [disabled]="! formData.property || tourIsActive" class="form-control form-control-sm d-inline search-field" placeholder="Buscar..." [(ngModel)]="search">
+        
+                    <img src="assets/icons/SVG/LUPA.svg" class="icon search-icon" alt="lupa">
+                
+                </div>
+
+            </div>
+    
+        </div>
+
+    </div>
+
+    <div id="filter-elements-attribute-values-list" 
+            *ngIf="formData.property || tourIsActive" 
+            class="feature-property-values-section text-center"
+            [class.for-only-one-module]="thereIsOnlyOneModule">
+    
+        <div *ngIf="propertyValues.length > 0; else empty" class="row feature-property-values animated__animated animate__fadeIn animate__faster"> 
+    
+            <div class="col-12 p-0 my-1 bottom-bordered property-value " *ngFor="let value of ( propertyValues | keyMatch : search)">
+                   
+                <div class="row m-0">
+
+                    <div class="col-1 p-0 mb-2 align-items-center text-center">
+                        <label class="checkbox" for="feature_value_{{value}}">
+                            
+                            <input type="checkbox" 
+                            (change)="updateFilter(value)" 
+                            [checked]="valueExistsOnFilter(value)" 
+                            name="feature_value_{{value}}" 
+                            id="feature_value_{{value}}">
+
+                            <i class="fas fa-check" *ngIf="valueExistsOnFilter(value)" ></i>
+
+                        </label>
+                    </div>
+
+                    <div class="col-11 pl-2 pr-0 py-0 mb-2 align-items-center">
+                        <label for="feature_value_{{value}}" title="{{value}}" class="ml-3 text-truncate d-inline">
+                            {{value}}
+                        </label>
+                    </div>
+
+                </div>
+                
+            </div>
+
+        </div>
+
+        <ng-template #empty class="w-100 mt-1">
+            Vacio
+        </ng-template>
+
+    </div> 
+
+    <div class="_bottom-section row m-0 align-items-center" >
+
+        <div class="col-4 p-1">
+            <button type="button" (click)="toggleSectionVisibilityEvent()" class="btn btn-block btn-info">
+                Aceptar
+            </button>
+        </div>
+
+        <div class="col-4 p-1">
+            <button 
+            id="filter-elements-remove-layer-filter-btn"
+            (click)="removeFilterOnProperty()"
+            type="button" class="btn btn-block"
+            [disabled]="! formData.property || tourIsActive || ! selectedLayerHasFilterOnProperty()"
+            [ngClass]="{
+                '_btn-outline-secondary': ! formData.property || ! selectedLayerHasFilterOnProperty(),
+                'btn-outline-info': formData.property && selectedLayerHasFilterOnProperty()
+            }">
+                Eliminar filtro capa
+            </button>
+        </div>
+
+        <div class="col-4 p-1">
+            <button 
+            id="filter-elements-remove-all-filters-btn"
+            (click)="removeFilterOnAllLayers()"
+            type="button" class="btn btn-block"
+            [disabled]="! isThereAnyLayerWithActiveFilter || tourIsActive"
+            [ngClass]="{
+                '_btn-outline-secondary': ! isThereAnyLayerWithActiveFilter,
+                'btn-outline-info': isThereAnyLayerWithActiveFilter
+            }">
+                Eliminar todo
+            </button>
+        </div>
+        
+    </div>
+
+    <div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+        <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+
+</div>

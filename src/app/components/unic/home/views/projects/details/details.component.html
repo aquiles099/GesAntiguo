@@ -1,0 +1,124 @@
+<div class="animate__animated animate__fadeIn animate__faster">
+
+    <div class="project-data-container">
+
+        <div class="row w-100 m-0">
+
+            <div class="col-12 mb-4 p-0 title">
+
+                <span routerLink=".." class="float-left mr-4"><i class="back-button fa fa-chevron-left"></i></span>
+
+                INFORMACIÓN DE PROYECTO
+
+                <div title="Ayuda" class="ml-3 pointer d-inline" (click)="showTour()">
+                    <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+                </div>    
+
+            </div>
+    
+            <div class="col-2 col-md-1 p-0">
+                <img class="project-icon" [src]="project.icono" alt="icono-proyecto">
+            </div>
+    
+            <div class="col-10 col-md-9 pl-4 pr-0 text-left project-main-info-container">
+    
+                <div class="row ml-3">
+    
+                    <div class="col-12 title">
+    
+                        {{ project.nombre}}
+    
+                        &nbsp;&nbsp;&nbsp;
+    
+                        <img *ngFor="let module of project.modulos | slice:0:2" 
+                        class="module-icon mx-1"
+                        [attr.title]="module.modulo"
+                        [src]="module.icono_modulo"
+                        >
+                        &nbsp;
+                        <span *ngIf="(project.modulos.length - 2) > 0">
+                            + {{ project.modulos.length - 2 }}
+                        </span>
+                    </div>
+    
+                    <div class="col-12">
+                        {{ data.datos_municipio.nombre }}
+                    </div>
+                    <div class="col-12">
+                        {{ data.datos_municipio.provincia }}
+                    </div>
+                    <div class="col-12">
+                        Proyección {{ data.datos_municipio.nombre_proyeccion }}
+                    </div>
+    
+                </div>
+    
+            </div>
+        
+        </div>
+
+    </div>
+
+    <div class="module-layer-data-container">
+
+        <div class="row w-100 m-0">
+
+            <div class="bordered-bottom col-12 px-0 pb-2 my-2 title pointer module-row" (click)="toggleModuleLayerDataVisibility()">
+
+                <b> Energy </b>
+
+                <span class="icon float-right">
+                   <i class="fas" [ngClass]="{
+                       'fa-chevron-up': ! moduleLayerDataIsCollapsed,
+                       'fa-chevron-down': moduleLayerDataIsCollapsed
+                   }"></i> 
+               </span>
+
+            </div>
+
+            <div [collapse]="moduleLayerDataIsCollapsed" [isAnimated]="true" class="col-12 px-0">
+        
+                <div *ngFor="let layerGroup of moduleLayerData" class="row m-0 align-items-center ">
+    
+                    <div class="col-12 pl-3 pr-0 pb-2 my-2 bordered-bottom groups-row pointer" (click)="toggleLayerGroupDataVisibility(layerGroup.name)">
+        
+                        <label class="ml-2">{{layerGroup.name}}</label> 
+    
+                        <span class="icon float-right" >
+                            <i class="fas" [ngClass]="{
+                                'fa-chevron-up': ! layerGroup.isCollapsed,
+                                'fa-chevron-down': layerGroup.isCollapsed
+                            }"></i> 
+                        </span>
+                        
+                    </div>
+
+                    <div [collapse]="layerGroup.isCollapsed" [isAnimated]="true" class="col-12 p-0 layers-row" >
+
+                        <div *ngFor="let layer of layerGroup.layers" class="row m-0 align-items-center">
+            
+                            <div class="col-12 px-4 pb-2 my-2 bordered-bottom">
+                                
+                                <label class="ml-4" for="">
+                                    {{layer.name}} 
+                                </label>
+                                
+                                <span class="float-right mr-4 layer-elements-tag">
+                                    {{layer.elements}}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+    
+            </div>
+                
+        </div>
+
+    </div>
+
+</div>

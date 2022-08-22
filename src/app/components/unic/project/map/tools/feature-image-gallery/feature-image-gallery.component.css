@@ -1,0 +1,143 @@
+.map-section{
+    padding: 0 !important;
+}
+
+.section{
+    padding: 0 .75rem;
+}
+
+.header-section,
+.options-section,
+.main-section,
+._bottom-section{
+    position: absolute;
+    width: 100% !important;
+    padding: 0 2rem;
+}
+
+.header-section{
+    top: 2.5%;
+    height: 5%;
+}
+
+.options-section{
+    top: 10%;
+    height: 7.5%;
+}
+
+.file-name{
+    font-size: .875rem;
+    color: #333;
+}
+
+.file-upload-date{
+    font-size: .8rem;
+    font-family: Arial, Helvetica, sans-serif !important;
+    color:#828282;
+}
+
+.main-section{
+    top: 10%;
+    height:80%;
+}
+
+.main-section.in-the-gallery{
+    top: 20%;
+    height:55%;
+}
+
+._bottom-section{
+    top: 90%;
+    height: 10%;
+}
+
+._bottom-section.in-the-gallery{
+    top: 77.5%;
+    height: 22.5%;
+}
+
+.icon{
+    display: inline-block;
+    width: 1.4rem !important;
+    height: 1.4rem !important;
+    cursor: pointer;
+    transition: transform .2s;
+}
+
+.icon.close{
+    width: 1rem !important;
+    height: 1rem !important;
+}
+
+.image-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: transform .2s;
+}
+
+.feature-image{
+    max-width: 100%;
+    max-height: 100%;
+    cursor: pointer;
+}
+
+.selected-image{
+    transform: scale(1.05);
+    border: 1px solid #26AAE2;
+}
+
+.icon:hover, .image-container:hover:not(.big-image){
+    transform: scale(1.05);
+}
+
+.custom-carousel-control{
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+::ng-deep .carousel-control {
+    display: none;
+}
+
+@media (min-width: 567px)
+{   
+    .scrollable.layer-list{
+        max-height: 85% !important;
+    }
+
+    .map-section{
+        width: 42.5% !important;
+    }
+}
+
+@media (min-width: 768px)
+{   
+    .map-section{
+        width: 40% !important;
+    }
+}
+
+@media (min-width: 992px)
+{   
+    .map-section{
+        width: 37.5% !important;
+    }
+}
+
+@media (min-width: 1200px)
+{   
+    .map-section{
+        width: 35% !important;
+    }
+}
+
+@media (min-width: 1400px)
+{   
+    .map-section{
+        width: 32.5% !important;
+    }
+}

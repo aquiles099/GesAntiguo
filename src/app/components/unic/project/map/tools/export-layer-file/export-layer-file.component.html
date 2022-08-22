@@ -1,0 +1,99 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <h1 class="title mx-2">Exportar</h1>
+    
+    <form #form="ngForm" id="layerFileExportForm" (submit)="onSubmit()" class="row justify-content-center mx-2 my-1">
+
+        <div class="col-12 p-0 mb-3">
+        
+            <label class="mb-2" for="">Modulo:</label>
+
+            <ng-select
+                class="custom" 
+                required
+                placeholder="Seleccione modulo"
+                [clearable]="false"
+                [items]="modules"
+                [(ngModel)]="formData.moduleName"
+                name="module_name"
+                (change)="onChangeModuleSelector()"
+                >
+            </ng-select>
+    
+        </div>
+       
+        <div class="col-12 p-0 mb-3">
+        
+            <label class="mb-2" for="">Capa:</label>
+
+            <ng-select
+                class="custom" 
+                required
+                placeholder="Seleccione una capa"
+                [clearable]="false"
+                [items]="fileLayers"
+                bindLabel="layerName"
+                bindValue="layerName"
+                [(ngModel)]="formData.layerName"
+                name="file_layer"
+                (change)="onChangeFileLayerSelect($event)"
+                >
+            </ng-select>
+    
+        </div>
+     
+        <div class="col-12 p-0 mb-3">
+        
+            <label class="mb-2" for="">Formato:</label>
+
+            <ng-select
+                class="custom" 
+                placeholder="Seleccione una opción"
+                required
+                [clearable]="false"
+                [items]="formats"
+                [(ngModel)]="formData.format"
+                (change)="onChangeFormatSelector($event)"
+                name="format"
+                >
+            </ng-select>
+    
+        </div>
+      
+        <div class="col-12 p-0 mb-3">
+        
+            <label class="mb-2" for="">Proyección:</label>
+
+            <ng-select
+                class="custom" 
+                placeholder="Seleccione una opción"
+                required
+                [clearable]="false"
+                [items]="availableProjections"
+                [(ngModel)]="formData.projection"
+                [disabled]="formData.format === 'kml'"
+                name="projection"
+                >
+            </ng-select>
+    
+        </div>
+      
+        <div class="col-12 p-0 mb-4">
+        
+            <button form="layerFileExportForm" [disabled]="form.invalid" type="submit" class="btn btn-block btn-info">
+                Exportar
+            </button>
+
+        </div>
+       
+    </form>
+
+    <div class="bottom-section row">
+        <div class="col-12 my-2">
+            <button (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+                Cancelar
+            </button>
+        </div>
+    </div>
+
+</div>

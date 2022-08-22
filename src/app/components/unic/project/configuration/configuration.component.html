@@ -1,0 +1,44 @@
+<map-header
+[exportOptionsEnabled]="false"
+></map-header>
+    
+<configuration-bar
+    [map]="map"
+    [formatedModules]="modules"
+    [projections]="availableProjections"
+></configuration-bar>
+
+<div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="map-container"
+    leaflet
+    [leafletLayer]="baseLayer"
+    [leafletLayers]="layers"
+    [leafletOptions]="options" 
+    [leafletFitBounds]="projectBBox"
+    (leafletMapReady)="onMapReady($event)"
+    (leafletMouseMove)="onLeafletMouseMove($event)" 
+    >
+
+     <!-- CONTROL DE ESCALA Y VISOR DE COORDENADAS DE CURSOR -->
+    <div class="map-scale-control">
+    
+        <label class="mx-2">{{cursorCoordinates}}</label>
+    
+        <label class="mx-2">{{ crs }}</label>
+    
+        <label class="mx-2">{{ currentScale }}</label>
+    
+        <!-- CONTROL DE ESCALA  -->
+        <select class="mx-2" (change)="onChangeScaleSelect($event)">
+            <option *ngFor="let scale of availableScales" [value]="scale.value" [selected]="! scale.value"
+                [disabled]="! scale.value">
+                {{scale.key}}
+            </option>
+        </select>
+    
+    </div>
+
+</div> 

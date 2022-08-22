@@ -1,0 +1,224 @@
+<div *ngIf="isVisible" [@fadeInOnEnter] [@fadeOutOnLeave]  class="_modal-backdrop">
+
+    <div *ngIf="layer" class="_modal">
+
+        <div class="top-section">
+    
+            <h4 class="title text-center w-100 m-0 px-0 py-lg-3">
+
+                DISEÑADOR DE PLANOS - {{ layer.nombre | uppercase }}
+
+                <div title="Ayuda" class="ml-4 pointer d-inline" (click)="showTour()">
+                    <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+                </div>
+
+                <button type="button" class="close pull-right p-0" aria-label="Close" (click)="hide()">
+                    <img src="assets/icons/SVG/CERRARVENTANA.svg" class="icon" alt="cerrar">
+                </button>
+
+            </h4>
+
+            <div class="row mx-0 mt-3 align-items-center">
+
+                <div class="col-2 p-0">
+                    <label for="template-name">Nombre de plantilla:</label>
+                </div>
+        
+                <div class="col-3 p-0">
+                    <input [disabled]="tourIsActive" [(ngModel)]="template.title" type="text" id="template-name" class="form-control form-control-sm">                        
+                </div>
+        
+                <div class="p-0 col-12 my-2">
+                    <hr class="w-100 separator">
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="plane-preview-section bg-white">
+
+            <div class="plane-preview-section-title">
+                <h4> Vista previa - A3 </h4>
+            </div>
+
+            <div class="plane-example">
+
+                <div class="map-image">
+                    <img src="assets/images/planimetry/map-image-example.png" alt="imagen-plano-mapa-ejemplo" class="w-100 h-100">
+                </div>
+                
+                <div *ngIf="scaleEnabled || tourIsActive" class="animate__animated animate__fadeIn animate__faster scale bg-white">
+                    Escala
+                </div>
+
+                <div *ngIf="miniatureMapEnabled || tourIsActive" class="animate__animated animate__fadeIn animate__faster miniature-map-image">
+                    Mapa miniatura
+                </div>
+
+                <div *ngIf="legendEnabled || tourIsActive" class="animate__animated animate__fadeIn animate__faster legend">
+                    Leyenda
+                </div>
+
+                <div class="box">
+                    Cajetin
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="plane-settings-section">
+        
+            <div class="row m-0">
+
+                <div class="col-12 p-0 mb-4">
+                    <h4 class="title m-0">Elementos del plano</h4>
+                </div>
+
+                <div class="col-12 p-0 mb-3">
+
+                    <div class="row m-0">
+                        <div class="col-1 p-0">
+
+                            <label class="checkbox" for="miniatureMapEnabled">
+                        
+                                <input type="checkbox" 
+                                 (change)="toggleTemplateSectionVisibility('miniature_map')" 
+                                 [checked]="miniatureMapEnabled" 
+                                 [disabled]="tourIsActive"
+                                 name="miniatureMapEnabled" 
+                                 id="miniatureMapEnabled">
+         
+                                 <i class="fas fa-check" *ngIf="miniatureMapEnabled" ></i>
+         
+                             </label>
+                            
+                        </div>
+                        <div class="col-11 p-0">
+
+                            <label for="miniatureMapEnabled" class="ml-3 text-truncate d-inline">
+                                Mapa miniatura
+                            </label>        
+                        
+                        </div>
+                    </div>
+                   
+                </div>
+
+                <div class="col-12 p-0 mb-3">
+
+                    <div class="row m-0">
+                        <div class="col-1 p-0">
+
+                            <label class="checkbox" for="scaleEnabled">
+                        
+                                <input type="checkbox" 
+                                 (change)="toggleTemplateSectionVisibility('graphic_scale')" 
+                                 [checked]="scaleEnabled" 
+                                 [disabled]="tourIsActive"
+                                 name="scaleEnabled" 
+                                 id="scaleEnabled">
+         
+                                 <i class="fas fa-check" *ngIf="scaleEnabled" ></i>
+         
+                             </label>
+                            
+                        </div>
+                        <div class="col-11 p-0">
+
+                            <label for="scaleEnabled" class="ml-3 text-truncate d-inline">
+                                Escala
+                            </label>        
+                        
+                        </div>
+                    </div>
+                   
+                </div>
+
+                <div class="col-12 p-0 mb-3">
+
+                    <div class="row m-0">
+                        <div class="col-1 p-0">
+
+                            <label class="checkbox" for="legendEnabled">
+                        
+                                <input type="checkbox" 
+                                 (change)="toggleTemplateSectionVisibility('legend')" 
+                                 [checked]="legendEnabled" 
+                                 [disabled]="tourIsActive"
+                                 name="legendEnabled" 
+                                 id="legendEnabled">
+         
+                                 <i class="fas fa-check p-0" *ngIf="legendEnabled" ></i>
+         
+                             </label>
+                            
+                        </div>
+                        <div class="col-11 p-0">
+
+                            <label for="legendEnabled" class="ml-3 text-truncate d-inline">
+                                Leyenda 
+                            </label>        
+                        
+                        </div>
+                    </div>
+                   
+                </div>
+
+                <div class="col-12 p-0 my-2">
+                </div>
+                
+                <div class="col-12 p-0 mb-2">
+                    <h4 class="title m-0">Cajetín</h4>
+                </div>
+               
+                <div id="plane-box-listing-modal-btn" class="col-5 p-0 mb-2">
+                    <button type="button" 
+                        [disabled]="tourIsActive"
+                        (click)="showBoxConfigurationModalEvent()" 
+                        class="btn btn-block plane-box-listing-modal-btn">
+                        Seleccionar
+                    </button>
+                </div>
+                             
+            </div>
+
+            <div class="plane-box-preview bg-white">
+
+                <span *ngIf="!selectedBox; else planeBox" class="animate__animated animate_fadeIn animate__faster">
+                    Cajetín seleccionado
+                </span>
+
+                <ng-template #planeBox>
+                    <cajetin-de-plano
+                        class="w-100 scrollable"
+                        [data]="selectedBox"
+                    ></cajetin-de-plano>
+                </ng-template>
+            </div>
+
+        </div>
+
+        <div class="bottom-section">
+
+            <div class="row align-items-center">
+                
+                <div id="save-template-btn" class="offset-6 col-3">
+                    <button [disabled]="! templateIsValid || savingTemplate || tourIsActive" (click)="saveTemplateConfiguration()" type="button" class="btn btn-block btn-info">
+                        {{ inEdition ? "Actualizar" : "Guardar"}}
+                    </button>
+                </div>
+
+                <div id="cancel-btn" class="col-3">
+                    <button [disabled]="tourIsActive" type="button" (click)="hide()" class="btn btn-block btn-outline-info">
+                        Cancelar
+                    </button>
+                </div>
+        
+            </div>
+
+        </div>
+    
+    </div>
+</div>

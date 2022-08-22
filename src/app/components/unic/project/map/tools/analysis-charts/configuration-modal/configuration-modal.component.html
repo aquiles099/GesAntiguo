@@ -1,0 +1,391 @@
+<div class="modal fade" bsModal #modal="bs-modal" [config]="{backdrop: 'static'}" (onShow)="form.disable()" tabindex="-1" role="dialog">
+
+    <div #modalDialog class="modal-dialog modal-dialog-centered modal-xl">
+
+        <div class="modal-content">
+
+            <div class="modal-header text-center">
+
+                <h4 class="modal-title w-100 mb-0 pb-2 pr-4 py-lg-3">
+                    ANÁLISIS
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                        <img src="assets/icons/SVG/CERRARVENTANA.svg" class="icon" alt="cerrar">
+                    </button>
+                </h4>
+
+            </div>
+
+            <div class="modal-body">
+
+                <form class="w-100" [formGroup]="form" (submit)="runAnalysis()">
+                    
+                    <div class="row justify-content-center justify-content-lg-start">
+    
+                        <!-- TIPOS DE CONFIGURACION (NUEVA O EXISTENTES) -->
+                        <div class="col-12 py-1 col-lg-2 py-lg-0 px-lg-1">
+                            <label >Configuración: </label>
+                        </div>
+                        <div class="mb-3 col-4 col-lg-2 px-1 ">
+    
+                            <label for="checkbox_new_configuration"
+                                [class.checked]="configurationType === 'new'" 
+                                class="checkbox-round ml-4">
+                                <i *ngIf="configurationType === 'new'" class="fa fa-check"></i>
+                            </label>
+    
+                            <label for="checkbox_new_configuration" class="ml-2 checkbox-label">Nueva</label>
+    
+                            <input type="checkbox" class="hide" (change)="onChangeConfigurationType('new')" id="checkbox_new_configuration">
+                            
+                        </div>
+                        <div class="mb-3 col-8 col-lg-3 px-1 ">
+    
+                            <label for="checkbox_existing_configuration"
+                                [class.checked]="configurationType === 'existing'" 
+                                class="checkbox-round">
+                                <i *ngIf="configurationType === 'existing'" class="fa fa-check"></i>
+                            </label>
+    
+                            <label for="checkbox_existing_configuration" class="ml-2 checkbox-label">Mis configuraciones</label>
+        
+                            <input type="checkbox" class="hide" (change)="onChangeConfigurationType('existing')" id="checkbox_existing_configuration">
+    
+                        </div>
+
+                        <!-- CONFIGURACIONES EXISTENTES -->
+
+                        <div class="col-10 px-2 col-lg-5">
+
+                            <ng-select
+                                *ngIf="configurationType === 'existing'"
+                                class="custom" 
+                                [clearable]="false"
+                                [items]="analysisConfigurations"
+                                bindLabel="name"
+                                bindValue="name"
+                                [(ngModel)]="selectedAnalysisConfigurationName"
+                                [ngModelOptions]="{standalone: true}"
+                                (change)="onSelectExistingConfiguration($event)"
+                                >
+                            </ng-select>
+
+                        </div>
+
+                        <!-- DATOS REQUERIDOS PARA CONFIGURACION -->
+                        <div class="col-12 p-0 mt-4">
+
+                            <div class="row m-0">
+
+                                <div #dataListColumn class="col-12 pl-lg-0 col-lg-7">
+
+                                    <div class="row m-0">
+                            
+                                        <div class="col-4 mb-2 px-2">
+                                            <label for="">Modulo:</label>
+                                        </div>
+            
+                                        <div class="col-8 mb-2 px-2">
+            
+                                            <ng-select
+                                                class="custom" 
+                                                [clearable]="false"
+                                                [items]="modules"
+                                                formControlName="moduleName"
+                                                required
+                                                (change)="onChangeModuleSelector()"
+                                                >
+                                            </ng-select>
+            
+                                        </div>
+                                        
+                                        <div class="col-4 mb-2 px-2">
+                                            <label for="layer">Capa:</label>
+                                        </div>
+            
+                                        <div class="col-8 mb-2 px-2">
+            
+                                            <ng-select
+                                                class="custom" 
+                                                [clearable]="false"
+                                                [items]="layerFiles"
+                                                formControlName="layerName"
+                                                bindLabel="layer_name"
+                                                bindValue="layer_name"
+                                                required
+                                                (change)="onChangeLayerSelect($event)"
+                                                >
+                                            </ng-select>
+            
+                                        </div>
+
+                                        <div class="col-4 mb-2 px-2">
+                                            <label for="type">Tipo de gráfico:</label>
+                                        </div>
+        
+                                        <div class="col-8 mb-2 px-2">
+        
+                                            <ng-select
+                                                class="custom" 
+                                                formControlName="chartType"
+                                                required
+                                                [clearable]="false"
+                                                [items]="chartOptions"
+                                                bindLabel="name"
+                                                name="type"
+                                                required
+                                                (change)="onChangeChartTypeSelect($event)"
+                                                >
+                                            </ng-select>
+
+                                        </div>
+
+                                        <div class="col-4 mb-2 px-2">
+                                            <label for="layerAttribute">Atributo:</label>
+                                        </div>
+        
+                                        <div class="col-8 mb-2 px-2">
+        
+                                            <ng-select
+                                                class="custom" 
+                                                formControlName="info"
+                                                required
+                                                [clearable]="false"
+                                                [items]="layerFeatureProperties"
+                                                name="info"
+                                                >
+                                            </ng-select>
+        
+                                        </div>
+
+                                        <div class="col-4 px-2">
+                                            <label for="analysisMode">Análisis:</label>
+                                        </div>
+        
+                                        <div class="col-8 px-2">
+        
+                                            <ng-select
+                                                class="custom" 
+                                                formControlName="analysisMode"
+                                                required
+                                                [clearable]="false"
+                                                [items]="analysisModeOptions"
+                                                name="analysisMode"
+                                                >
+                                            </ng-select>
+        
+                                        </div>
+            
+                                    </div>
+        
+                                </div>
+
+                                <div class="col-12 p-2 col-lg-5 pr-lg-0 py-lg-0 text-center">
+
+                                    <!-- IMAGEN REFERENCIAL DE GRAFICO -->
+                                    <div [ngStyle]="{'height': dataListColumn.offsetHeight + 'px'}" class="chart-image-container">
+                                        <p *ngIf="! chartImageSrc">
+                                            <i class="fas fa-info"></i> <br>
+                                            Seleccione posición de gráfica para configurar.
+                                        </p>
+                                        <img *ngIf="chartImageSrc" [src]="chartImageSrc" alt="Grafica" class="w-100 h-100 animate__animated animate__fadeIn animate__faster">
+                                    </div>   
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                                              
+                        <!-- REFERENCIA PARA CONFIGURACION DE POSICIONES DE GRAFICOS -->
+                        <div class="col-12 mt-4 col-lg-7 p-lg-0">
+                            
+                            <label class="d-block d-lg-none mb-2" >Posición:</label>
+                            
+                            <div class="row m-0">
+                                
+                                <div class="col-4 d-none d-lg-block px-2 py-0 ">
+                                    <label>Posición:</label>
+                                </div>
+
+                                <div class="col-10 p-2 text-center col-lg-6 p-lg-0">
+                                    <div class="charts-configuration-container">
+                                        <div class="vertical-charts-container">
+                                            <div (click)="onSelectChartPositionRef(1)" [ngClass]="{
+                                                'selected': chartPositionRefSelected === 1,
+                                                'configured':  chartPositionIsConfigured(1)
+                                            }" class="chart-position-ref">1</div>
+                                            <div (click)="onSelectChartPositionRef(2)" [ngClass]="{
+                                                'selected': chartPositionRefSelected === 2,
+                                                'configured':  chartPositionIsConfigured(2)
+                                            }" class="chart-position-ref">2</div>
+                                            <div (click)="onSelectChartPositionRef(3)" [ngClass]="{
+                                                'selected': chartPositionRefSelected === 3,
+                                                'configured':  chartPositionIsConfigured(3)
+                                            }" class="chart-position-ref">3</div>
+                                        </div>
+                                        <div class="horizontal-charts-container">
+                                            <div (click)="onSelectChartPositionRef(4)" [ngClass]="{
+                                                'selected': chartPositionRefSelected === 4,
+                                                'configured':  chartPositionIsConfigured(4)
+                                            }" class="chart-position-ref">4</div>
+                                            <div (click)="onSelectChartPositionRef(5)" [ngClass]="{
+                                                'selected': chartPositionRefSelected === 5,
+                                                'configured':  chartPositionIsConfigured(5)
+                                            }" class="chart-position-ref">5</div>
+                                            <div (click)="onSelectChartPositionRef(6)" [ngClass]="{
+                                                'selected': chartPositionRefSelected === 6,
+                                                'configured':  chartPositionIsConfigured(6)
+                                            }" class="chart-position-ref">6</div>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <div class="col-2 p-2 pl-lg-2 pr-lg-0 py-lg-0 charts-configuration-container-buttons">
+                                    <button (click)="addChartConfiguration()" 
+                                            [disabled]="! chartPositionRefSelected || form.invalid" 
+                                            [ngClass]="{
+                                                'btn-secondary': ! chartPositionRefSelected || form.invalid,
+                                                'btn-info': chartPositionRefSelected && form.valid
+                                            }"
+                                            type="button" 
+                                            class="d-block btn mb-3">
+                                            <img src="assets/icons/SVG/GUARDAR_white.svg" class="icon" alt="guardar">
+                                    </button>
+                                    <button (click)="removeChartConfiguration()" 
+                                            [disabled]="! chartPositionRefSelected || ! chartPositionIsConfigured(chartPositionRefSelected)" 
+                                            [ngClass]="{
+                                                'btn-secondary': ! chartPositionRefSelected || ! chartPositionIsConfigured(chartPositionRefSelected),
+                                                'btn-danger': chartPositionRefSelected && chartPositionIsConfigured(chartPositionRefSelected)
+                                            }"
+                                            type="button" 
+                                            class="d-block btn">
+                                        <img src="assets/icons/SVG/PAPELERA_BLANCO.svg" class="icon" alt="papelera">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  -->
+                        <div *ngIf="selectedAnalysisConfigurationName" class="col-12 d-flex align-items-end col-lg-4 offset-lg-2 animate__animated animate__fadeIn animate__faster">
+                            <a (click)="removeAnalysisConfiguration($event)" href="#" class="mb-3 p-2">Eliminar configuración</a>
+                        </div>
+
+                        <!-- FOOTER -->
+                        <div class="col-12 mt-4 col-lg-6 p-md-0" [class.offset-lg-6]="! selectedAnalysisConfigurationName">
+                            <div class="row w-100 m-0 justify-content-between">
+                                <div class="col-6 p-2 my-2">
+                                    <button *ngIf="configurationType === 'new'; else saveConfigurationChanges" type="button" 
+                                        (click)="saveConfigurationModal.show()"
+                                        [disabled]="! isThereAnyChartPositionConfigured()"
+                                        [ngClass]="{
+                                            '_btn-outline-secondary': ! isThereAnyChartPositionConfigured(),
+                                            'btn-outline-info': isThereAnyChartPositionConfigured()
+                                        }"
+                                        class="btn btn-block animate__animated animate__faster animate__fadeIn">
+                                        Guardar configuración
+                                    </button>
+                                    <ng-template #saveConfigurationChanges>
+                                        <button type="button" 
+                                            (click)="saveConfigurationModal.show()"
+                                            [disabled]="! isThereAnyChartPositionConfigured()"
+                                            [ngClass]="{
+                                                '_btn-outline-secondary': ! isThereAnyChartPositionConfigured(),
+                                                'btn-outline-info': isThereAnyChartPositionConfigured()
+                                            }"
+                                            class="btn btn-block animate__animated animate__faster animate__fadeIn">
+                                            Guardar cambios
+                                        </button>
+                                    </ng-template>
+                                </div>
+                                <div class="col-6 p-2 my-2">
+                                    <button type="submit" 
+                                        [disabled]="! isThereAnyChartPositionConfigured()"
+                                        [ngClass]="{
+                                            'btn-secondary': ! isThereAnyChartPositionConfigured(),
+                                            'btn-info': isThereAnyChartPositionConfigured()
+                                        }"
+                                        class="btn btn-block">
+                                        Añadir al mapa
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+    
+                    </div>
+
+                </form>
+                
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- BACKDROP DE MODAL DE GUARDAR NUEVA CONFIGURACION -->
+    <div *ngIf="saveConfigurationModalIsOpen" [ngStyle]="{'height': (modalDialog.offsetHeight + 50 ) + 'px'}" class="child-modal-backdrop animate__animated animate__fadeIn animate__faster">
+    
+    </div>
+    
+</div>
+
+<!-- MODAL PARA GUARDADO DE NUEVA CONFIGURACION -->
+<div class="modal fade" bsModal #saveConfigurationModal="bs-modal" 
+    (onShow)="saveConfigurationModalIsOpen = true" 
+    (onHidden)="saveConfigurationModalIsOpen = false" 
+    tabindex="-1" role="dialog">
+
+    <div class="small-modal modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+                <div class="row text-center justify-content-center">
+
+                    <div class="col-10 my-2 sm-modal-title">
+                        <h4>Nombre de la configuración:</h4>
+                    </div>
+
+                    <div class="col-10">
+                        <input type="text" [(ngModel)]="analysisConfiguration.name" name="configuration_name" class="form-control form-control-sm">
+                    </div>
+
+                    <div class="col-10 mt-3">
+                        <div class="row w-100 m-0">
+                            <div class="col-6 p-2 my-2">
+                                <button type="button" 
+                                (click)="saveConfigurationModal.hide()"
+                                class="btn btn-block _btn-outline-secondary enabled">
+                                    Cancelar
+                                </button>
+                            </div>
+                            <div class="col-6 p-2 my-2">
+                                
+                                <button *ngIf="configurationType === 'new'; else updateAnalysisConfigurationBtn" type="button" 
+                                (click)="saveAnalysisConfiguration()"
+                                [disabled]="! analysisConfiguration.name"
+                                class="btn btn-block btn-info">
+                                    Guardar
+                                </button>
+
+                                <ng-template #updateAnalysisConfigurationBtn>
+                                    <button type="button" 
+                                    (click)="updateAnalysisConfiguration()"
+                                    [disabled]="! analysisConfiguration.name"
+                                    class="btn btn-block btn-info">
+                                        Actualizar
+                                    </button>
+                                </ng-template>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

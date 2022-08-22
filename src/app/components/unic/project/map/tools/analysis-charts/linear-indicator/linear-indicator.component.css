@@ -1,0 +1,32 @@
+*{
+    font-family: "Raleway" !important;
+}
+
+.revert-config-btn{
+    font-size: .7em;
+}
+
+.chart-title{
+    font-weight: 800;
+    color: royalblue;
+    line-height: 1em !important;
+}
+
+@media (max-width: 576px)
+{
+    .chart-title,
+    .chart-content{
+        font-size: 1.1em;
+        line-height: 1.1em;
+    }
+}
+
+@media (min-width: 576px) 
+{
+    .chart-title,
+    .chart-content{
+        font-size: 1.2em;
+        line-height: 1.2em;
+    }
+}
+

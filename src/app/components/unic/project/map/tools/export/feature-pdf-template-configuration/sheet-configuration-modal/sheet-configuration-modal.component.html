@@ -1,0 +1,170 @@
+<div *ngIf="isVisible" [@fadeInOnEnter] [@fadeOutOnLeave]  class="_modal-backdrop">
+
+    <div *ngIf="file" class="_modal">
+
+        <div class="header-section">
+    
+            <h4 class="_modal-title text-center w-100 m-0 px-0 py-lg-3">
+
+                DISEÑADOR DE FICHAS - {{ file.layer_name | uppercase }}
+
+                <button type="button" class="close pull-right p-0" aria-label="Close" (click)="hide()">
+                    <img src="assets/icons/SVG/CERRARVENTANA.svg" class="icon" alt="cerrar">
+                </button>
+
+            </h4>
+
+        </div>
+
+        <div class="form-section">
+
+            <div class="row align-items-center">
+
+                <div class="col-2 p-0">
+                    <label for="sheet-template-name">Nombre de plantilla:</label>
+                </div>
+        
+                <div class="col-3 p-0">
+                    <input [(ngModel)]="pdfTemplate.title" type="text" id="sheet-template-name" class="form-control form-control-sm">                        
+                </div>
+        
+                <div class="p-0 col-12 my-2">
+                    <hr class="w-100 separator">
+                </div>
+        
+        
+                <div class="col-12 mb-2 text-center">
+                    <label for="">
+                        Añadir grupos de propiedades:
+                    </label>
+                </div>
+
+                <form class="col-12 p-0" #propertyGroupCreationForm="ngForm" (submit)="addPropertyGroup()">
+
+                    <div class="row m-0">
+
+                        <div class="col-4">
+                            <input type="text" class="form-control form-control-sm" required [(ngModel)]="newPropertyGroup.title" name="property-group-title" placeholder="Agrega un título al grupo">
+                        </div>
+        
+                        <div class="col-4">
+                            <input type="number" class="form-control form-control-sm" required [(ngModel)]="newPropertyGroup.columns" min="1" max="3" maxlength="3" name="properties_group_rows" placeholder="Nº de columnas (máx 3)">
+                        </div>
+        
+                        <div class="col-4">
+                            <button type="submit" [disabled]="propertyGroupCreationForm.invalid"  class="btn btn-block btn-warning h-100">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+
+                    </div>
+
+                </form>
+        
+            </div>
+
+        </div>
+
+        <div class="sortable-items-section">
+
+            <div class="feature-properties-container p-3 bg-white">
+                
+                <div class="w-100 mb-2">
+                
+                    <input type="text" class="form-control form-control-sm d-inline search-field" placeholder="Buscar propiedad..." [(ngModel)]="search">
+
+                    <img src="assets/icons/SVG/LUPA.svg" class="icon search-icon" alt="lupa">
+                
+                </div>
+
+                <div class="w-100 pl-2 py-2 pr-3 scrollable" 
+                    [sortablejs]="enabledFeatureProperties"
+                    [sortablejsOptions]="featurePropertiesSortableOptions"
+                >
+                    <div [class.d-none]="! property.includes(search)" 
+                        class="px-2 py-2 property-value bottom-bordered sortable" *ngFor="let property of enabledFeatureProperties">
+                        {{ property }}
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="sheet-template-content bg-white">
+
+                <div class="row p-3 m-0 sheet-template-content-groups" [sortablejs]="pdfTemplate.property_groups">
+
+                    <div #propertyGroupHtmlRef class="col-12 text-center my-2 property-groups-container sortable animate__animated animate__fadeIn animate__faster" 
+                        *ngFor="let propertyGroup of pdfTemplate.property_groups; let propertyGroupPosition = index">
+                        
+                        <h3 class="property-group-title my-1">
+                            {{ propertyGroup.title ? propertyGroup.title : propertyGroup === 'map' ? "Mapa" : "Imagenes" }}
+                            
+                            <button *ngIf="propertyGroup.title ||  propertyGroup === 'images'" title="Remover" type="button" class="close pull-right p-0" (click)="removePropertyGroup(propertyGroupPosition, propertyGroupHtmlRef)">
+                                <img src="assets/icons/SVG/PAPEPERA.svg" class="icon" alt="papelera">
+                            </button>
+                        </h3>
+
+                        <div class="row">
+                            <div class="col-12 px-1 mt-1 mb-2" 
+                                [ngClass]="{
+                                    'col-sm-6': propertyGroup.columns.length === 2,
+                                    'col-sm-4': propertyGroup.columns.length === 3
+                                }"
+                                *ngFor="let column of propertyGroup.columns"
+                            >
+
+                                <ul class="w-100 list-group property-list"
+                                    [sortablejs]="column"
+                                    [sortablejsOptions]="propertyGroupColumnsSortableOptions"
+                                    >
+
+                                    <li class="list-group-item p-1 animate__animated animate__fadeIn animate__faster sortable text-truncate"
+                                        *ngFor="let property of column; let propertyPosition = index"
+                                        >
+                                        
+                                        {{property}}
+                                        
+                                        <img title="Remover" 
+                                        (click)="removeProperty(propertyPosition, column)" 
+                                        src="assets/icons/SVG/CERRARVENTANA.svg" 
+                                        class="icon remove-property float-right mt-1 mr-2">
+
+                                    </li>
+
+                                    
+                                </ul>
+                                <div class="list-group-item empty p-1">
+                                    Arrastre una propiedad
+                                </div>
+
+                            </div>
+                        </div>
+                       
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="bottom-section">
+
+            <div class="row align-items-center">
+                <div class="offset-6 col-3">
+                    <button type="button" (click)="hide()" class="btn btn-block btn-outline-info">
+                        Cancelar
+                    </button>
+                </div>
+        
+                <div class="col-3">
+                    <button [disabled]="! pdfTemplateIsValid || savingTemplate" (click)="saveTemplateConfiguration()" type="button" class="btn btn-block btn-info">
+                        {{ inEdition ? "Actualizar" : "Guardar"}}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    
+    </div>
+</div>

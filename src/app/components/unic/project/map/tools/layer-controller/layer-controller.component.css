@@ -1,0 +1,128 @@
+._container{
+    top: 13.69%;
+    right: 1.5%;
+    width: 95%;
+    border-radius: 8px;
+    background-color: #F8F8F8;
+    max-height: 80vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.scrollable{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 40vh;
+}
+
+.title{
+    font-size: .7rem !important;
+    font-weight: bolder;
+    color: #BDBDBD;
+}
+
+.label{
+    font-size: .7rem !important;
+    color: #4F4F4F;
+}
+
+.layer{
+    font-size: .7rem !important;
+    font-weight: bolder;
+    color: #BDBDBD;
+}
+
+.layer-list-container{
+    background-color: #FFF;
+}
+
+.bordered-bottom{
+    border-bottom: 2px solid #F8F8F8;
+}
+
+.icon{
+    margin: 0 .5rem 0 .5rem;
+    display: inline-block;
+    width: 1rem;
+    height: .8rem;
+    cursor: pointer;
+}
+
+.base-layer-container{
+    width: 25%;
+    height: auto;
+    display: inline-block;
+    text-align: center;
+}
+
+._rounded-bottom{
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.base-layer-image{
+    width: 90%;
+    height: auto;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.base-layer-image:hover{
+    transform: scale(1.1);
+}
+
+.selected{
+    border: 1.5px solid #39F;
+}
+
+.selected-label{
+    font-weight: bolder;
+}
+
+small{
+    font-size: .7rem;
+    line-height: .9rem;
+    color: #828282;
+}
+
+@media (min-width: 567px) and (max-width: 768px)
+{
+    ._container{
+        width: 35%;
+    }
+    
+    .scrollable{
+        max-height: 40vh;
+    }
+
+    .label{
+        font-size: .8rem !important;
+    }
+    
+    .icon{
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+    
+    small{
+        font-size: .6rem;
+    }
+
+}
+
+@media (min-width: 768px) and (max-width: 992px)
+{
+    ._container{
+        width: 30%;
+    }
+}
+
+@media (min-width: 992px)
+{
+    ._container{
+        width: 22.5%;
+    }
+}
+
+

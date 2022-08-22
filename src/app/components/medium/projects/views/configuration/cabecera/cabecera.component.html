@@ -1,0 +1,80 @@
+<header class="header">
+
+    <div class="section logo">
+
+        <img src="assets/images/logo-black.svg" class="pointer" [routerLink]="['/medium','home', 'proyectos', project.id_proyecto, 'acciones']" alt="fisotec-logo">
+
+        <span class="ml-2 d-none d-sm-block plugin-tag float-right">
+            {{ user.pluginName }}
+        </span>
+
+    </div>
+
+    <div *ngIf="project" class="section project-modules d-none d-sm-flex">
+        
+        <img *ngFor="let module of project.modulos | slice:0:2" 
+        class="module-icon icon mx-1"
+        [attr.title]="module.modulo"
+        [src]="module.icono_modulo"
+        >
+        &nbsp;
+        <span *ngIf="(project.modulos.length - 2) > 0">
+            + {{ project.modulos.length - 2 }}
+        </span>
+        
+    </div>
+    
+    <div *ngIf="project" class="section projects mx-2">
+
+        <div id="project-selector" class="row m-0 align-items-center">
+            <div class="col-3 px-1">
+                <img 
+                class="icon"
+                [attr.title]="project.nombre"
+                [src]="project.icono"
+                >
+            </div>
+            <div class="col-9 px-1">
+                <mat-form-field floatLabel="never" appearance="none">
+                    <mat-select [disabled]="tourIsActive" name="proyecto" [(value)]="project.id_proyecto" (selectionChange)="changeProject($event.value)">
+                        <mat-option *ngFor="let project of projects" [value]="project.id_proyecto">
+                            {{project.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="user-options">
+
+        <div (click)="showLogoutWindow()"
+            (mouseenter)="showLogoutWindow()"
+            (mouseleave)="hideLogoutWindowAutomatically()"
+            class="circle">
+            <span>{{ user.fullNameInitials }}</span>
+        </div>
+
+    </div>
+
+    <div *ngIf="logoutWindowIsVisible" [@fadeInOnEnter] [@fadeOutOnLeave] 
+        (mouseenter)="overTheLogoutWindow()" (mouseleave)="hideLogoutWindow()" class="logout-window">
+        <div class="row m-0">
+            <div class="col-12 px-3 py-2">
+                <h6 class="mb-1">{{ user.fullName }}</h6>
+                <h4 [attr.title]="user.email ? user.email : 'No disponible'" class="mb-1 text-truncate"> {{ user.email ? user.email : "No disponible" }} </h4>
+            </div>
+            <div [routerLink]="['/medium','home', 'proyectos', project.id_proyecto, 'acciones']" 
+                class="col-12 px-3 py-2 top-bordered logout-window-option">
+                <img class="mr-2 d-inline icon" src="assets/icons/SALIR3.svg" alt="icono-salir">
+                <span class="ml-2">Salir del mapa</span>
+            </div>
+            <div class="col-12 px-3 py-2 logout-window-option" (click)="logout()">
+                <img class="mr-2 d-inline icon" src="assets/icons/CERRARSESION.svg" alt="icono-cerrar-sesion">
+                <span class="ml-2">Cerrar sesión</span>
+            </div>
+        </div>
+    </div>
+
+</header>

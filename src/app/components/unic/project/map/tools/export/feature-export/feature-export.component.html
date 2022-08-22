@@ -1,0 +1,40 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <h1 class="title mx-2">
+        Impresión de fichas
+    </h1>
+
+    <div class="row mx-2 my-1">
+        <div class="col-12 p-0 property-key">
+            Seleccione un elemento en el mapa. <br><br>
+            <span *ngIf="selectedLayer" class="feature-id animate__animated animate__fadeIn animate__faster">
+                Elemento ID:{{ selectedLayer.feature.id }}
+            </span>
+        </div>
+    </div>
+    
+    <div class="row m-0 bottom-section">
+
+        <div class="col-5 p-0">
+            <button (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+                Cancelar
+            </button>
+        </div>
+
+        <div class="col-5 p-0">
+                <button 
+                (click)="export()"
+                type="button" 
+                class="btn btn-block"
+                [disabled]="! selectedLayer" 
+                [ngClass]="{
+                    'btn-secondary': ! selectedLayer,
+                    'btn-info': selectedLayer
+                }"
+                >
+                Imprimir
+            </button>
+        </div>
+    </div>
+
+</div>

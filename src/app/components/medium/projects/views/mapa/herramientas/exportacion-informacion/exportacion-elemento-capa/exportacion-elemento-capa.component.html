@@ -1,0 +1,219 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section">
+
+        <h1 class="title m-0">
+
+            Diseñador de {{ templateType === "sheet" ? "fichas" : "listados"}}
+            
+            <div title="Ayuda" class="float-right pointer d-inline" (click)="showTour()">
+                <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+            </div>
+
+        </h1>
+
+    </div>
+
+    <div class="selector-section" 
+        [class.sheet]="templateType === 'sheet'"  
+        [class.for-only-one-module]="thereIsOnlyOneModule">
+
+        <div class=" row justify-content-center section">
+
+            <div class="col-12 p-0 mb-2">
+
+                <layer-selectors-section
+                [form]="formData"
+                selectorsBottomMarginClass="mb-2"
+                [disableSelectors]="tourIsActive"
+                (onSelectModule)="onChangeModuleOrGroupSelector()"
+                (onSelectGroup)="onChangeModuleOrGroupSelector()"
+                (onSelectLayer)="onChangeLayerSelector($event)"
+                ></layer-selectors-section>
+
+            </div>
+
+            <div id="format-selector" *ngIf="templateType === 'listing'" [@fadeInOnEnter] [@fadeOutOnLeave]  class="col-12 p-0 mb-3 mb-xs-2">
+
+                <label class="mb-2" for="">Formato:</label>
+
+                <ng-select
+                    class="custom"
+                    placeholder="Seleccione formato"
+                    [clearable]="false"
+                    [disabled]="! formData.layer || tourIsActive"
+                    [loading]="inRequest"
+                    [items]="listExportFormatTypes"
+                    [(ngModel)]="formData.format"
+                    [ngModelOptions]="{standalone: true}"
+                    >
+                </ng-select>
+
+            </div>
+
+            
+            <div id="action-btn-section" class="col-12 p-0">
+                <div class="row m-0">
+                    
+                    <div *ngIf="selectedLayer && selectedLayer.nombre_formateado === 'centro_mando'" 
+                        class="col-6 pl-0 pr-1 my-1">
+                        <button
+                        type="button"
+                        class="btn btn-block btn-info py-2"
+                        [disabled]="inRequest || tourIsActive"
+                        (click)="showSheetsPerCommandCentersToolEvent()"
+                        >
+                            Fichas por centro de mando
+                        </button>
+                    </div>
+
+                    <div [ngClass]="{
+                        'col-12 p-0': ! selectedLayer || selectedLayer.nombre_formateado !== 'centro_mando',
+                        'col-6  pr-0 pl-1': selectedLayer && selectedLayer.nombre_formateado === 'centro_mando'
+                        }" class="my-1">
+                        <button
+                        type="button"
+                        class="btn btn-block btn-info py-2"
+                        [disabled]="! selectedLayer || inRequest || tourIsActive"
+                        (click)="showTemplateConfigurationModal()"
+                        >
+                            Crear nueva
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="d-block d-xs-none p-0 col-12">
+                <hr class="w-100 separator">
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="recent-template-list" 
+        *ngIf="selectedLayer || tourIsActive" 
+        class="recent-templates-section animate__animated animate__fadeIn animate__faster" 
+        [class.sheet]="templateType === 'sheet'"
+        [class.for-only-one-module]="thereIsOnlyOneModule">
+
+        <label class="mb-2" for="">Plantillas creadas recientemente:</label>
+
+        <div class="row m-0 scrollable">
+            <div  *ngFor="let template of recentTemplates"
+                    class="col-12 my-2 p-0 animate__animated animate__fadeIn animate__faster">
+
+                <div [class.fake-template]="! template.columns" class="row m-0">
+
+                    <div class="col-6 pl-0 pr-1 text-truncate template-title">
+                        {{ template.title }} <br>
+                        <small class="text-secondary">
+                            {{getTemplateAge(template)}}
+                        </small>
+                    </div>
+
+                    <div class="col-6 pl-1 pr-0 text-right">
+
+                        <button [disabled]="tourIsActive"
+                                [class.fake-template-export-btn]="! template.columns"
+                                (click)="onExport(template)"
+                                title="Seleccionar para exportación" class="btn-transparent p-0">
+                            <img src="assets/icons/SVG/IMPRIMIR.svg" class="icon mx-2"
+                                alt="imprimit">
+                        </button>
+
+                        <button [disabled]="tourIsActive"
+                                [class.fake-template-edit-btn]="! template.columns"
+                                (click)="editTemplate(template)"
+                                title="Editar" class="btn-transparent p-0">
+                            <img src="assets/icons/SVG/EDITAR.svg" class="icon mx-2"
+                                alt="editar">
+                        </button>
+
+                        <button [disabled]="tourIsActive"
+                                [class.fake-template-delete-btn]="! template.columns"
+                                (click)="deleteTemplate(template)"
+                                title="Eliminar" class="btn-transparent p-0">
+                            <img src="assets/icons/SVG/PAPEPERA_R.svg" class="icon mx-2"
+                                alt="papelera">
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div id="template-list" 
+        *ngIf="selectedLayer || tourIsActive" 
+        class="all-templates-section animate__animated animate__fadeIn animate__faster" 
+        [class.sheet]="templateType === 'sheet'"
+        [class.for-only-one-module]="thereIsOnlyOneModule">
+
+        <label class="mb-2" for="">Todas las plantillas:</label>
+
+        <div class="row m-0 scrollable">
+            <div class="col-12 my-2 p-0 animate__animated animate__fadeIn animate__faster" 
+                    *ngFor="let template of templates">
+
+                <div [class.first-template]="! template.columns" class="row m-0">
+
+                    <div class="col-6 pl-0 pr-1 text-truncate template-title">
+                        {{ template.title }}
+                    </div>
+
+                    <div class="col-6 pl-1 pr-0 text-right">
+
+                        <button [disabled]="tourIsActive" (click)="onExport(template)" title="Seleccionar para exportación" class="btn-transparent p-0">
+                            <img src="assets/icons/SVG/IMPRIMIR.svg" class="icon mx-2"
+                                alt="imprimit">
+                        </button>
+
+                        <button [disabled]="tourIsActive" (click)="editTemplate(template)" title="Editar" class="btn-transparent p-0">
+                            <img src="assets/icons/SVG/EDITAR.svg" class="icon mx-2"
+                                alt="editar">
+                        </button>
+
+                        <button [disabled]="tourIsActive" (click)="deleteTemplate(template)" title="Eliminar" class="btn-transparent p-0">
+                            <img src="assets/icons/SVG/PAPEPERA_R.svg" class="icon mx-2"
+                                alt="papelera">
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-section" >
+
+        <div class="col-12 p-0">
+            <button  type="button" (click)="toggleSectionVisibilityEvent()" class="btn btn-block btn-outline-info">
+                Cancelar
+            </button>
+        </div>
+
+    </div>
+
+    <div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+        <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+
+</div>
+
+<!-- MODAL DE CONFIGURACION DE FICHA -->
+<modal-configuracion-de-ficha
+    [layer]="selectedLayer"
+    [templates]="templates"
+    (templatesUpdated)="updateTemplates($event)"
+></modal-configuracion-de-ficha>
+
+<!-- MODAL DE CONFIGURACION DE LISTADO -->
+<modal-configuracion-de-listado
+    [layer]="selectedLayer"
+    [templates]="templates"
+    (templatesUpdated)="updateTemplates($event)"
+></modal-configuracion-de-listado>

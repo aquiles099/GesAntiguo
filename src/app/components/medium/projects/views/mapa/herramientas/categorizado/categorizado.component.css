@@ -1,0 +1,45 @@
+.map-section{
+  padding: 0 !important;
+}
+
+.section{
+  padding: 0 1rem;
+}
+
+.header-section,
+.selector-section,
+._bottom-section{
+  position: absolute;
+  width: 100% !important;
+  padding: 0 2rem;
+}
+
+.header-section{
+  top: 2.5%;
+  height: 5%;
+}
+
+.selector-section{
+  top: 10%;
+  height: 67.5%;
+}
+
+._bottom-section{
+  height: 10%;
+  bottom: 0 !important;
+}
+
+label{
+  font-size: .875rem;
+}
+
+.btn-block{
+  font-size: .7rem !important;
+}
+
+@media (min-width: 567px)
+{
+  .btn-block{
+      font-size: .8rem;
+  }
+}

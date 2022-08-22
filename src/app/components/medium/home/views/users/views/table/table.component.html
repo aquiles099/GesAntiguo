@@ -1,0 +1,157 @@
+<div class="row h-100 m-0 animate__animated animate__fadeIn animate__faster">
+
+    <div class="col-12 p-0">
+
+      <div class="row m-0 align-items-start h-100">
+
+          <div class="col-4 px-0">
+
+            <div class="row mx-0">
+
+              <div class="col-5 px-0"> <b>Empresa</b>: </div>
+
+              <div class="pl-4 col-7"><span class="tag-label">{{ authenticatedUserData.company.name }}</span></div>
+
+              <!-- <div class="col-5 px-0"> <b>Altas disponibles</b>: </div>
+
+              <div class="pl-4 col-7"><span class="tag-label">No disponible</span></div> -->
+
+            </div>
+              
+          </div>
+         
+        <div class="col-3 offset-3">
+
+            <input  type="text" class="finder" placeholder="Buscar usuario" (keyup)="filterTableElements($event)">
+
+            <img src="assets/icons/LUPA.png" alt="LUPA" class="magnifying-glass small-icon">
+                
+        </div>
+        
+        <div class="col-2 pl-2 pr-0">
+            
+            <button class="btn btn-block btn-info" routerLink="nuevo">Nuevo usuario</button>
+
+        </div>
+
+      </div>
+  
+    </div>
+
+    <!-- TABLA -->
+    <div class="col-12 p-0 table-col mt-2">
+            
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped table-responsive-sm text-center">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="text-left">Usuario</th>
+                    <th>Proyectos</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                
+                    <td>
+                        <ng-template #isAdminTag>
+                            <b>
+                                {{ user.administrador_empresa ? "ADM" : "" }}
+                            </b> 
+                        </ng-template>
+                    </td>
+
+                    <td class="text-left">
+                        <div  class="user-badge mr-3"
+                        [attr.title]="user.usuario" [ngStyle]="{
+                        'background-color': badgeColors[user.colorIndex],
+                        'color': badgeColors[user.colorIndex] === '#FFF' ? '#000' : '#FFF'
+                            }">
+                            {{ getUserNameInitials( user.full_name ) }}
+                        </div>
+                        {{ user.full_name }}
+                    </td>
+
+                    <td *ngIf="user.projects.length; else emptyProjects"> 
+                        <img *ngFor="let project of user.projects | slice:0:3" class="medium-icon mx-1"
+                            [attr.title]="project.nombre" [src]="project.imagen">
+                        <span *ngIf="(user.projects.length - 3) > 0">
+                            <b>+ {{ user.projects.length - 3 }} </b>
+                        </span>
+                    </td>
+                    
+                    <ng-template #emptyProjects>
+                        <td> 
+                            Ninguno
+                        </td>
+                    </ng-template>
+
+                    <td>
+                        <span [ngClass]="{
+                            'text-success': user.activo,
+                            'text-secondary': ! user.activo
+                        }">
+                            {{ user.activo ? "Activo" : "Inactivo"}}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <a [routerLink]="[user.id, 'editar']">
+                            <img src="assets/icons/EDITAR.svg" class="medium-icon mx-2" alt="Editar">
+                        </a>  
+
+                        <button type="button" (click)="setUserToDeleteAndShowConfirmationModal(user)" class="btn-transparent d-inline">
+                            <img src="assets/icons/SVG/PAPEPERA_R.svg" class="medium-icon" alt="Eliminar">
+                        </button>  
+                    </td>
+
+                </tr>
+            </tbody>
+            
+        </table>        
+
+    </div>
+
+     <!-- SPINNER -->
+     <div *ngIf="showSpinner" class="spinner animate__animated animate__fadeIn animate__faster">
+        <mat-spinner></mat-spinner>
+    </div>
+    
+</div>
+
+<div class="modal fade" bsModal (onHidden)="onHideConfirmationModal()" tabindex="-1" role="dialog">
+
+    <div class="modal-dialog modal-xs modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-body">
+                
+                <div class="row mx-2 text-center justify-content-center">
+
+                    <div class="col-10 my-3 modal-title">
+                        <h4>¿Eliminar usuario {{ userToDelete?.full_name  }}?</h4>
+                    </div>
+
+                    <div class="col-5 mb-3">
+                        <button (click)="deleteUser()" class="btn btn-block btn-info">
+                            Eliminar 
+                        </button>
+                    </div>
+                    <div class="col-5 mb-3">
+                        <button (click)="confirmationModal.hide()" class="btn btn-block btn-outline-info">
+                            Cancelar
+                        </button>
+                    </div>
+                  
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

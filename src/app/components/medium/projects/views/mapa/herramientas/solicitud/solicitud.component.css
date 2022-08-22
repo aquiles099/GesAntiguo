@@ -1,0 +1,27 @@
+.solicitud{
+    width: 490px;
+    min-width: 20% !important;
+    background-color: #FFF;
+    height: 88vh;
+    padding: 0 1em;
+    margin-top: 6vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 999;
+    opacity: 1;
+    text-align: center;
+}
+.CajaSeleccionDeeleemnto{
+    width: 100%;
+    text-align: justify;
+    padding-left: 48px;
+    padding-top: 60px;
+}
+.CajaSeleccionDeeleemnto h6{
+    color: #4F4F4F;
+    font-family: Raleway !important;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+}

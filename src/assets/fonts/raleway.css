@@ -1,0 +1,19 @@
+  @font-face {
+    font-family: 'Raleway';
+    src: url("../../assets/fonts/Raleway/static/Raleway-Regular.ttf") format("truetype");
+  }
+  
+  @font-face {
+    font-family: 'Raleway Extrabold';
+    src: url("../../assets/fonts/Raleway/static/Raleway-ExtraBold.ttf") format("truetype");
+  }
+  
+  @font-face {
+    font-family: 'Raleway Light';
+    src: url("../../assets/fonts/Raleway/static/Raleway-Light.ttf") format("truetype");
+  }
+  
+  @font-face {
+    font-family: 'Lucida Sans Typewriter';
+    src: url("../../assets/fonts/lucida-sans-typewriter/lucidatypewriterregular.ttf") format("truetype");
+  }

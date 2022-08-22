@@ -1,0 +1,224 @@
+<div class="row h-100 m-0 animate__animated animate__fadeIn animate__faster">
+
+    <!-- CABECERA -->
+    <home-view-header
+    title="gestionar permisos"
+    (showTour)="showTour()"
+    ></home-view-header>   
+
+     <!-- TITULO - INFO -->
+     <div class="col-12 p-0">
+
+      <div class="row m-0">
+
+          <div class="col-1 text-center p-0">
+
+              <img [src]="project.icono" alt="icono-proyecto" class="project-icon">
+
+          </div>
+
+          <div class="col-3 px-2">
+
+            <div class="row mx-0">
+
+              <div class="col-3"> <b>Proyecto</b>: </div>
+
+              <div class="pl-4 col-9">{{project.nombre}}</div>
+
+              <div class="col-3"><b>Estado</b>: </div>
+
+              <div class="pl-4 col-9">{{project.proyecto_activo ? "Activo" : "Inactivo"}}</div>
+
+            </div>
+              
+          </div>
+         
+          <div id="users-with-access-label" class="col-4 px-2">
+
+            <b>Usuarios con acceso</b>: &nbsp;&nbsp;&nbsp;{{ Cantidadusuario }}
+
+          </div>
+
+          <div class="col-3 offset-1">
+
+              <input id="users-finder" [disabled]="tourIsActive" type="text" class="finder"
+                  placeholder="Buscar usuario" [(ngModel)]="searchText">
+
+              <img src="assets/icons/LUPA.png" alt="LUPA" class="magnifying-glass small-icon">
+                  
+          </div>
+          
+      </div>
+  
+  </div>
+
+   <!-- TABLA -->
+   <div class="col-12 p-0 table-col mt-2">
+        
+    <table id="permissions-table" >
+
+      <thead>
+
+        <tr class="table-titles">
+          <th style="width: 19%;">Usuarios</th>
+          <th style="width: 7.5%;">GMAO</th>
+          <th style="width: 7.5%;">G.Energética</th>
+          <th style="width: 5%;" class="right-bordered">Módulo</th>
+          <th style="width: 7.5%;"><!-- Grupo 1 --></th>
+          <th style="width: 43.5%;" class="right-bordered">Permisos</th>
+          <!-- <th style="width: 7.5%;">Grupo 2</th> -->
+          <!-- <th style="width: 10%;">Permisos</th> -->
+          <th style="width: 10%;"></th>
+        </tr>
+
+        <tr class="table-subtitles">
+
+          <th style="width: 19%;"></th>
+          <th style="width: 7.5%;"></th>
+          <th style="width: 7.5%;"></th>
+          <th style="width: 5%;"class="right-bordered"></th>
+          <th style="width: 7.5%;"></th>
+          
+          <th style="width: 43.5%;" class="right-bordered">
+            <div class="row m-0">
+              <div class="col-{{columnaPermisos}} px-1 text-truncate px-1" *ngFor="let permiso of permisosTipo">
+                {{ permiso.nombre }}
+              </div>
+            </div>
+          </th>
+          
+          <!-- <th style="width: 7.5%;"></th> 
+          
+          <th style="width: 10%;">
+            <div class="row m-0">
+              <div class="col-{{columnaPermisos}} px-1 text-truncate px-1" *ngFor="let permiso of permisosTipo">
+                {{ permiso.nombre }}
+              </div>
+            </div>
+          </th> -->
+          
+          <th style="width: 10%;">
+
+            <button type="button" class="btn-transparent" [disabled]="tourIsActive" (click)="onClickEditarTabla()">
+              <img id="edit-permissions-btn" [class._disabled]="tourIsActive" src="assets/icons/EDITAR.svg"  class="medium-icon" alt="EDITAR">
+            </button>
+
+            <button type="button" class="btn-transparent" [disabled]="!mostrarchecbookEditable || tourIsActive" (click)="onGuardarPermisos()">
+              <img id="update-permissions-btn" [class._disabled]="!mostrarchecbookEditable || tourIsActive" src="assets/icons/GUARDAR.svg" class="medium-icon" alt="GUARDAR">
+            </button>
+
+            <button type="button" class="btn-transparent" [disabled]="!mostrarchecbookEditable || tourIsActive" (click)="onClickCancelar()">
+              <img id="undo-edit-permissions-btn" [class._disabled]="!mostrarchecbookEditable || tourIsActive" src="assets/icons/CERRARVENTANA.svg" class="medium-icon" alt="DESHACER">
+            </button>
+
+          </th>
+
+        </tr>
+      </thead>
+
+      <tbody id="permissions-table-body">
+
+        <tr  *ngFor="let row of data | valueKey:searchText:'fullName'">
+  
+          <td  class="pl-4" style="width: 19%;">
+
+            <div class="row m-0">
+
+              <div class="col-3 pr-2 pl-0">
+
+                  <div  class="user-badge"
+                      [attr.title]="row.fullName" [ngStyle]="{
+                      'background-color': badgeColors[row.colorIndex],
+                      'color': badgeColors[row.colorIndex] === '#FFF' ? '#000' : '#FFF'
+                  }">
+                      {{ getFullNameInitials(row.firstName, row.lastName) }}
+                  </div>
+
+              </div>
+    
+              <div class="col-9 px-0 text-left">
+                <span class="nombreUsuario" *ngIf="row.contador == 1">{{row.fullName}}</span>
+              </div>
+
+            </div>
+
+          </td>
+  
+          <td style="width: 7.5%;">
+            <label class="ngx-form-checkbox" *ngIf="row.contador == 1">
+              <input type="checkbox" [(ngModel)]="row.gmao" [disabled]="!mostrarchecbookEditable || tourIsActive"
+                class="checkbookTelemedida" (ngModelChange)="cambiadoGMAO(row.user, $event)">
+              <i class="ngx-form-icon custom-checkbox-color" [class.inputDisabled]="!mostrarchecbookEditable"
+                [class.inputActivo]="mostrarchecbookEditable"></i>
+            </label>
+          </td>
+  
+          <td style="width: 7.5%;">
+            <label class="ngx-form-checkbox" *ngIf="row.tieneTelemedida">
+              <input type="checkbox" [(ngModel)]="row.telemedida" [disabled]="!mostrarchecbookEditable || tourIsActive"
+                class="checkbookTelemedida" (ngModelChange)="cambiadoTelemedida(row.user, $event)">
+              <i class="ngx-form-icon custom-checkbox-color" [class.inputDisabled]="!mostrarchecbookEditable"
+                [class.inputActivo]="mostrarchecbookEditable"></i>
+            </label>
+          </td>
+  
+          <td style="width: 5%;" class="right-bordered">
+            <img [src]="row.modulo" alt="modulo" class="medium-icon">
+          </td>
+  
+          <td style="width: 7.5%;" class="group-name">
+            {{ row.grupo1 }}
+          </td>
+  
+          <td  style="width: 43.5%;" class="right-bordered">
+            
+            <div class="row m-0">
+              
+              <label class="col-{{columnaPermisos}} px-1" *ngFor="let permisos of row.permisos1 ">
+                <label class="ngx-form-checkbox">
+                  <input type="checkbox" [disabled]="!mostrarchecbookEditable || tourIsActive" [(ngModel)]="permisos.activo"
+                    (ngModelChange)="cambiado(row, row.grupo1, permisos, $event)">
+                  <i class="ngx-form-icon custom-checkbox-color" [class.inputDisabled]="!mostrarchecbookEditable"
+                    [class.inputActivo]="mostrarchecbookEditable"></i>
+                </label>
+              </label>
+
+            </div>
+
+          </td>
+  
+          <!-- <td style="width: 7.5%" class="group-name">
+            {{ row.grupo2 }}
+          </td>
+  
+          <td style="width: 10%;">
+            <div class="row m-0">
+              <label class="col-{{columnaPermisos}} px-1" style="margin: 0; padding: 0;" *ngFor="let permisos of row.permisos2 ">
+                <div class="divcheckoenergetis2permiso1">
+                  <label class="ngx-form-checkbox">
+                    <input type="checkbox" [disabled]="!mostrarchecbookEditable || tourIsActive" [(ngModel)]="permisos.activo"
+                      (ngModelChange)="cambiado(row, row.grupo2, permisos, $event)">
+                    <i class="ngx-form-icon custom-checkbox-color" [class.inputDisabled]="!mostrarchecbookEditable"
+                      [class.inputActivo]="mostrarchecbookEditable"></i>
+                  </label>
+    
+                </div>
+              </label>
+            </div>
+          </td> -->
+  
+          <td style="width: 10%;"></td>
+  
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+  
+    <!-- SPINNER -->
+    <div *ngIf="showSpinner" class="spinner animate__animated animate__fadeIn animate__faster">
+        <mat-spinner></mat-spinner>
+    </div>
+
+  </div>

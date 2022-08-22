@@ -1,0 +1,138 @@
+.modal-content{
+    padding: 1rem 4rem 3rem 4rem;
+    border-radius: 10px;
+}
+
+.modal-body{
+    padding: 0;
+}
+
+.modal-header{
+    border-bottom: none;
+}
+
+.modal-title{
+    color: #333;
+    font-weight: bold;
+    font-size: .9rem;
+}
+
+.close{
+    margin-right: -3rem;
+}
+
+.icon{
+    width: 1rem;
+    height: 1rem;
+    transition: transform .2s;
+}
+
+.icon.help{
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.icon:hover{
+    transform: scale(1.1);
+}
+
+.sub-title{
+    color: #4F4F4F;
+    font-size: .8rem;
+}
+
+.sub-title > span {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+label,
+.load-icon-btn{
+    color: #333;
+    font-size: .8rem;
+}
+
+input, select{
+    border-color: #BDBDBD;
+    color: #BDBDBD;
+    font-size: .8rem !important;
+    border-radius: 3px !important;
+}
+
+.icon-preview-container{
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 5rem;
+    padding: .5rem;
+}
+
+.icon-preview{
+    width: 100%;
+    height: 100%;
+}
+
+.load-icon-btn{
+    border: 1px solid #BDBDBD;
+    color: #828282;
+    font-size: .6rem;
+    margin: 0;
+    background-color: #F7F7F7;
+}
+
+.module-label{
+    color: #828282 !important;
+    width: 90%;
+}
+
+#projectIcon{
+    opacity: 1;
+    display: none;
+}
+
+.module-checkboxes{
+    max-height: 37.5vh !important;
+    overflow-y: auto;
+}
+
+.submit-btn{
+    width: 60%;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    font-size: .7rem;
+}
+
+@media (min-width: 768px)
+{   
+    .module-checkboxes{
+        max-height: 24vh !important;
+    }
+}
+
+@media (min-width: 992px)
+{   
+    .module-checkboxes{
+        max-height: 27.5vh !important;
+    }
+}
+
+@media (min-width: 1200px)
+{
+    .module-checkboxes{
+        max-height: 30vh !important;
+    }
+}
+
+@media (min-width: 1440px)
+{
+    .module-checkboxes{
+        max-height: 24vh !important;
+    }
+
+}

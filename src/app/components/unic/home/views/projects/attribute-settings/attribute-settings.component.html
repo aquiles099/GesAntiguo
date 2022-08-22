@@ -1,0 +1,196 @@
+<div class="animate__animated animate__fadeIn animate__faster">
+
+    <div class="top-container">
+
+        <div class="row m-0 align-items-center">
+
+            <div class="col-12 mb-4 p-0 title">
+
+                <span routerLink=".." class="float-left mr-4"><i class="back-button fa fa-chevron-left"></i></span>
+
+                CONFIGURAR ATRIBUTOS
+
+            </div>
+
+            <div class="col-6 p-0 mb-3 text-left">
+
+                <div class="row m-0">
+                    
+                    <div class="col-2 col-md-1 p-0">
+                        <img class="project-icon d-inline-block" [src]="project.icono" alt="icono-proyecto">
+                    </div>
+                    
+                    <div class="col-10 col-md-11 p-0">
+                        <div class="row ml-3">
+                            <div class="col-12"> <b class="mr-3">Proyecto:</b> {{ project.nombre }}</div>
+                            <div class="col-12"> <b class="mr-3">Estado:</b> {{ project.proyecto_activo ? "Activo" : "Inactivo" }}</div>
+                        </div>
+                    </div>
+
+                </div>
+                
+
+            </div>
+    
+            <div class="col-6 p-0 mb-2">
+
+                <div class="row m-0 text-right">
+
+                    <div class="col-8">
+                        <input [disabled]="! selectedFile" [(ngModel)]="search" type="text" placeholder="Buscar coincidencias..." class="search-field">
+                        <img src="assets/icons/SVG/LUPA.svg" class="icon search-icon" alt="lupa">
+                    </div>
+
+                    <div class="col-4 pr-0">
+                        <button type="button" (click)="showPropertyConfigurationModal()" [disabled]="! selectedFile" class="btn btn-info btn-block">
+                            Nuevo atributo
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+    
+            <div class="offset-7 col-5 mb-2 p-0 text-center"> 
+
+                <div class="row m-0 align-items-center">
+
+                    <div class="col-6">
+    
+                        <label class="mb-2" for="module_select">Grupo:</label>
+        
+                        <ng-select
+                            id="module_select"
+                            class="custom" 
+                            placeholder="Seleccionar"
+                            [clearable]="false"
+                            [items]="moduleNames"
+                            [(ngModel)]="selectedModuleName"
+                            [ngModelOptions]="{standalone: true}"
+                            (change)="onChangeModuleSelector($event)"
+                            >
+                        </ng-select>
+                
+                    </div>
+    
+                    <div class="col-6 pr-0">
+    
+                        <label class="mb-2" for="layer_select">Capa:</label>
+        
+                        <ng-select
+                            id="layer_select"
+                            class="custom" 
+                            placeholder="Seleccionar"
+                            [clearable]="false"
+                            [items]="layerNames"
+                            [(ngModel)]="selectedLayerName"
+                            [ngModelOptions]="{standalone: true}"
+                            (change)="onChangeLayerSelector($event)"
+                            >
+                        </ng-select>
+                    </div>
+
+                </div>
+
+            </div>
+    
+        </div>
+
+    </div>
+
+    <div class="bottom-container">
+
+        <table *ngIf="selectedFile" class="animate__animated animate__fadeIn animate__faster table table-hover table-striped table-borderless">
+
+            <tr class="h-100" *ngFor="let property of (selectedFile.featureProperties | keyMatch:search)">
+
+                <td style="width: 20%;">
+                    {{ property }}
+                </td>
+
+                <td style="width: 10%;" class="text-center bordered-x">
+                    <label class="checkbox" for="feature_property_{{property}}">
+                            
+                        <input type="checkbox" 
+                        (change)="updateDisabledFeatureProperties(property)"
+                        [checked]="! selectedFile.featurePropertyIsDisabled(property)" 
+                        name="feature_property_{{property}}" 
+                        id="feature_property_{{property}}">
+
+                        <i class="fas fa-check" *ngIf="! selectedFile.featurePropertyIsDisabled(property)" ></i>
+
+                    </label>
+                </td>
+
+                <td class="text-right">
+
+                    <button (click)="showPropertyConfigurationModal(property)" title="Editar" class="btn-transparent">
+                        <img title="editar" src="assets/icons/SVG/EDITAR.svg" class="icon mx-2" alt="editar">
+                    </button>
+    
+                    <button (click)="deleteProperty(property)" title="Eliminar" class="btn-transparent">
+                        <img src="assets/icons/SVG/PAPEPERA.svg" class="icon mx-2"
+                            alt="papelera">
+                    </button>    
+
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="modal fade" bsModal #propertyConfigurationModal="bs-modal" (onHidden)="onClosePropertyConfigurationModal()" tabindex="-1" role="dialog">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header text-center pb-2">
+
+                <h4 class="modal-title w-100 mb-0">{{propertyNameToUpdate ? "ACTUALIZAR" : "NUEVO"}} ATRIBUTO</h4>
+
+                <button type="button" class="close pull-right" aria-label="Close" (click)="propertyConfigurationModal.hide()">
+                    <img src="assets/icons/SVG/CERRARVENTANA.svg" style="width: .8rem; height: .8rem;" alt="cerrar">
+                </button>
+            </div>
+
+            <div class="modal-body">
+                
+                <div class="row mb-4 align-items-center">
+
+                    <div class="col-2">
+                        <label for="new_attribute_name">Nombre:</label>
+                    </div>
+
+                    <div class="col-10">
+                        <input [(ngModel)]="newPropertyName" class="form-control" type="text">
+                    </div>
+
+                </div>
+    
+                <div class="row m-0 justify-content-center">
+
+                    <div class="col-5">
+                        <button (click)="propertyConfigurationModal.hide()" class="btn btn-block btn btn-outline-info">
+                            Cancelar
+                        </button>
+                    </div>
+
+                    <div class="col-5">
+                        <button  type="button" [disabled]="! newPropertyName" (click)="updateLayerProperties()" class="btn btn-block btn-info">
+                            {{ propertyNameToUpdate ? "Actualizar" : "Guardar" }}
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

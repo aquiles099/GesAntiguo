@@ -1,0 +1,104 @@
+<li>
+                        
+    <form #form="ngForm" class="row m-0 align-items-center py-1 mb-2">
+
+        <div class="col-6 col-md-3 px-1 mb-2 property-key">
+            <label title="fecha de instalacion" for="fecha_instalacion">
+                Fecha de instalación
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-3 px-1 mb-2">
+            <input
+            id="fecha_instalacion"
+            type="text"
+            class="form-control property-value"
+            name="fecha_instalacion"
+            [(ngModel)]="template['fecha_instalacion']"
+            bsDatepicker
+            [bsConfig]="{ 
+                adaptivePosition: true,
+                isAnimated: true
+            }">
+        </div>
+      
+        <div class="col-6 col-md-3 px-1 mb-2 property-key">
+            <label title="tension" for="tension">
+                Tensión
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-3 px-1 mb-2">
+          
+            <ng-select
+                class="custom" 
+                [clearable]="false"
+                [items]="getAttributeByField('tension').dominios"
+                name="tension"
+                [(ngModel)]="template['tension']"
+                placeholder="Seleccione..."
+                >
+            </ng-select>
+            
+        </div>
+        
+        <div class="col-6 col-md-3 px-1 mb-2 property-key">
+            <label title="horas_dia" for="horas_dia">
+                Horas funcionamiento de día
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-3 px-1 mb-2">
+
+            <input
+            id="horas_dia"
+            name="horas_dia"
+            [(ngModel)]="template['horas_dia']"
+            type="number" 
+            step="1"
+            min="0"
+            class="form-control property-value"
+            >
+          
+        </div>
+       
+        <div class="col-6 col-md-3 px-1 mb-2 property-key">
+            <label title="horas_ahorro" for="horas_ahorro">
+                Horas funcionamiento de día con sistema de ahorro
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-3 px-1 mb-2">
+          
+            <input
+            id="horas_ahorro"
+            name="horas_ahorro"
+            [(ngModel)]="template['horas_ahorro']"
+            type="number" 
+            step="1"
+            min="0"
+            class="form-control property-value"
+            >
+
+        </div>
+      
+        <div class="col-12 px-1 mb-2 property-key">
+          
+            <label for="observaciones">Observaciones</label>
+
+        </div>
+        
+        <div class="col-12 px-1 mb-2">
+          
+            <textarea 
+            name="observaciones" 
+            [(ngModel)]="template['observaciones']"
+            id="observaciones" 
+            class="form-control property-value"
+            ></textarea>
+            
+        </div>
+
+    </form>
+
+</li>

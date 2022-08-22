@@ -1,0 +1,6 @@
+@media(min-width: 576px)
+{
+    .scrollable.layer-list{
+        max-height: 82.5% !important;
+    }
+}

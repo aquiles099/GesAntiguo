@@ -1,0 +1,109 @@
+<div *ngIf="isVisible" id="sheets-per-command-centers-tool" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="row mx-3 mb-4">
+        <div class="col-12 p-0 title">
+            
+            Fichas por centro de mando
+        
+            <div *ngIf="commandCenters.length" title="Ayuda" class="float-right pointer d-inline" (click)="showTour()">
+                <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="command-centers-listing" class="row mx-0 my-1 animate__animated animate__fadeIn animate__faster scrollable command-centers-listing">
+
+        <div class="col-12 p-0 my-2" *ngFor="let cm of commandCenters">
+            
+            <div class="row m-0">
+
+                <div class="col-10 p-0 text-truncate">
+                    <label for="checkbox_{{cm}}" title="{{cm}}" class="ml-3 text-truncate d-inline">
+                        {{cm}}
+                    </label>
+                </div>
+
+                <div class="col-2 p-0 text-center">
+                    
+                    <label class="checkbox" for="checkbox_{{cm}}">
+                        
+                        <input type="checkbox" 
+                        (change)="updateSelectedCms(cm)" 
+                        [checked]="cmIsSelected(cm)" 
+                        [disabled]="tourIsActive" 
+                        name="checkbox_{{cm}}" 
+                        id="checkbox_{{cm}}">
+
+                        <i class="fas fa-check" *ngIf="cmIsSelected(cm)" ></i>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </div>
+      
+        <div class="col-12 p-0 my-2 text-center" *ngIf="! commandCenters.length">
+
+            No existen centros de mando en la capa.
+
+        </div>
+
+    </div>
+
+    <div class="row m-0 bottom-section justify-content-around ">
+        
+        <div id="generate-sheets-btn" class="col-4 px-1">
+            <button 
+            (click)="GeneradorFichasCentrosDeMando.empezarCreacion()" 
+            type="button" 
+            class="btn btn-block"
+            [disabled]="! thereAreSelectedCms || tourIsActive"
+            [ngClass]="{
+                'btn-info': thereAreSelectedCms,
+                'btn-secondary': ! thereAreSelectedCms
+            }">
+                Generar
+            </button>
+        </div>
+       
+        <div id="select-all-cms-btn" *ngIf="! allCmsAreSelected" class="col-4 px-1 animate__animated animate__fadeIn animate__faster">
+            <button 
+            (click)="selectAllCms()" 
+            [disabled]="tourIsActive" 
+            type="button" 
+            class="btn btn-block btn-info"
+            >
+                Seleccionar todos
+            </button>
+        </div>
+        
+        <div *ngIf="allCmsAreSelected" class="col-4 px-1 animate__animated animate__fadeIn animate__faster">
+            <button 
+            (click)="unselectAllCms()" 
+            type="button" 
+            class="btn btn-block btn-info"
+            >
+                Ninguno
+            </button>
+        </div>
+
+        <div class="col-4 px-1">
+            <button [disabled]="tourIsActive" (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+                Cancelar
+            </button>
+        </div>
+   
+    </div>
+
+    <generador-fichas-centros-de-mando
+        [map]="map"
+        [centros_mando_seleccionados]="selectedCms"
+        [capaCentrosDeMando]="commandCentersLayer"
+        [capaResaltadoCentrosDeMando]="highlightLayer"
+    ></generador-fichas-centros-de-mando>
+
+</div>

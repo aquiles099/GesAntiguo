@@ -1,0 +1,63 @@
+/* Spinner */
+.loading {
+    position: absolute;
+    z-index: 10000;
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.notLoading {
+    display: none;
+}
+.map-container {
+  position: absolute;
+  top: 0%;
+  left: -12px;
+  width: 93%;
+  right: 0;
+  bottom: 0;
+  margin: 30px;
+}
+.fuente{
+  font-size: 12px;
+  height: 33px;
+  margin-left: -543.2px;
+  margin-top: 61px;
+  float: left;
+}
+
+.map-frame {
+  height: 100%;
+}
+
+#map {
+  height: 100%;
+}
+.imput_form_2{
+  height: 37.4px;
+  width: 26%;
+  font-size: 100%;
+  left: 1%;
+  border-radius: 5px;
+  border: 1px solid #BDBDBD;
+  text-align: center;
+}
+@media(min-width:1200px)
+{
+   .config-btn-group{
+     position: relative !important;
+     right: auto !important;
+   }
+   .spinner {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: flex;
+      width: 100%;
+      height: 74%;
+      background: #fff;
+    }
+}

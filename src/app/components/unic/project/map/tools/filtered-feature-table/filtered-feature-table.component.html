@@ -1,0 +1,227 @@
+<div *ngIf="isVisible && ! dataTableIsVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section">
+
+        <h1 class="title m-0">Buscador</h1>
+
+    </div>
+
+    <div *ngIf="! showFilterCriteria" class="w-100 h-100 animate__animated animate__fadeIn animate__faster">
+        
+        <div class="selector-section">
+    
+            <div class="row justify-content-center section">
+            
+                <div class="col-12 p-0 mb-3">
+            
+                    <label class="mb-2" for="">Modulos:</label>
+        
+                    <ng-select
+                        class="custom" 
+                        placeholder="Seleccione un modulo"
+                        [clearable]="false"
+                        [items]="projectModules"
+                        [(ngModel)]="selectedModuleName"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="onChangingModuleSelector($event)"
+                        >
+                    </ng-select>
+            
+                </div>
+            
+                <div class="col-12 p-0 mb-2">
+            
+                    <label class="mb-2" for="">Capa:</label>
+        
+                    <ng-select
+                        class="custom" 
+                        placeholder="Seleccione una capa"
+                        [clearable]="false"
+                        [items]="fileLayers"
+                        bindLabel="layerName"
+                        bindValue="layerName"
+                        [(ngModel)]="selectedLayerName"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="onChangingLayerSelector($event)"
+                        >
+                    </ng-select>
+            
+                </div>
+               
+                <div class="d-block d-xs-none p-0 col-12">
+                    <hr class="w-100 separator">
+                </div>
+                
+            </div>
+    
+        </div>
+    
+        <div class="searcher-section">
+    
+            <div class="row justify-content-center section"> 
+        
+                <div class="col-12 p-0">
+            
+                    <div class="w-100">
+            
+                        <label class="mb-2" for=""> <b>Atributos:</b> </label>
+            
+                        <input type="text" [disabled]="! selectedFileLayer" class="form-control form-control-sm d-inline search-field" placeholder="Buscar..." [(ngModel)]="search">
+            
+                        <img src="assets/icons/SVG/LUPA.svg" class="icon search-icon" alt="lupa">
+                    
+                    </div>
+    
+                </div>
+        
+            </div>
+    
+        </div>
+    
+        <div class="attributes-section animate__animated animate__fadeIn animate__faster">
+        
+            <div *ngIf="enabledFeatureProperties.length; else empty" class="row m-0 attributes-list animate__animated animate__fadeIn animate__faster"> 
+        
+                <div class="col-12 p-0 my-1 bottom-bordered text-left " *ngFor="let property of ( enabledFeatureProperties | keyMatch : search)">
+                       
+                    <div class="row m-0">
+    
+                        <div class="col-1 p-0 mb-2 align-items-center text-center">
+                            <label class="checkbox" for="property{{property}}">
+                                
+                                <input type="checkbox" 
+                                [checked]="propertyIsSelected(property)" 
+                                name="property{{property}}" 
+                                id="property{{property}}"
+                                (change)="updateSelectedProperties(property)"
+                                >
+                                <i class="fas fa-check" *ngIf="propertyIsSelected(property)" ></i>
+    
+                            </label>
+                        </div>
+    
+                        <div class="col-11 pl-2 pr-0 py-0 mb-2 align-items-center">
+                            <label for="property{{property}}" title="{{property}}" class="ml-3 text-truncate d-inline">
+                                {{property}}
+                            </label>
+                        </div>
+    
+                    </div>
+                </div>
+    
+            </div>
+    
+            <ng-template #empty class="row mx-0 mt-4">
+                <div class="col-12 my-4 text-center">
+                    Vacio
+                </div>
+            </ng-template>
+    
+        </div> 
+    
+        <div class="bottom-section m-0 row">
+    
+            <div class="col-5 p-0">
+                <button type="button" 
+                        class="btn btn-block btn-warning" 
+                        [class.btn-secondary]="! selectedProperties.length"
+                        [disabled]="! selectedProperties.length"
+                        (click)="showPropertyValuesSection()"
+                        >
+                    Continuar
+                </button>
+            </div>
+            
+            <div class="col-5 p-0">
+                <button type="button" (click)="toggleSectionVisibilityEvent()" class="btn btn-block btn-outline-info">
+                    Cancelar
+                </button>
+            </div>
+    
+        </div>
+
+    </div>
+
+    <div *ngIf="showFilterCriteria" class="w-100 h-100 animate__animated animate__fadeIn animate__faster">
+    
+        <div class="attributes-values-section">
+    
+            <div class="attributes-values-list">
+
+                <ul>
+                    <li *ngFor="let property of selectedProperties">
+                        <div class="row m-0">
+
+                            <div class="col-12 p-0 mb-3">
+    
+                                <label class="mb-2 text-truncate" for="">{{property}}:</label>
+                    
+                                <ng-select
+                                    class="custom" 
+                                    placeholder="Seleccione un valor"
+                                    [clearable]="false"
+                                    [items]="featurePropertyValues[property]"
+                                    [(ngModel)]="valuesToFilter[property]"
+                                    [ngModelOptions]="{standalone: true}"
+                                    >
+                                </ng-select>
+    
+                            </div>
+    
+                        </div>
+                    </li>
+                </ul>
+            
+            </div>
+    
+        </div>
+
+        <div class="bottom-section m-0 row">
+    
+            <div class="col-5 p-0">
+                <button type="button" 
+                        class="btn btn-block btn-info" 
+                        [class.btn-secondary]="! propertiesToFilterHaveSelectedValues()"
+                        [disabled]="! propertiesToFilterHaveSelectedValues()"
+                        (click)="showDataTable()"
+                        >
+                    Buscar
+                </button>
+            </div>
+
+            <div class="col-5 p-0">
+                <button type="button" (click)="showInitialSection()" class="btn btn-block btn-outline-info">
+                    Atras
+                </button>
+            </div>
+    
+        </div>
+    
+    </div>
+
+</div>
+
+<div *ngIf="isVisible && dataTableIsVisible" [@fadeInUpOnEnter] [@fadeOutDownOnLeave] #tableContainer class="map-section datatable-container">
+
+    <div class="row m-0">
+        <div class="mb-1 pl-0 pr-1 col-8 col-sm-9 text-truncate">
+            {{ getFilterTag() }}
+        </div>
+        <div class="mb-1 pl-1 pr-0 col-4 col-sm-3">
+            <input (keyup)="filterElementsInDataTable($event)" type="text" placeholder="Escribe para buscar..." class="form-control form-control-sm datatable-searcher">
+        </div>
+        <div *ngIf="dtOptions" class="p-0 col-12">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="text-center">
+                <thead>
+                </thead>
+                <tbody (click)="onClickingInDataTableBody($event)">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+        <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+
+</div>

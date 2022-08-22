@@ -1,0 +1,132 @@
+<div class="bar" [class.collapsed]="isCollapsed">
+
+    <h1 class="title mx-3 mx-sm-4">
+        <b>PASO 2 de 2:</b> &nbsp;&nbsp;CONFIGURACIÓN DE PROYECTO
+
+        <span (click)="toggleCollapseState()" class="d-block d-sm-none float-right pointer">
+            <i class="fas" [ngClass]="{'fa-chevron-up': ! isCollapsed, 'fa-chevron-down': isCollapsed}"></i>
+        </span>
+    </h1>
+
+    <div *ngIf="isVisible" [@fadeInOnEnter] [@fadeOutOnLeave] class="row m-0 justify-content-center">
+
+        <div class="col-12 p-0">
+            <tabset #tabset class="_tabs">
+                <tab customClass="_tab"
+                *ngFor="let module of modules; let i = index" 
+                [heading]="module.name"    
+                [id]="i"    
+                (selectTab)="onSelectTab($event)">
+
+                    <div class="row mx-3">
+                        <div class="col-12 col-sm-6 py-4 bordered-bottom">
+                            Selecciona una o más capas:
+                        </div>
+                    </div>
+
+                    <div class="w-100" [ngClass]="{'scrollable-collapsed': isCollapsed, 'scrollable': ! isCollapsed}">
+                        <div *ngFor="let layerInfo of module.layers; let i = index" class="row mx-4 my-3 align-items-center">
+                            
+                            <div class="col-12 bordered-bottom col-sm-4 px-sm-2">
+                                
+                                <label for="checkbox_layer_{{layerInfo.id}}"
+                                        [class.checked]="layerIsEnabled(layerInfo.id)" 
+                                        class="checkbox-round mb-4">
+                                    <i *ngIf="layerIsEnabled(layerInfo.id)" class="fa fa-check"></i>
+                                </label>
+    
+                                <input type="checkbox" class="hide" (change)="toggleLayerState(layerInfo.id)" id="checkbox_layer_{{layerInfo.id}}">
+                                
+                                <label for="checkbox_layer_{{layerInfo.id}}" class="ml-4 layer-title w-75">
+                                    {{layerInfo.name}} <br>
+                                    <small>({{ getLayerGeometryTypeLabel(layerInfo.geometry) }})</small>
+                                </label>
+                               
+                            </div>
+    
+                            <div class="col-6 px-2 text-center col-sm-3">
+    
+                                <label class="btn btn-sm btn-outline-secondary load-file-btn rounded-lg" 
+                                    for="file_input_layer_{{layerInfo.id}}"
+                                    [class.disabled]="! layerIsEnabled(layerInfo.id)"
+                                    >
+                                    <img class="icon" src="assets/iconos-nuevo-proyecto-web/CARGAR.svg" alt="icono-cargar">
+                                    &nbsp;
+                                    Cargar archivo
+                                </label>
+    
+                                <input 
+                                accept=".geojson,.zip,.kml, .xlsx" 
+                                type="file" 
+                                class="hide"
+                                id="file_input_layer_{{layerInfo.id}}"
+                                (change)="showProjectionSetupSection(layerInfo, $event)"
+                                [disabled]="! layerIsEnabled(layerInfo.id)"
+                                >
+                                
+                                <h4 *ngIf="layerHasFileAdded(layerInfo.id)" class="file-name ml-2 text-truncate d-block d-sm-none">
+                                    {{ findLayer(layerInfo.id).fileName }}
+                                </h4>
+
+                            </div>
+
+                            <div class="col-3 px-sm-2 d-none d-sm-block">
+                                <h4 *ngIf="layerHasFileAdded(layerInfo.id)" class="file-name ml-2 text-truncate">
+                                    {{ findLayer(layerInfo.id).fileName }}
+                                </h4>
+                            </div>
+
+                            <div class="col-6 col-sm-2 px-2 d-flex align-items-center justify-content-around">
+                                <button type="button"
+                                        (click)="deleteGeojsonFile(layerInfo.id)" 
+                                        [class.disabled]="! layerHasFileAdded(layerInfo.id)"
+                                        [disabled]="! layerHasFileAdded(layerInfo.id)"
+                                        class="btn-transparent"
+                                        >
+                                    <img title="Eliminar" class="icon mr-2" src="assets/icons/SVG/PAPEPERA.svg" alt="icono-papelera">
+                                </button>
+
+                                <button type="button" (click)="showProjectionSetupSection(layerInfo)" 
+                                        [class.disabled]="! layerHasFileAdded(layerInfo.id)"
+                                        [disabled]="! layerHasFileAdded(layerInfo.id)"
+                                        class="btn-transparent"
+                                        >
+                                    <img title="Configurar proyección" class="icon " src="assets/icons/SVG/BRÚJULA.svg" alt="icono-brujula">
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </tab>
+            </tabset>
+        </div>
+
+        <div *ngIf="isCollapsed" class="col-12 p-0 my-2 bottom-section">
+            <div class="row w-100 mx-2 justify-content-end">
+                <div class="col-4 col-sm-3">
+                    <button [routerLink]="['/unic/home']" type="button" class="btn btn-block _btn-outline-secondary">
+                        Atras
+                    </button>
+                </div>
+                <div class="col-4 pr-0">
+                    <button [disabled]="! thereWereChanges" (click)="saveChanges()" type="button" class="btn btn-block btn-info">
+                        Finalizar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <projection-setup-section
+        [map]="map"
+        [modules]="modules"
+        [projections]="projections"
+        [fileNames]="fileNames"
+        [isCollapsed]="isCollapsed"
+        (configureLayer)="returnFromTheProjectionSettingsSection($event)"
+        (onHidden)="returnFromTheProjectionSettingsSection()"
+    ></projection-setup-section>
+
+</div> 

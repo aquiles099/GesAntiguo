@@ -1,0 +1,273 @@
+<li id="general-protections-section" *ngIf="hasAttributeData">
+
+    <div *ngIf="template.length; else empty" class="row m-0 align-items-center text-center py-1">
+
+        <div class="offset-2 col-2 px-1 property-key">
+            <b>Cantidad</b>
+        </div>
+
+        <div class="col-2 px-1 property-key">
+            <b>Polaridad</b>                    
+        </div>
+
+        <div class="col-3 px-1 property-key">
+            <b>Intensidad</b>    
+        </div>
+
+        <div class="col-2 px-1 property-key">
+            <b>Marca</b>    
+        </div>
+
+    </div>
+
+    <ng-template #empty>
+        <div class="row mx-0 align-items-center py-1 mb-3">
+            <div class="col-12 text-center">
+                Vacio
+            </div>
+        </div>
+    </ng-template>
+
+    <div *ngFor="let protection of template; let i = index" 
+        class="row mx-0 align-items-center py-1 mb-3"
+        >
+
+        <div class="col-12 col-md-2 px-1 property-key">
+            {{ getSubTypeLabel(protection.subtipo) }}
+            {{ protectionCanBeRepeat(protection) ? getProtectionIndexBySubType(protection) + 1 : "" }}
+        </div>
+        <div class="col-6 px-1 text-center col-md-2">
+            
+            <input
+            type="number" 
+            step="1"
+            min="0"
+            class="form-control property-value"
+            [disabled]="mode === 'details' || tourIsActive"
+            [ngModelOptions]="{standalone: true}"
+            [(ngModel)]="protection['cantidad']"
+            >    
+            
+        </div>
+        <div class="col-6 px-1 text-center col-md-2">
+            
+            <ng-select
+                class="custom" 
+                [clearable]="false"
+                [disabled]="mode === 'details' || tourIsActive"
+                [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="protection['polaridad']"
+                placeholder="Seleccione..."
+                >
+                <ng-option [value]="domain" *ngFor="let domain of getAttributeByField('polaridad').dominios">
+                    {{ domain }}
+                </ng-option>
+            </ng-select>
+            
+        </div>
+        <div class="col-6 px-1 text-center col-md-3">
+            
+            <ng-select
+                class="custom" 
+                [clearable]="false"
+                [disabled]="mode === 'details' || tourIsActive"
+                [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="protection['intensidad']"
+                placeholder="Seleccione..."
+                >
+                <ng-option [value]="domain" *ngFor="let domain of getAttributeByField('intensidad').dominios">
+                    {{ domain }}
+                </ng-option>
+            </ng-select>
+            
+        </div>
+        <div class="col-6 px-1 text-center col-md-2">
+            
+            <ng-select
+                class="custom" 
+                [clearable]="false"
+                [disabled]="mode === 'details' || tourIsActive"
+                [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="protection['marca']"
+                placeholder="Seleccione..."
+                >
+                <ng-option [value]="domain" *ngFor="let domain of getAttributeByField('marca').dominios">
+                    {{ domain }}
+                </ng-option>
+            </ng-select>
+            
+        </div>
+
+        <div *ngIf="protectionCanBeRepeat(protection) && mode !== 'details'" class="col-12 col-md-1 px-1 text-center">
+            
+            <button *ngIf="! protectionsIsTheLastOneBySubType(protection, i)" 
+                    type="button"
+                    [disabled]="tourIsActive"
+                    (click)="removeProtection(i)"
+                    title="Remover"
+                     class="btn btn-sm btn-danger">
+                     <i class="fas fa-trash"></i>
+            </button>
+            
+            <button *ngIf="protectionsIsTheLastOneBySubType(protection, i)" 
+                    type="button"
+                    [disabled]="tourIsActive"
+                    (click)="duplicateProtection(protection, i)"
+                    title="Duplicar"
+                    [class.duplicate-protection-btn]="protection.subtipo === 'DIFERENCIAL'"
+                     class="btn btn-sm btn-warning">
+                    <i class="fas fa-plus"></i>
+            </button>
+
+        </div>
+        
+        <!-- ADICIONAL PARA PROTECCION SOBRETENSIÓN  -->
+        <div class="col-12 col-md-2 offset-9">
+
+            <div *ngIf="protection.subtipo === 'SOBRETENSIÓN'" class="row m-0">
+    
+                <div class="col-4 pl-0 pr-1 mb-1 property-key">        
+                    In
+                </div>
+               
+                <div class="col-8 px-0 mb-1">
+                        
+                    <input
+                    type="number" 
+                    step="1"
+                    min="0"
+                    class="form-control property-value"
+                    [disabled]="mode === 'details' || tourIsActive"
+                    [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="protection['intensidad_nominal']"
+                    >     
+                    
+                </div>
+
+                <div class="col-4 pl-0 pr-1 mb-1 property-key">        
+                    Imax
+                </div>
+    
+                <div class="col-8 px-0 mb-1">
+                        
+                    <input
+                    type="number" 
+                    step="1"
+                    min="0"
+                    class="form-control property-value"
+                    [disabled]="mode === 'details' || tourIsActive"
+                    [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="protection['intensidad_maxima']"
+                    >    
+                                  
+                </div>
+
+                <div class="col-4 pl-0 pr-1 property-key">        
+                    Up
+                </div>
+    
+                <div class="col-8 px-0 text-center">
+                
+                    <input
+                    type="number" 
+                    step="1"
+                    min="0"
+                    class="form-control property-value"
+                    [disabled]="mode === 'details' || tourIsActive"
+                    [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="protection['tension_corte']"
+                    >    
+                    
+                </div>
+    
+            </div>
+
+        </div>
+
+        <!-- ADICIONAL PARA PROTECCION DIFERENCIAL  -->
+        <div *ngIf="protection.subtipo === 'DIFERENCIAL'" 
+            [class.protection-sensibility]="protection.subtipo === 'DIFERENCIAL'"
+            class="col-12 px-1 col-md-9 offset-2 mt-1">
+
+            <div class="row m-0 align-items-center">
+
+                <div class="col-2 px-1 property-key">
+                    <b>Sensibilidad</b>    
+                </div>
+
+                <div class="col-3 px-1 text-center">
+                    
+                    <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [disabled]="mode === 'details' || tourIsActive"
+                        [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="protection['sensibilidad']"
+                        placeholder="Seleccione..."
+                        (change)="onChangeSensibilitySelector($event, protection)"
+                        >
+                        <ng-option [value]="domain" *ngFor="let domain of getAttributeByField('sensibilidad').dominios">
+                            {{ domain }}
+                        </ng-option>
+                    </ng-select>
+                    
+                </div>
+
+                <div class="col-2 px-1 text-center">
+                    
+                    <input
+                    type="number" 
+                    step="1"
+                    min="0"
+                    class="form-control property-value"
+                    [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="protection['sensibilidad_personalizada']"
+                    [disabled]="! protection['sensibilidad'] || ! protection['sensibilidad_personalizada_habilitada'] || mode === 'details'"
+                    >    
+
+                </div>
+            
+                <div class="col-2 px-1 text-center">
+     
+                    <select
+                        [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="protection['medida_sensibilidad_personalizada']"
+                        placeholder="Seleccione..."
+                        [disabled]="! protection['sensibilidad'] || ! protection['sensibilidad_personalizada_habilitada'] || mode === 'details'"
+                        >
+                        <option *ngFor="let measure of amperageMeasurements; let i = index" 
+                                [value]="measure" 
+                                [selected]="i === 0" 
+                                >
+                            {{measure}}
+                        </option>
+                    </select>
+
+                </div>
+
+                <div class="col-3 px-1 text-center text-center">
+                    
+                    <label class="checkbox" for="proteccion_{{i + 1}}_rearmable">
+                    
+                        <input 
+                        type="checkbox" 
+                        [checked]="protection['rearmable']" 
+                        [disabled]="mode === 'details' || tourIsActive"
+                        [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="protection['rearmable']"
+                        id="proteccion_{{i + 1}}_rearmable">
+        
+                        <i class="fas fa-check" *ngIf="protection['rearmable']" ></i>
+        
+                    </label>    
+
+                    <label class="d-inline ml-2" for="proteccion_{{i + 1}}_rearmable">Rearmable</label>
+                    
+                </div>    
+            </div>
+
+        </div>
+        
+    </div>
+
+</li>

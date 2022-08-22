@@ -1,0 +1,124 @@
+
+/*nuevo diseño*/
+.texto_tabla{
+  color: #333;
+  font-family: Raleway !important;
+  font-size: 12px !important;
+}
+.texto_proyecto{
+  color: #828282;
+  font-family: Raleway !important;
+  font-size: 12px !important;
+}
+.solicitud_cerrada{
+  height: 40px;
+  width: 200px;
+}
+
+/************/
+/* ordenes de trabajo*/
+.cabecera{
+  height: 18px;
+  width: 61px;
+  color: #333;
+  font-family: Raleway;
+  font-size: 12px;
+  line-height: 18px
+}
+.main-ordenes{
+    position: absolute;
+    font-size: 100%;
+    top: 7.8%;
+    left: 18.52%;
+    height: 28.5%;
+    width: 72%;
+  /*border: 0.5px solid #333;*/
+}
+.text-ordenes{
+  font-size: 12pt;
+  position:absolute;
+  top: 2.8%;
+
+}
+.cursor_pointer{
+  cursor: pointer;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 12px;
+}
+.valor{
+  margin-left: -3%;
+  margin-right: -36px;
+}
+
+.espacio_vertical{
+  position:absolute;
+  top: 51%;
+}
+.icon_modulo {
+    background-color: white;
+    height: 23px;
+}
+
+
+.sinborde{
+    outline: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0;
+    outline-offset: 0;
+    margin-left: 15%;
+    margin-top: 2%;
+}
+.botonera{
+  left: 25.15%;
+  margin-top: 0.69%;
+}
+.botonera2{
+  left: 10.15%;
+}
+.btn1 {
+    color: #000;
+}
+
+.color_table{
+  background-color: #FAFAFA;
+}
+.circuloIniciales {
+    background-color: #6E63C8;
+    display: inline-flex;
+    justify-content: center;
+    border-radius: 50%;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    color: #FFF;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: 1.08px;
+    line-height: 16px;
+}
+@media screen and (min-width: 1920px) {
+ /*la tabla*/
+  .valor{
+    margin-left: -19%;
+  }
+
+}
+
+/* Estilos de 'default-view-header.css' que necesito modificar */
+
+.scrollable{
+  max-height: 57.5vh !important;
+}
+
+.finder{
+  padding: 0.25rem 1.75rem !important
+}
+
+.magnifying-glass{
+  margin-left: -96.5%;
+}

@@ -1,0 +1,93 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+
+    <home-view-header
+    title="editar usuario"
+    [enableTourButton]="false"
+    ></home-view-header> 
+
+    <form id="editUserForm" [formGroup]="form" (submit)="onSubmit()" class="col-12 d-flex align-items-center">
+        
+        <div class="row m-0 py-4">
+
+            <div class="col-12 col-md-4 px-3 mb-2">
+ 
+                <label class="mb-2" for="nombre">Nombre: <span class="required-mark">*</span></label>
+                
+                <input type="text" id="nombre" name="nombre" formControlName="nombre" required>
+        
+            </div>
+
+            <div class="col-12 col-md-4 px-3 mb-2">
+
+                <label class="mb-2" for="apellidos">Apellido: <span class="required-mark">*</span></label>
+                
+                <input type="text" id="apellidos" name="apellidos" formControlName="apellidos" required>
+        
+            </div>
+
+            <div class="col-12 col-md-4 px-3 mb-2">
+
+                <label class="mb-2" for="nif">NIF/NIE: <span class="required-mark">*</span></label>
+                
+                <input type="text" id="nif" name="nif" formControlName="nif" required>
+        
+            </div>
+
+            <div class="col-12 col-md-4 px-3 mb-2">
+            
+                <label class="mb-2" for="email">Email:</label>
+            
+                <input type="email" id="email" name="email" formControlName="email">
+        
+            </div>
+
+            <div class="col-12 col-md-4 px-3 mb-2">
+            
+                <label class="mb-2" for="id_usuario">Nombre usuario: <span class="required-mark">*</span></label>
+            
+                <input type="text" id="id_usuario" name="id_usuario" formControlName="id_usuario" required>
+        
+            </div>
+            
+            <div class="col-12 col-md-4 px-3 mb-2">
+
+                <label class="mb-2" >Activo:</label>
+
+                <br>
+                
+                <label for="status-true" class="mx-3">
+                    Si
+                </label>
+
+                <input id="status-true" type="radio" name="activo" value="on" formControlName="activo" required>
+
+                <label for="status-false" class="mx-3">
+                    No
+                </label>
+                
+                <input id="status-false" type="radio" name="activo" value="off" formControlName="activo" required>
+
+            </div>
+           
+        </div>
+         
+    </form>
+
+    <div class="col-12 p-0 d-flex align-items-center justify-content-end">
+        
+        <div class="col-2 p-2">
+            <button type="submit" form="editUserForm" [disabled]="form.invalid" class="btn btn-block btn-info p-1">
+                Actualizar
+            </button>
+        </div>
+
+        <div class="col-2 pl-2 pr-0">
+            <a [routerLink]="['../..']" class="btn btn-block btn-outline-info p-1">
+                Volver
+            </a>
+        </div>
+    </div>
+
+
+</div>
+

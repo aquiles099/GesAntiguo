@@ -1,0 +1,124 @@
+<div class="bar" [class.collapsed]="isCollapsed">
+
+    <h1 class="title mx-3 mx-sm-4">
+        <b>PASO 2 de 2:</b> &nbsp;&nbsp;CONFIGURACIÓN DE PROYECTO
+
+        <div title="Ayuda" class="ml-4 pointer d-inline" (click)="showTour()">
+            <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+        </div>
+        
+        <span (click)="toggleCollapseState()" class="d-block d-sm-none float-right pointer">
+            <i class="fas" [ngClass]="{'fa-chevron-up': ! isCollapsed, 'fa-chevron-down': isCollapsed}"></i>
+        </span>
+    </h1>
+
+    <div *ngIf="isVisible" [@fadeInOnEnter] [@fadeOutOnLeave] class="row m-0 justify-content-center">
+
+        <div class="col-12 p-0">
+            <tabset #tabset class="_tabs">
+                <tab 
+                customClass="_tab tab-{{i + 1}}"
+                *ngFor="let module of modules; let i = index" 
+                [heading]="module.name"    
+                [id]="i"    
+                (selectTab)="onSelectTab($event)">
+
+                    <div class="row mx-3">
+                        <div class="col-12 col-sm-6 py-4 bordered-bottom">
+                            Selecciona una o más capas:
+                        </div>
+                    </div>
+
+                    <div id="module-{{i + 1}}-layer-list" class="w-100" [ngClass]="{'scrollable-collapsed': isCollapsed, 'scrollable': ! isCollapsed}">
+                        <div *ngFor="let layer of module.layers; let i = index" class="row mx-4 my-3 align-items-center">
+                            
+                            <div class="col-12 bordered-bottom col-sm-4 px-sm-2">
+                                
+                                <label id="layer-{{layer.id}}-checkbox"
+                                        for="checkbox_layer_{{layer.id}}"
+                                        [class.checked]="layer.activo" 
+                                        class="checkbox-round mb-4">
+                                    <i *ngIf="layer.activo" class="fa fa-check"></i>
+                                </label>
+    
+                                <input [disabled]="tourIsActive" type="checkbox" class="hide" (change)="toggleLayerState(layer)" id="checkbox_layer_{{layer.id}}">
+                                
+                                <label for="checkbox_layer_{{layer.id}}" class="ml-4 layer-title w-75">
+                                    <span id="layer-{{layer.id}}-name">
+                                        {{layer.nombre}}
+                                    </span>
+                                    <br>
+                                    <small id="layer-{{layer.id}}-geometry">
+                                        ({{ getLayerGeometryTypeLabel(layer.geometria) }})
+                                    </small>
+                                </label>
+                               
+                            </div>
+    
+                            <!-- <div *ngIf="! layer.configurado" class="col-6 px-2 text-center col-sm-3 animate__animated animate_fadeIn animate__faster">
+    
+                                <label class="layer-{{i + 1}}-upload-file-input btn btn-sm btn-outline-secondary load-file-btn rounded-lg" 
+                                for="file_input_layer_{{layer.id}}"
+                                [class.disabled]="! layer.activo"
+                                >
+                                <img class="icon" src="assets/iconos-nuevo-proyecto-web/CARGAR.svg" alt="icono-cargar">
+                                    &nbsp;
+                                    Cargar archivo
+                                </label>
+    
+                                <input 
+                                accept=".geojson,.zip,.kml, .xlsx" 
+                                type="file" 
+                                class="hide"
+                                id="file_input_layer_{{layer.id}}"
+                                (change)="showProjectionSetupSection(layer, $event)"
+                                [disabled]="! layer.activo || tourIsActive"
+                                >
+
+                            </div>
+    
+                            <div *ngIf="layer.configurado" class="layer-{{i + 1}}-upload-file-input col-6 px-2 text-center layer-title col-sm-3 animate__animated animate__fadeIn animate__faster">                                
+                                Capa configurada <br>
+                                <small>(Elimine para reconfigurar)</small>
+                            </div>
+
+                            <div class="col-6 offset-sm-3 col-sm-2 px-2 d-flex align-items-center justify-content-around">
+                                <button type="button"
+                                        id="layer-{{layer.id}}-delete-btn"
+                                        (click)="deleteLayer(layer)" 
+                                        [class.disabled]="! layer.configurado"
+                                        [disabled]="! layer.configurado || tourIsActive"
+                                        class="btn-transparent"
+                                        >
+                                    <img title="Eliminar" class="icon mr-2" src="assets/icons/SVG/PAPEPERA.svg" alt="icono-papelera">
+                                </button>
+                            </div> -->
+
+                        </div>
+                    </div>
+
+                </tab>
+            </tabset>
+        </div>
+
+        <div *ngIf="isCollapsed" class="col-12 p-0 my-2 bottom-section">
+            <div class="row w-100 mx-2 justify-content-end">
+                <div class="col-5">
+                    <button [routerLink]="['/medium/home/proyectos', project.id_proyecto, 'acciones']" type="button" class="btn btn-block _btn-outline-secondary">
+                        Volver
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <projection-settings-section
+        [map]="map"
+        [projections]="projections"
+        [isCollapsed]="isCollapsed"
+        (configureLayer)="returnFromTheProjectionSettingsSection()"
+        (onHidden)="returnFromTheProjectionSettingsSection()"
+    ></projection-settings-section>
+
+</div> 

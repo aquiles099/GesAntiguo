@@ -1,0 +1,261 @@
+/*FUENTES*/
+
+@font-face {
+    font-family: 'Raleway';
+    src: url(/../assets/fonts/Raleway/static/Raleway-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: 'Raleway Extrabold';
+    src: url(/../assets/fonts/Raleway/static/Raleway-ExtraBold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: 'Raleway Light';
+    src: url(/../assets/fonts/Raleway/static/Raleway-Light.ttf) format("truetype");
+}
+/*nuevo diseño*/
+.texto_solicitud{
+  height: 20px;
+  width: 119px;
+  color: #333;
+  font-family: Raleway;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 20px;
+}
+.fecha_creacion{
+  height: 16px;
+  width: 266px;
+  color: #828282;
+  font-family: Arial;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+}
+.fecha{
+  color: #828282;
+  font-family: Arial;
+  font-size: 14px;
+}
+.text_input{
+  font-family: Raleway;
+   color: #828282;
+   font-size: 12px;
+}
+.tamano_inputs{
+  height: 33px;
+}
+/***************/
+.ampliar{
+  margin-top: -2%;
+  margin-left: 91%;
+}
+/* breadcumb*/
+ul.breadcrumb_plano {
+  padding: 10px 16px;
+  list-style: none;
+  margin-left: -4%;
+  margin-top: 0%;
+}
+
+/* Display list items side by side */
+ul.breadcrumb_plano li {
+  display: inline;
+  font-size: 14px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb_plano li+li:before {
+  padding: 8px;
+  color: black;
+  content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+ul.breadcrumb_plano li a {
+  color: #0275d8;
+  text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.breadcrumb_plano li a:hover {
+  color: #01447e;
+  text-decoration: underline;
+}
+/************/
+
+.main- {
+    position: absolute;
+    font-size: 100%;
+    top: 7.8%;
+    left: 23.52%;
+    height: 28.5%;
+    width: 72%;
+}
+
+.parametros {
+    margin-left: 20%;
+}
+
+.escudo_proyecto {
+    background-color: white;
+    height: 50px;
+    margin-left: -5.48%;
+}
+
+.icon_modulo {
+    background-color: white;
+    height: 23px;
+}
+
+.nueva_solicitud {
+    background-color: #F9F9F9;
+}
+
+.localizacion {
+    height: 383px;
+    position: absolute;
+    width: 690px;
+    z-index: 1;
+}
+
+.archivos {
+    margin-left: 0.5vw;
+    margin-top: -2vh;
+    position: absolute;
+}
+.cursor_pointer{
+  cursor: pointer;
+}
+
+.botones {
+    margin-top: -5%;
+    width: auto;
+}
+
+.tamano_texto_boton {
+ height: 15px;
+ width: 127.89px;
+ color: #FFF;
+ font-family: Raleway;
+ font-size: 13px;
+ font-weight: 700;
+ line-height: 15px;
+ text-align: center;
+}
+.tamano_nuevo{
+    font-size: 14px;
+    font-family: arial;
+}
+
+.btn_crear_consulta {
+    height: 40px;
+    width: 165px;
+    margin-top: 5%;
+    margin-right: 2%;
+}
+.btn_ampliar {
+    width: 100px;
+    height: 37px;
+    margin-top: 3%;
+    margin-right: 2%;
+}
+
+.valor {
+    margin-top: -3%;
+    margin-left: -2.75%;
+    margin-right: -36px;
+    width: 100%;
+    z-index: 1;
+}
+
+.espacio_vertical {
+    position: absolute;
+    top: 51%;
+}
+
+.color_btn_crear {
+    color: #ffff;
+    height: 40px;
+    width: 165px;
+    border-radius: 2px;
+    background-color: #26AAE2;
+}
+
+.btn1 {
+  box-sizing: border-box;
+  color: #26AAE2;
+  height: 40px;
+  width: 165px;
+  border: 0.8px solid #26AAE2 !important;
+  border-radius: 2px;
+}
+.scrollable{
+    height: 100%;
+    overflow: auto;
+}
+.border_2{
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+.el_margin_bottom{
+  margin-bottom: 0.2rem;
+}
+
+@media screen and (min-width: 1920px) {
+    .valor {
+        margin-left: -16%;
+        margin-right: 6px;
+        margin-top: -3%;
+        width: 127%;
+        height: auto;
+    }
+    .botonera2 {
+        left: 6.15%;
+        position: relative;
+    }
+    .table_2 {
+        width: 138%;
+        margin-left: -11.48%;
+    }
+    .botones{
+      margin-top: -5%;
+      width: 116%;
+    }
+     /* breadcumb*/
+    ul.breadcrumb_plano {
+      padding: 10px 16px;
+      list-style: none;
+      margin-left: 7%;
+      margin-top: 0%;
+    }
+
+    /* Display list items side by side */
+    ul.breadcrumb_plano li {
+      display: inline;
+      font-size: 14px;
+    }
+
+    /* Add a slash symbol (/) before/behind each list item */
+    ul.breadcrumb_plano li+li:before {
+      padding: 8px;
+      color: black;
+      content: "/\00a0";
+    }
+
+    /* Add a color to all links inside the list */
+    ul.breadcrumb_plano li a {
+      color: #0275d8;
+      text-decoration: none;
+    }
+    /* Add a color on mouse-over */
+    ul.breadcrumb_plano li a:hover {
+      color: #01447e;
+      text-decoration: underline;
+    }
+    .el_boton{
+      margin-bottom: 0.2rem;
+    }
+}

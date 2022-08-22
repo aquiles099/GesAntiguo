@@ -1,0 +1,43 @@
+<div class="_container" *ngIf="! isCollapsed" [@fadeInLeftOnEnter] [@fadeOutLeftOnLeave]>
+    <div class="bar">
+
+        <div class="top-section">
+
+            <ul class="menu top-menu">
+                <li [routerLink]="[option.url]" 
+                    routerLinkActive="option.action === selectedOption"  
+                    *ngFor="let option of options" 
+                    [class.active]="option.action === selectedOption"
+                    class="animate__animated animate__fadeIn animate__faster">
+                    <div class="row mx-2">
+                        <div class="p-0 col-10 text-truncate">
+                            {{ option.title }}
+                        </div>
+                        <div class="p-0 col-2 text-lg-right">
+                            {{ option.tag }}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="bottom-section">
+
+            <ul class="menu bottom-menu">
+                <li (click)="onSelectOptionEvent('newProject')">
+                    <div class="row mx-2 align-items-center">
+                        <div class="p-0 col-2 text-left">
+                            <img src="assets/iconos-home/NUEVOPUNTO_B.svg" attr.alt="NUEVOPUNTO" class="icon">
+                        </div>
+                        <div class="pl-2 pr-0 col-10 text-left text-truncate">
+                            Crear nuevo proyecto
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+</div>

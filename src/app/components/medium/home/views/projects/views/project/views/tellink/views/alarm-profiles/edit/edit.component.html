@@ -1,0 +1,725 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0 text-center text-md-left">
+
+    <home-view-header
+    title="editar perfil de alarma"
+    [enableTourButton]="false"
+    ></home-view-header>    
+   
+    <form id="alarmProfileEditionForm" [formGroup]="form" (submit)="onSubmit()" class="col-12 d-flex align-items-center">
+        
+        <div class="row mx-0">
+
+            <div class="col-12 title bordered-bottom py-2 px-0 mt-2 mb-3">
+            
+                Configuración basica
+
+            </div>
+
+            <div class="col-12 px-2">
+
+                <div class="row m-0">
+
+                    <div class="col-12 col-lg-6 p-0">
+
+                        <div class="row m-0">
+                            
+                            <div class="col-12 px-2 py-1 mb-3 bordered-bottom ">
+                                <label>Principal</label> 
+                            </div>
+        
+                            <div class="col-6 px-2 mb-2">
+        
+                                <label class="mb-2" for="">Contrato: <span class="required-mark">*</span></label>
+                                
+                                <ng-select
+                                    class="custom" 
+                                    [clearable]="false"
+                                    [items]="userContracts"
+                                    bindLabel="name"
+                                    bindValue="id"
+                                    formControlName="contract_id"
+                                    required
+                                    name="contract_id"
+                                    placeholder="Seleccione..."
+                                    >
+                                </ng-select>
+
+                                <small *ngIf="getFormControl('contract_id').invalid" class="d-block text-danger">
+                                    El campo es requerido.
+                                </small>
+                        
+                            </div>
+                
+                            <div class="col-6 px-2 mb-2">
+                
+                                <label class="mb-2" for="name">Nombre: <span class="required-mark">*</span></label>
+        
+                                <input type="text" id="name" formControlName="name" name="name" required>
+
+                                <small *ngIf="getFormControl('name').invalid && (getFormControl('name').dirty || getFormControl('name').touched)" class="d-block text-danger">
+                                    El campo es requerido.
+                                </small>
+                                    
+                            </div>
+                        
+                            <div *ngFor="let n of notificationReceiversNumber; let i = index"  class="col-6 px-2 mb-2">
+                
+                                <label class="mb-2" for="warning_mail_{{ i + 1}}">Destinatario de notificaciones {{ i + 1 }}:</label>
+        
+                                <input type="email" placeholder="email{{i + 1}}@corporativo.com" id="warning_mail_{{ i + 1}}"  formControlName="warning_mail_{{ i + 1}}" name="warning_mail_{{ i + 1}}" >
+                                  
+                                <small *ngIf="getFormControl('warning_mail_' + (i + 1)).invalid" class="d-block text-danger">
+                                    El campo debe ser un email.
+                                </small>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="col-12 col-lg-6 p-0">
+
+                        <div class="row m-0">
+
+                            <div class="col-12 px-2 py-1 mb-3 bordered-bottom ">
+                                <label>Equipo</label> 
+                            </div>
+                                
+                            <div class="col-6 px-2 mb-2">
+                
+                                <label class="mb-2" for="">Equipo ON: <span class="required-mark">*</span></label>
+        
+                                    <ng-select
+                                    class="custom" 
+                                    [clearable]="false"
+                                    [items]="alarmStates"
+                                    bindLabel="key"
+                                    bindValue="value"
+                                    formControlName="switch_on"
+                                    required
+                                    name="switch_on"
+                                    placeholder="Seleccione..."
+                                    >
+                                </ng-select>    
+
+                                <small *ngIf="getFormControl('switch_on').invalid" class="d-block text-danger">
+                                    El campo es requerido.
+                                </small>
+        
+                            </div>
+                           
+                            <div class="col-6 px-2 mb-2">
+                
+                                <label class="mb-2" for="">Equipo OFF: <span class="required-mark">*</span></label>
+        
+                                    <ng-select
+                                    class="custom" 
+                                    [clearable]="false"
+                                    [items]="alarmStates"
+                                    bindLabel="key"
+                                    bindValue="value"
+                                    formControlName="switch_off"
+                                    required
+                                    name="switch_off"
+                                    placeholder="Seleccione..."
+                                    >
+                                </ng-select> 
+
+                                <small *ngIf="getFormControl('switch_off').invalid" class="d-block text-danger">
+                                    El campo es requerido.
+                                </small>
+        
+                            </div>
+                            
+                            <div class="col-6 px-2 mb-2">
+                
+                                <label class="mb-2" for="">Señal Baja de Red Móvil: <span class="required-mark">*</span></label>
+        
+                                    <ng-select
+                                    class="custom" 
+                                    [clearable]="false"
+                                    [items]="alarmStates"
+                                    bindLabel="key"
+                                    bindValue="value"
+                                    formControlName="low_GSM_signal"
+                                    required
+                                    name="low_GSM_signal"
+                                    placeholder="Seleccione..."
+                                    >
+                                </ng-select>  
+
+                                <small *ngIf="getFormControl('low_GSM_signal').invalid" class="d-block text-danger">
+                                    El campo es requerido.
+                                </small>
+        
+                            </div>
+                           
+                            <div class="col-6 px-2 mb-2">
+                
+                                <label class="mb-2" for="">Sin datos red móvil (GPRS Off): <span class="required-mark">*</span></label>
+        
+                                    <ng-select
+                                    class="custom" 
+                                    [clearable]="false"
+                                    [items]="alarmStates"
+                                    bindLabel="key"
+                                    bindValue="value"
+                                    formControlName="no_GPRS_data"
+                                    required
+                                    name="no_GPRS_data"
+                                    placeholder="Seleccione..."
+                                    >
+                                </ng-select>  
+
+                                <small *ngIf="getFormControl('no_GPRS_data').invalid" class="d-block text-danger">
+                                    El campo es requerido.
+                                </small>
+        
+                            </div>
+                          
+                            <div class="col-6 px-2 mb-2">
+                
+                                <label class="mb-2" for="">Error Conexión analizador: <span class="required-mark">*</span></label>
+        
+                                    <ng-select
+                                    class="custom" 
+                                    [clearable]="false"
+                                    [items]="alarmStates"
+                                    bindLabel="key"
+                                    bindValue="value"
+                                    formControlName="meter_error"
+                                    required
+                                    name="meter_error"
+                                    placeholder="Seleccione..."
+                                    >
+                                </ng-select>    
+
+                                <small *ngIf="getFormControl('meter_error').invalid" class="d-block text-danger">
+                                    El campo es requerido.
+                                </small>
+        
+                            </div>
+                            
+                            <div class="col-6 px-2 mb-2">
+                
+                                <label class="mb-2" for="">Error de GPS: <span class="required-mark">*</span></label>
+        
+                                    <ng-select
+                                    class="custom" 
+                                    [clearable]="false"
+                                    [items]="alarmStates"
+                                    bindLabel="key"
+                                    bindValue="value"
+                                    formControlName="gps_error"
+                                    required
+                                    name="gps_error"
+                                    placeholder="Seleccione..."
+                                    >
+                                </ng-select>   
+
+                                <small *ngIf="getFormControl('gps_error').invalid" class="d-block text-danger">
+                                    El campo es requerido.
+                                </small>
+        
+                            </div>
+
+                        </div>
+
+                    </div>
+        
+                </div>
+                
+            </div>
+
+            <div class="col-12 px-2">
+
+                <div class="row m-0">
+
+                    <div class="col-12 col-lg-6 p-0">
+
+                        <div class="row m-0">
+
+                            <div class="col-12 px-2 py-1 mb-3 bordered-bottom ">
+                                <label>Entradas</label> 
+                            </div>
+                        
+                            <div *ngFor="let n of numberOfInputs; let i = index" class="col-6 px-2 mb-2">
+        
+                                <div class="row m-0 align-items-center">
+        
+                                    <div class="col-5 pl-0 pr-2">
+                                        <label >{{ i + 1 }} - ON : <span class="required-mark">*</span></label>
+                                    </div>
+        
+                                    <div class="col-7 px-0">
+                                        <ng-select
+                                            class="custom" 
+                                            [clearable]="false"
+                                            [items]="alarmStatesWithSending"
+                                            bindLabel="key"
+                                            bindValue="value"
+                                            formControlName="input{{ i + 1}}"
+                                            required
+                                            name="input{{ i + 1}}"
+                                            placeholder="Seleccione..."
+                                            >
+                                        </ng-select>
+                                        <small *ngIf="getFormControl('input'+ (i + 1)).invalid" class="d-block text-danger">
+                                            El campo es requerido.
+                                        </small>
+                                    </div>
+        
+                                </div>
+                                
+                            </div>        
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="col-12 col-lg-6 p-0">
+
+                        <div class="row m-0">
+
+                            <div class="col-12 px-2 py-1 mb-3 bordered-bottom ">
+                                <label>Salidas</label> 
+                            </div>
+                            
+                            <div class="col-12 px-2 mb-2">
+                            
+                                <div class="row m-0">
+        
+                                    <div class="col-6 pl-0 pr-2">
+        
+                                        <div class="row-0">
+        
+                                            <div *ngFor="let n of numberOfOutputs; let i = index" class="col-12 px-0 mb-2">
+        
+                                                <div class="row m-0 align-items-center">
+        
+                                                    <div class="col-5 pl-0 pr-2">
+                                                        <label >{{ i + 1 }} - Relé ON <span class="required-mark">*</span></label>
+                                                    </div>
+                
+                                                    <div class="col-7 px-0">
+                                                        <ng-select
+                                                            class="custom" 
+                                                            [clearable]="false"
+                                                            [items]="alarmStates"
+                                                            bindLabel="key"
+                                                            bindValue="value"
+                                                            formControlName="on_rele{{ i + 1}}"
+                                                            required
+                                                            name="on_rele{{ i + 1}}"
+                                                            placeholder="Seleccione..."
+                                                            >
+                                                        </ng-select>
+                                                        <small *ngIf="getFormControl('on_rele'+ (i + 1)).invalid" class="d-block text-danger">
+                                                            El campo es requerido.
+                                                        </small>
+                                                    </div>
+                
+                                                </div>
+                                            </div>
+        
+                                        </div>
+        
+                                    </div>
+                                    
+                                    <div class="col-6 px-0">
+        
+                                        <div class="row-0">
+        
+                                            <div *ngFor="let n of numberOfOutputs; let i = index" class="col-12 px-0 mb-2">
+        
+                                                <div class="row m-0 align-items-center">
+        
+                                                    <div class="col-5 pl-0 pr-2">
+                                                        <label >{{ i + 1 }} - Relé OFF <span class="required-mark">*</span></label>
+                                                    </div>
+                
+                                                    <div class="col-7 px-0">
+                                                        <ng-select
+                                                            class="custom" 
+                                                            [clearable]="false"
+                                                            [items]="alarmStates"
+                                                            bindLabel="key"
+                                                            bindValue="value"
+                                                            formControlName="off_rele{{ i + 1}}"
+                                                            required
+                                                            name="off_rele{{ i + 1}}"
+                                                            placeholder="Seleccione..."
+                                                            >
+                                                        </ng-select>
+                                                        <small *ngIf="getFormControl('off_rele'+ (i + 1)).invalid" class="d-block text-danger">
+                                                            El campo es requerido.
+                                                        </small>
+                                                    </div>
+                
+                                                </div>
+                                            </div>
+        
+                                        </div>
+        
+                                    </div>
+        
+                                </div>
+        
+                            </div>
+
+                        </div>
+
+                    </div>
+                                    
+                </div>
+                
+            </div>
+          
+            <div class="col-12 title bordered-bottom py-2 px-0 mt-2 mb-3">
+            
+                Configuración avanzada
+
+            </div>
+
+            <div class="col-6 col-lg-3 px-2 mb-2">
+                
+                <div class="row m-0">
+
+                    <div class="col-12 p-0 mb-2">
+                        <label for="max_power_value_rele_off">Potencia maxima relé OFF (kW): <span class="required-mark">*</span></label>
+                    </div>
+
+                    <div class="col-3 px-0">
+                        <input type="number" required placeholder="kW" step=".01" min="0" max="99.99" id="max_power_value_rele_off" formControlName="max_power_value_rele_off" name="max_power_value_rele_off" >
+                    </div>
+
+                    <div class="col-9 px-0">
+                        <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [items]="alarmStatesWithSending"
+                        bindLabel="key"
+                        bindValue="value"
+                        formControlName="max_power_rele_off"
+                        required
+                        name="max_power_rele_off"
+                        placeholder="Seleccione..."
+                        >
+                        </ng-select>   
+                    </div>
+
+                    <div class="col-12 p-0 mb-2">
+                        <small *ngIf="getFormControl('max_power_value_rele_off').invalid || getFormControl('max_power_value_rele_off').min || getFormControl('max_power_value_rele_off').max" class="d-block text-danger">
+                            El campo debe ser un número entre 0 y 99.
+                        </small>
+                        <small *ngIf="getFormControl('max_power_rele_off').invalid" class="d-block text-danger">
+                            El estado de alarma es requerido.
+                        </small>
+                    </div>
+
+                </div>
+                    
+            </div>
+        
+            <div class="col-6 col-lg-3 px-2 mb-2">
+                
+                <div class="row m-0">
+
+                    <div class="col-12 p-0 mb-2">
+                        <label for="max_power_value_rele_on">Potencia maxima relé ON (kW): <span class="required-mark">*</span></label>
+                    </div>
+
+                    <div class="col-3 px-0">
+                        <input type="number" required placeholder="kW" step=".01" min="0" max="99.99" id="max_power_value_rele_on" formControlName="max_power_value_rele_on" name="max_power_value_rele_on" >
+                    </div>
+
+                    <div class="col-9 px-0">
+                        <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [items]="alarmStatesWithSending"
+                        bindLabel="key"
+                        bindValue="value"
+                        formControlName="max_power_rele_on"
+                        required
+                        name="max_power_rele_on"
+                        placeholder="Seleccione..."
+                        >
+                        </ng-select>   
+                    </div>
+
+                    <div class="col-12 p-0 mb-2">
+                        <small *ngIf="getFormControl('max_power_value_rele_on').invalid" class="d-block text-danger">
+                            El campo debe ser un número entre 0 y 99.
+                        </small>
+                        <small *ngIf="getFormControl('max_power_rele_on').invalid" class="d-block text-danger">
+                            El estado de alarma es requerido.
+                        </small>
+                    </div>
+
+                </div>
+                    
+            </div>
+        
+            <div class="col-6 col-lg-3 px-2 mb-2">
+                
+                <div class="row m-0">
+
+                    <div class="col-12 p-0 mb-2">
+                        <label for="power_factor">Factor de potencia minimo (kW): <span class="required-mark">*</span></label>
+                    </div>
+
+                    <div class="col-3 px-0">
+                        <input type="number" required placeholder="kW" step=".01" min="0.00" max=".99" id="power_factor" formControlName="power_factor" name="power_factor" >
+                    </div>
+
+                    <div class="col-9 px-0">
+                        <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [items]="alarmStatesWithSending"
+                        bindLabel="key"
+                        bindValue="value"
+                        formControlName="min_power_factor"
+                        required
+                        name="min_power_factor"
+                        placeholder="Seleccione..."
+                        >
+                        </ng-select>   
+                    </div>
+
+                    <div class="col-12 p-0 mb-2">
+                        <small *ngIf="getFormControl('power_factor').invalid" class="d-block text-danger">
+                            El campo debe ser un número entre 0 y 0,99.
+                        </small>
+                        <small *ngIf="getFormControl('min_power_factor').invalid" class="d-block text-danger">
+                            El estado de alarma es requerido.
+                        </small>
+                    </div>
+
+                </div>
+                    
+            </div>
+        
+            <div class="col-6 col-lg-3 px-2 mb-2">
+                
+                <div class="row m-0">
+
+                    <div class="col-12 p-0 mb-2">
+                        <label for="">Tensión min / max (V) en fases 1, 2 y 3: <span class="required-mark">*</span></label>
+                    </div>
+
+                    <div class="col-6 pl-0 pr-1">
+                        <input type="number" required placeholder="Minimo" step="1" min="150" max="255" id="min_voltage_value" formControlName="min_voltage_value" name="min_voltage_value" >
+                        <small *ngIf="getFormControl('min_voltage_value').invalid" class="d-block text-danger">
+                            El campo debe ser un número entre 150 y 255.
+                        </small>
+                    </div>
+
+                    <div class="col-6 pl-1 pr-0">
+                        <input type="number" required placeholder="Maximo" step="1" min="150" max="255" id="max_voltage_value" formControlName="max_voltage_value" name="max_voltage_value" >
+                        <small *ngIf="getFormControl('max_voltage_value').invalid" class="d-block text-danger">
+                            El campo debe ser un número entre 150 y 255.
+                        </small>
+                    </div>                    
+
+                </div>
+                    
+            </div>
+
+            <div *ngFor="let n of numberOfPhases; let i = index" class="col-12 col-lg-4 px-2 mb-2">
+                
+                <div class="row m-0">
+
+                    <div class="col-12 px-0 py-1 mb-3 bordered-bottom ">
+                        <label>Fase {{ i + 1 }}</label> 
+                    </div>
+
+                    <div class="col-6 pl-0 pr-1 col-lg-12 px-lg-0 mb-2">
+                
+                        <div class="row m-0">
+        
+                            <div class="col-12 p-0 mb-2">
+                                <label for="min_current_value_rele_on_phase{{ i + 1}}">Corriente minima con relé ON (A): <span class="required-mark">*</span></label>
+                            </div>
+        
+                            <div class="col-3 px-0">
+                                <input type="number" required placeholder="Amp" step=".01" min=".1" max="99.9" id="min_current_value_rele_on_phase{{ i + 1}}" formControlName="min_current_value_rele_on_phase{{ i + 1}}" name="min_current_value_rele_on_phase" >
+                            </div>
+        
+                            <div class="col-9 px-0">
+                                <ng-select
+                                class="custom" 
+                                [clearable]="false"
+                                [items]="alarmStatesWithSending"
+                                bindLabel="key"
+                                bindValue="value"
+                                formControlName="min_current_rele_on_phase{{ i + 1 }}"
+                                required
+                                name="min_current_rele_on_phase{{ i + 1 }}"
+                                placeholder="Seleccione..."
+                                >
+                                </ng-select>   
+                            </div>
+
+                            <div class="col-12 p-0 mb-2">
+                                <small *ngIf="getFormControl('min_current_value_rele_on_phase' + (i + 1)).invalid" class="d-block text-danger">
+                                    El campo debe ser un número entre 0,1 y 99,9.
+                                </small>
+                                <small *ngIf="getFormControl('min_current_rele_on_phase' + (i + 1)).invalid" class="d-block text-danger">
+                                    El estado de alarma es requerido.
+                                </small>
+                            </div>
+        
+                        </div>
+                            
+                    </div>
+                    
+                    <div class="col-6 pl-1 pr-0 col-lg-12 px-lg-0 mb-2">
+                
+                        <div class="row m-0">
+        
+                            <div class="col-12 p-0 mb-2">
+                                <label for="max_current_value_rele_on_phase{{ i + 1}}">Corriente maxima con relé ON (A): <span class="required-mark">*</span></label>
+                            </div>
+        
+                            <div class="col-3 px-0">
+                                <input type="number" required placeholder="Amp" step=".01" min=".1" max="99.9" id="max_current_value_rele_on_phase{{ i + 1}}" formControlName="max_current_value_rele_on_phase{{ i + 1}}" name="max_current_value_rele_on_phase" >
+                            </div>
+        
+                            <div class="col-9 px-0">
+                                <ng-select
+                                class="custom" 
+                                [clearable]="false"
+                                [items]="alarmStatesWithSending"
+                                bindLabel="key"
+                                bindValue="value"
+                                formControlName="max_current_rele_on_phase{{ i + 1 }}"
+                                required
+                                name="max_current_rele_on_phase{{ i + 1 }}"
+                                placeholder="Seleccione..."
+                                >
+                                </ng-select>   
+                            </div>
+
+                            <div class="col-12 p-0 mb-2">
+                                <small *ngIf="getFormControl('max_current_value_rele_on_phase' + (i + 1)).invalid" class="d-block text-danger">
+                                    El campo debe ser un número entre 0,1 y 99,9.
+                                </small>
+                                <small *ngIf="getFormControl('max_current_rele_on_phase' + (i + 1)).invalid" class="d-block text-danger">
+                                    El estado de alarma es requerido.
+                                </small>
+                            </div>
+        
+                        </div>
+                            
+                    </div>
+                  
+                    <div class="col-6 col-lg-12 px-0 mb-2">
+                
+                        <div class="row m-0">
+        
+                            <div class="col-12 p-0 mb-2">
+                                <label for="max_current_value_rele_off_phase{{ i + 1}}">Corriente maxima con relé OFF (A): <span class="required-mark">*</span></label>
+                            </div>
+        
+                            <div class="col-3 px-0">
+                                <input type="number" required placeholder="Amp" step=".01" min=".1" max="99.9" id="max_current_value_rele_off_phase{{ i + 1}}" formControlName="max_current_value_rele_off_phase{{ i + 1}}" name="max_current_value_rele_off_phase" >
+                            </div>
+        
+                            <div class="col-9 px-0">
+                                <ng-select
+                                class="custom" 
+                                [clearable]="false"
+                                [items]="alarmStatesWithSending"
+                                bindLabel="key"
+                                bindValue="value"
+                                formControlName="max_current_rele_off_phase{{ i + 1 }}"
+                                required
+                                name="max_current_rele_off_phase{{ i + 1 }}"
+                                placeholder="Seleccione..."
+                                >
+                                </ng-select>   
+                            </div>
+
+                            <div class="col-12 p-0 mb-2">
+                                <small *ngIf="getFormControl('max_current_value_rele_off_phase' + (i + 1)).invalid" class="d-block text-danger">
+                                    El campo debe ser un número entre 0,1 y 99,9.
+                                </small>
+                                <small *ngIf="getFormControl('max_current_rele_off_phase' + (i + 1)).invalid" class="d-block text-danger">
+                                    El estado de alarma es requerido.
+                                </small>
+                            </div>
+        
+                        </div>
+                            
+                    </div>
+                            
+                    <div class="col-6 col-lg-12 px-0 mb-2">
+                        
+                        <label for="">Tensión minima (V): <span class="required-mark">*</span></label>
+                        
+                        <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [items]="alarmStatesWithSending"
+                        bindLabel="key"
+                        bindValue="value"
+                        formControlName="min_voltage_phase{{ i + 1 }}"
+                        required
+                        name="min_voltage_phase{{ i + 1 }}"
+                        placeholder="Seleccione..."
+                        >
+                        </ng-select>  
+                            
+                        <small *ngIf="getFormControl('min_voltage_phase' + (i + 1)).invalid" class="d-block text-danger">
+                            El campo es requerido.
+                        </small>
+                    </div>
+                   
+                    <div class="col-6 col-lg-12 px-0 mb-2">
+                        
+                        <label for="">Tensión maxima (V): <span class="required-mark">*</span></label>
+                        
+                        <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [items]="alarmStatesWithSending"
+                        bindLabel="key"
+                        bindValue="value"
+                        formControlName="max_voltage_phase{{ i + 1 }}"
+                        required
+                        name="max_voltage_phase{{ i + 1 }}"
+                        placeholder="Seleccione..."
+                        >
+                        </ng-select>  
+
+                        <small *ngIf="getFormControl('max_voltage_phase' + (i + 1)).invalid" class="d-block text-danger">
+                            El campo es requerido.
+                        </small>
+                            
+                    </div>
+
+                </div>
+                    
+            </div>
+        </div>
+
+    </form>
+
+    <div class="col-12 d-flex align-items-center justify-content-end">
+        
+        <div class="col-2 p-2">
+            <button type="submit" form="alarmProfileEditionForm" [disabled]="form.invalid" class="btn btn-block btn-info p-1">
+                Actualizar
+            </button>
+        </div>
+
+        <div class="col-2 p-2">
+            <a [routerLink]="['../..']" class="btn btn-block btn-outline-info p-1">
+                Volver
+            </a>
+        </div>
+    </div>
+
+</div>

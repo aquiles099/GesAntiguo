@@ -1,0 +1,22 @@
+<div #buscadorDeDirecciones>
+    <input type="text" [disabled]="disable" class="form-control fuente" [(ngModel)]="direccionBuscada" [typeahead]="direccionesSugerida$" [typeaheadAsync]="true" typeaheadWaitMs="1500" placeholder="Escriba, seleccione un elemento o haga clic en el mapa para mostrar una dirección" style="display:none;"> <!-- (keyup.enter)="alBuscarDireccion()" (typeaheadOnSelect)="alBuscarDireccion()" -->
+  <br>
+  <br>
+</div>
+<!-- SPINNER -->
+<div *ngIf="!mapReady" class="spinner">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="map-container" [ngStyle]="{'height': height_1}" *ngIf="mapReady" 
+    leaflet
+    leafletDraw
+    [leafletOptions]="opcionesDeMapa" 
+    [leafletFitBounds]="fitBounds"
+    [leafletFitBoundsOptions]="fitBoundsOptions" 
+    [leafletLayer]="capaBase"
+    [leafletLayers]="layers" 
+    (leafletMapReady)="onMapReady($event)" 
+    (leafletMouseMove)="actualizarCursorDeCoordenadas($event)"
+    (leafletMapZoomEnd)="zoomEvento()"
+></div>

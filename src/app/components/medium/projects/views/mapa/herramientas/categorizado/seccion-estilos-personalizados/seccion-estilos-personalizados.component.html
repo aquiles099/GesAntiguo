@@ -1,0 +1,85 @@
+<div class="custom-styles-section m-0 animate__animated animate__fadeIn animate__faster">
+
+    <div id="attribute-selector" class="col-12 p-0 mt-xs-2 mb-2">
+    
+        <label class="mb-2" for="">Atributo:</label>
+
+        <ng-select 
+        class="custom" 
+        placeholder="Seleccione un atributo"
+        [disabled]="loadingAttributes || tourIsActive"
+        [clearable]="false" 
+        [loading]="loadingAttributes"
+        [items]="attributes"
+        bindLabel="nombre"
+        bindValue="nombre_formateado"
+        [loadingText]="'Cargando atributos...'"
+        [(ngModel)]="selectedAttributeNgModel"
+        [ngModelOptions]="{standalone: true}"
+        (change)="onChangeAttributeSelect($event)"
+        >
+        </ng-select>
+        
+    </div>
+
+    <div class="col-12 p-0">
+        <button  type="button" 
+        class="btn btn-block py-2"
+        [disabled]="! selectedAttribute"
+        (click)="emitShowCategoryConfigurationModal()"
+        [ngClass]="{
+            'btn-warning': selectedAttribute,
+            'btn-secondary': ! selectedAttribute
+        }">
+            Añadir categoria
+        </button>
+    </div>
+
+    <div class="d-block d-xs-none p-0 col-12">
+        <hr class="w-100 separator">
+    </div>
+    
+    <div *ngIf="selectedAttribute" class="p-0 col-12 text-center">
+        <img src="assets/icons/SVG/CATEGORIAS.svg" alt="icono-categorias" class="icon"> 
+        &nbsp; {{ getCategoriesOfSelectedAttribute().length }} &nbsp;Categorias:
+    </div>
+    
+    <div *ngIf="selectedAttribute" class="category-list">
+
+        <div class="row mx-0 mb-4 align-items-center text-center animate__animated animate__fadeIn animate__faster" 
+            *ngFor="let category of getCategoriesOfSelectedAttribute(); let i = index">
+            
+            <div class="p-0 col-4">
+                <span class="ml-3 float-left">
+                    <b> {{i + 1}} </b> 
+                </span>
+                {{category.value}}
+            </div>
+
+            <div class="p-0 col-4">
+                
+                <div *ngIf="selectedLayer.tipo_geometria === 'POINT'" 
+                        class="shape-demo"
+                        #shapeContainer
+                        [innerHTML]="getShapeSvgIcon(category, shapeContainer.offsetWidth) | safeHtml">
+                </div>
+
+                <div  *ngIf="selectedLayer.tipo_geometria !== 'POINT'" class="shape-demo"
+                    [ngStyle]="{
+                        'background-color': category.color, 
+                        'color': category.color
+                    }">
+                </div>
+            </div>
+
+            <div class="p-0 col-4">
+                <img (click)="emitShowCategoryConfigurationModal(category)" src="assets/icons/SVG/EDITAR.svg" class="mx-3 medium-icon d-inline pointer" alt="Editar">
+                <img (click)="emitShowCategoryConfigurationModal(category)" src="assets/icons/visualizar.svg" class="mx-3 medium-icon d-inline pointer" alt="Editar">
+                <img (click)="deleteCategory(category)" src="assets/icons/SVG/PAPEPERA_R.svg" class="medium-icon d-inline pointer" alt="Eliminar">
+            </div>
+            
+        </div>
+        
+    </div>
+
+</div>

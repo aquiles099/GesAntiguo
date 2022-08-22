@@ -1,0 +1,64 @@
+.map-section{
+    padding: 0 !important;
+}
+
+.section{
+    padding: 0 1rem;
+}
+
+.header-section,
+.middle-section,
+._bottom-section{
+    position: absolute;
+    width: 100% !important;
+    padding: 0 2rem;
+}
+
+.header-section{
+    top: 2.5%;
+    height: 5%;
+}
+
+.middle-section{
+    top: 10%;
+    height: 80%;
+}
+
+._bottom-section{
+    top: 90%;
+    height: 10%;
+    bottom: 0 !important;
+}
+
+.property-key{
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+@media(min-width: 576px)
+{
+    .scrollable.layer-list{
+        max-height: 95% !important;
+    }
+
+    .modal-content{
+        border-radius: .7rem;
+    }
+    
+    .modal-title{
+        font-size: 1rem;
+    }
+    
+    .close{
+        width: .9rem;
+        height: .9rem;
+        cursor: pointer;
+    }
+    
+    .modal-body > .btn-block{
+        font-size: .8rem;
+        font-weight: bold;
+    }
+}

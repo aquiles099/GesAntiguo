@@ -1,0 +1,219 @@
+<div id="command-center-management-tool" *ngIf="isVisible" #templateRef [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section title">
+
+        {{title}}
+
+        <div *ngIf="! managingCircuit" 
+            title="Ayuda" 
+            class="float-right pointer d-inline animate__animated animate__fadeIn animate__faster"
+            (click)="showTour()">
+            <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+        </div>
+
+    </div>
+
+    <!-- SECCIONES DE DATOS (DESPLEGABLES) -->
+
+    <div  id="cm-sections" *ngIf="sections.length && ! managingCircuit" class="middle-section animate__animated animate__fadeIn animate__faster">
+
+        <div class="w-100 h-100 _scrollable">
+
+            <div *ngFor="let section of sections" class="bottom-bordered w-100 pb-2 my-2">
+        
+                <b class="pointer" (click)="openSectionAndCollapseTheOthers(section)"> {{section.name}} </b>
+
+                <div *ngIf="(section.key === 'circuitos' || section.key === 'protecciones_generales') &&
+                             ! section.collapsed && mode !== 'details'" 
+                    title="Ayuda" 
+                    class="ml-4 pointer d-inline animate__animated animate__fadeIn animate__faster" 
+                    (click)="showSectionTour(section)">
+                    <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+                </div>
+    
+                <span [class.collapse-btn]="section.key === 'centro_mando'" class="icon float-right pointer" 
+                    (click)="openSectionAndCollapseTheOthers(section)">
+                   <i class="fas" [ngClass]="{
+                       'fa-chevron-up': ! section.collapsed,
+                       'fa-chevron-down': section.collapsed
+                   }"></i> 
+               </span>
+    
+                <ul [collapse]="section.collapsed" 
+                    [isAnimated]="true" 
+                    (expands)="onExpandsSection(section)"
+                    class="w-100 mt-2"
+                    [ngSwitch]="section.key"
+                    >
+
+                    <seccion-informacion-principal
+                        *ngSwitchCase="'centro_mando'"
+                        [mode]="mode"
+                        [template]="templates[section.key]"
+                        [attributes]="section.attributes"
+                    ></seccion-informacion-principal>
+                   
+                    <seccion-circuitos
+                        *ngSwitchCase="'circuitos'"
+                        [mode]="mode"
+                        [commandCenterId]="commandCenterId"
+                        [template]="templates[section.key]"
+                        [layer]="data.layer"
+                        (circuitManagementEvent)="showCircuitManagementSection($event)"
+                        (onError)="openSectionAndCollapseTheOthers(section)"
+                        (showLoading)="showLoading()"
+                        (hideLoading)="hideLoading()"        
+                    ></seccion-circuitos>
+                   
+                    <seccion-protecciones-generales
+                        *ngSwitchCase="'protecciones_generales'"
+                        [mode]="mode"
+                        [commandCenterId]="commandCenterId"
+                        [template]="templates[section.key]"
+                        [attributes]="section.attributes"
+                        [layer]="data.layer"
+                        (onError)="openSectionAndCollapseTheOthers(section)"
+                    ></seccion-protecciones-generales>
+                   
+                    <seccion-protecciones-maniobra
+                        *ngSwitchCase="'protecciones_maniobra'"
+                        [mode]="mode"
+                        [commandCenterId]="commandCenterId"
+                        [template]="templates[section.key]"
+                        [attributes]="section.attributes"
+                        [layer]="data.layer"
+                        (onError)="openSectionAndCollapseTheOthers(section)"
+                    ></seccion-protecciones-maniobra>
+
+                    <seccion-elementos-maniobra
+                        *ngSwitchCase="'elementos_maniobra'"
+                        [mode]="mode"
+                        [template]="templates[section.key]"
+                        [attributes]="section.attributes"
+                    ></seccion-elementos-maniobra>
+
+                    <seccion-caja-de-proteccion
+                        *ngSwitchCase="'caja_proteccion'"
+                        [mode]="mode"
+                        [commandCenterId]="commandCenterId"
+                        [template]="templates[section.key]"
+                        [attributes]="section.attributes"
+                        [layer]="data.layer"
+                        (onError)="openSectionAndCollapseTheOthers(section)"
+                    ></seccion-caja-de-proteccion>
+                   
+                    <seccion-puesta-a-tierra
+                        *ngSwitchCase="'puesta_tierra'"
+                        [mode]="mode"
+                        [commandCenterId]="commandCenterId"
+                        [template]="templates[section.key]"
+                        [attributes]="section.attributes"
+                        [layer]="data.layer"
+                        (onError)="openSectionAndCollapseTheOthers(section)"
+                    ></seccion-puesta-a-tierra>
+                   
+                    <seccion-otros
+                        *ngSwitchCase="'otros'"
+                        [mode]="mode"
+                        [template]="templates[section.key]"
+                        [attributes]="section.attributes"
+                    ></seccion-otros>
+    
+                </ul>
+                
+            </div>
+
+        </div>
+
+    </div>    
+    
+    <div *ngIf="! managingCircuit" class="_bottom-section animate__animated animate__fadeIn animate__faster">
+        
+        <div class="row m-0 h-100 align-items-center justify-content-between" >
+        
+            <div id="save-btn" class="col-5 p-0" *ngIf="mode !== 'details'">
+                    <button 
+                    (click)="finishManagement()"
+                    [disabled]="tourIsActive" 
+                    type="button" 
+                    class="btn btn-info btn-block"
+                    >
+                    {{ mode === "new" ? "Guardar" : "Actualizar"}}
+                </button>
+            </div>
+            
+            <div id="cancel-btn" class="col-5 p-0">
+                <button 
+                (click)="hideAndShowElementCreationTool(true)" 
+                type="button"
+                [disabled]="tourIsActive" 
+                class="btn btn-block"
+                [ngClass]="{
+                    'btn-outline-info': mode !== 'details',
+                    'btn-info': mode === 'details'
+                }">
+                    {{ mode === "details" ? "Aceptar" : "Cancelar"}}
+                </button>
+            </div>
+
+        </div>
+    
+    </div>
+
+    <!-- GESTION DE CIRCUITO (CREAR - EDITAR - VER) -->
+    
+    <div  *ngIf="managingCircuit" class="middle-section animate__animated animate__fadeIn animate__faster">
+
+        <div class="w-100 h-100 _scrollable">
+
+            <gestion-circuito
+                [mode]="mode"
+                [layer]="data.layer"
+                [commandCenterCircuits]="templates['circuitos']"
+                (showLoading)="showLoading()"
+                (hideLoading)="hideLoading()"       
+                (onFinishCircuitManagement)="hideCircuitManagementSection()"
+            ></gestion-circuito>
+
+        </div>
+
+    </div>    
+
+    <div *ngIf="managingCircuit" class="_bottom-section animate__animated animate__fadeIn animate__faster">
+
+        <div class="row m-0 h-100 align-items-center justify-content-between" >
+        
+            <div class="col-5 p-0" *ngIf="mode !== 'details'">
+                    <button 
+                    (click)="GestionCircuito.finishManagement()"
+                    type="button" 
+                    class="btn btn-info btn-block"
+                    >
+                    Guardar
+                </button>
+            </div>
+
+            <div class="col-5 p-0">
+                <button 
+                (click)="hideCircuitManagementSection()" 
+                type="button" 
+                class="btn btn-block"
+                [ngClass]="{
+                    'btn-outline-info': mode !== 'details',
+                    'btn-info': mode === 'details'
+                }">
+                    {{ mode === "details" ? "Volver" : "Cancelar"}}
+                </button>
+            </div>
+
+        </div>
+    
+    </div>
+
+    <!-- SPINNER -->
+
+    <div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+        <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+
+</div>

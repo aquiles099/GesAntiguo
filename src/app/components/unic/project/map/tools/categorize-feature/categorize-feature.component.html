@@ -1,0 +1,169 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section">
+
+        <h1 class="title m-0">
+            Añadir categoria
+        </h1>
+
+    </div>
+
+    <div class="selector-section">
+
+        <div class=" row justify-content-center section">
+        
+            <div class="col-12 p-0 mb-2 mb-xs-2">
+        
+                <label class="mb-2" for="">Modulo:</label>
+    
+                <ng-select
+                    class="custom" 
+                    placeholder="Seleccione una capa"
+                    [clearable]="false"
+                    [items]="modules"
+                    [(ngModel)]="selectedModuleName"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="onChangeModuleSelector()"
+                    >
+                </ng-select>
+        
+            </div>
+
+            <div class="col-12 p-0 mb-2 mb-xs-2">
+        
+                <label class="mb-2" for="">Capa:</label>
+    
+                <ng-select
+                    class="custom" 
+                    placeholder="Seleccione una capa"
+                    [clearable]="false"
+                    [items]="fileLayers"
+                    bindLabel="layerName"
+                    bindValue="layerName"
+                    [(ngModel)]="selectedFileLayerName"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="onChangeFileLayerSelect($event)"
+                    >
+                </ng-select>
+        
+            </div>
+           
+            <div class="col-12 p-0 mt-xs-2 mb-2 mb-xs-2">
+        
+                <label class="mb-2" for="">Propiedades:</label>
+    
+                <ng-select
+                    class="custom" 
+                    placeholder="Seleccione una propiedad"
+                    [disabled]=" ! selectedFile"
+                    [clearable]="false"
+                    [(ngModel)]="selectedProperty"
+                    [ngModelOptions]="{standalone: true}"
+                    >
+                    <ng-option [value]="property" *ngFor="let property of featurePropertiesOfSelectedFile">
+                        {{property}} 
+                        &nbsp;&nbsp;&nbsp;
+                        <small *ngIf="selectedFile.countCategories(property)" class="text-info">{{ selectedFile.countCategories(property) }} categorias</small>
+                        &nbsp;&nbsp;
+                        <small *ngIf="selectedFile.hasCategorization && selectedFile.categorizationProperty === property" class="text-success">Activo</small>
+                    </ng-option>
+                </ng-select>
+                
+            </div>
+
+            <div class="col-12 p-0 mb-2">
+                <button  type="button" 
+                class="btn btn-block py-2"
+                [disabled]="! selectedProperty"
+                (click)="categoryConfigurationModal.show()"
+                [ngClass]="{
+                    'btn-warning': selectedProperty,
+                    'btn-secondary': ! selectedProperty
+                }">
+                    Añadir categoria
+                </button>
+            </div>
+    
+            <div class="d-block d-xs-none p-0 col-12 mt-1">
+                <hr class="w-100 separator">
+            </div>
+            
+            <div class="p-0 col-12 mt-1 text-center">
+                <img src="assets/icons/SVG/CATEGORIAS.svg" alt="icono-categorias" class="icon"> 
+                &nbsp; {{ selectedProperty ? selectedFile.countCategories(selectedProperty) : 0}} &nbsp;Categorias:
+            </div>
+            
+        </div>
+
+    </div>
+
+    <div *ngIf="selectedFile" class="category-list-section">
+        <div class="category-list">
+            <div class="row mx-0 mb-4 align-items-center text-center animate__animated animate__fadeIn animate__faster" 
+                *ngFor="let category of selectedFile.getCategoriesByProperty(selectedProperty); let i = index">
+                
+                <div class="p-0 col-4">
+                    <span class="ml-3 float-left">
+                        <b> {{i + 1}} </b> 
+                    </span>
+                    {{category.value}}
+                </div>
+    
+                <div class="p-0 col-4">
+                    
+                    <div *ngIf="layerGeometryType === 'Point'" 
+                            class="shape-demo"
+                            #shapeContainer
+                            [innerHTML]="getShapeSvgIcon(category, shapeContainer.offsetWidth) | safeHtml">
+                    </div>
+
+                    <div  *ngIf="layerGeometryType !== 'Point'" class="shape-demo"
+                        [ngStyle]="{
+                            'background-color': category.color, 
+                            'color': category.color
+                        }">
+                    </div>
+                </div>
+    
+                <div class="p-0 col-4">
+                    <img (click)="categoryConfigurationModal.show(category)" src="assets/icons/SVG/EDITAR.svg" class="icon d-inline pointer" alt="Editar">
+                    <img (click)="deleteCategory(category.value)" src="assets/icons/SVG/PAPEPERA_R.svg" class="icon d-inline pointer ml-3" alt="Eliminar">
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-section row m-0">
+
+        <div class="col-5 p-0">
+            <button (click)="toggleCategorization()"
+                 type="button" 
+                 class="btn btn-block"
+                 [disabled]="! selectedProperty || selectedProperty && ! selectedFile.hasCategoriesInProperty(selectedProperty)"
+                 [ngClass]="{
+                    'btn-secondary': ! selectedProperty || selectedProperty && ! selectedFile.hasCategoriesInProperty(selectedProperty),
+                    'btn-info': selectedProperty && selectedFile.hasCategoriesInProperty(selectedProperty)
+                }"
+                 >
+                {{ loadedCategorization === selectedProperty ? "Eliminar" : "Aplicar"}}
+            </button>
+        </div>
+
+        <div class="col-5 p-0">
+            <button  type="button" (click)="toggleSectionVisibilityEvent()" class="btn btn-block btn-outline-info">
+                Cancelar
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Modal para configuracion de categorias -->
+<category-configuration-modal
+    [selectedPropertyValues]="selectedPropertyValues"
+    [setLayerGeometryType]="layerGeometryType"
+    (createCategory)="createCategory($event)"
+    (updateCategory)="updateCategory($event)"
+></category-configuration-modal>

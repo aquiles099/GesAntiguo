@@ -1,0 +1,205 @@
+<div id="new-element-tool" *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section title">
+
+        Nuevo elemento
+
+        <div title="Ayuda" class="float-right pointer d-inline" (click)="showTour()">
+            <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+        </div>
+
+    </div>
+
+    <div class="middle-section">
+
+        <div *ngIf="buildingFeatureState !== 'finished'" 
+                class="row mx-0 justify-content-center animate__animated animate__fadeIn animate__faster">
+        
+            <div class="col-12 p-0 mb-3">
+
+                <layer-selectors-section
+                [form]="formData"
+                [disableSelectors]="buildingFeatureState === 'inProgress' || tourIsActive"
+                (onSelectModule)="onChangeModuleOrGroupSelector()"
+                (onSelectGroup)="onChangeModuleOrGroupSelector()"
+                (onSelectLayer)="onChangeLayerSelector($event)"
+                ></layer-selectors-section>
+
+            </div>
+            
+            <div class="d-block d-xs-none p-0 col-12 mt-2">
+                <hr class="w-100 separator">
+            </div>
+            
+            <div id="new-element-help-text-container" [innerHTML]="helpText | safeHtml" class="col-12 p-0 mb-3 animate__animated animate__fadeIn animate__faster">
+            </div>
+            
+            <div *ngIf="showButtonForFinishMultipleGeometryFeature" 
+                id="new-element-finish-multiple-geometry-feature" 
+                class="col-12 p-0 text-center animate__animated animate__fadeIn animate__faster"> 
+
+                <button (click)="finishMultipleGeometryFeature()" class="btn btn-block btn-warning">
+                    Terminar
+                </button>
+
+            </div>
+            
+        </div>
+            
+        <div *ngIf="buildingFeatureState === 'finished'"  class="h-100 w-100 animate__animated animate__fadeIn animate__faster">
+            
+            <div *ngIf="helpText" [innerHTML]="helpText | safeHtml" class="py-2 mb-2"></div>
+
+            <ul class="h-100 _scrollable">
+                <li *ngFor="let propertyData of featurePropertiesWithValues">
+                    <div class="row m-0 py-2 mb-2 bottom-bordered">
+
+                        <div class="col-6 p-0 d-flex align-items-center property-key">
+                            <label [attr.title]="propertyData.nombre" for="property_{{propertyData.campo}}">
+                                {{ propertyData.nombre }}
+                            </label>
+                        </div>
+
+                        <div class="col-6 p-0 text-center" *ngIf="! propertyData.dominio">
+
+                            <div class="w-100" [ngSwitch]="propertyData.tipo">
+
+                                <input
+                                id="property_{{propertyData.campo}}"
+                                *ngSwitchCase="'Texto'" 
+                                type="text" 
+                                class="form-control property-value"
+                                [(ngModel)]="featureData[propertyData.campo]"
+                                [disabled]="drawing"
+                                >
+
+                                <input
+                                id="property_{{propertyData.campo}}"
+                                *ngSwitchCase="'Número entero'" 
+                                type="number" 
+                                step="1"
+                                min="0"
+                                class="form-control property-value"
+                                [(ngModel)]="featureData[propertyData.campo]"
+                                [disabled]="drawing"
+                                >
+
+                                <input
+                                id="property_{{propertyData.campo}}"
+                                *ngSwitchCase="'Número real'" 
+                                type="number"
+                                step=".01"
+                                min="0" 
+                                class="form-control property-value"
+                                [(ngModel)]="featureData[propertyData.campo]"
+                                [disabled]="drawing"
+                                >
+
+                                <input
+                                id="property_{{propertyData.campo}}"
+                                *ngSwitchCase="'Fecha Completa'" 
+                                type="text"
+                                class="form-control property-value"
+                                [(ngModel)]="featureData[propertyData.campo]"
+                                [disabled]="drawing"
+                                bsDatepicker
+                                [bsValue]="today"
+                                [bsConfig]="{ 
+                                    adaptivePosition: true,
+                                    isAnimated: true
+                                }">
+
+                                <input
+                                id="property_{{propertyData.campo}}"
+                                *ngSwitchCase="'Hora'" 
+                                type="text"
+                                class="form-control property-value"
+                                [(ngModel)]="featureData[propertyData.campo]"
+                                [disabled]="drawing"
+                                >
+
+                                <label *ngSwitchCase="'Booleano'" class="checkbox" for="property_{{propertyData.campo}}">
+                                    
+                                    <input 
+                                    type="checkbox" 
+                                    [checked]="featureData[propertyData.campo]" 
+                                    name="property_{{propertyData.campo}}" 
+                                    [(ngModel)]="featureData[propertyData.campo]"
+                                    id="property_{{propertyData.campo}}">
+
+                                    <i class="fas fa-check" *ngIf="featureData[propertyData.campo]" ></i>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-6 p-0" *ngIf="propertyData.dominio">
+
+                            <ng-select
+                                class="custom" 
+                                [clearable]="false"
+                                [disabled]="drawing"
+                                [(ngModel)]="featureData[propertyData.campo]"
+                                (change)="onChangePropertyValueSelector(propertyData, $event)"
+                                [ngModelOptions]="{standalone: true}"
+                                placeholder="Seleccione..."
+                                >
+                                <ng-option [value]="domain.value ? domain.value : domain" *ngFor="let domain of propertyData.dominios">
+                                    {{ domain.label ? domain.label : domain}}
+                                </ng-option>
+                            </ng-select>
+                            
+                        </div>
+                    </div>
+                </li>
+            </ul>
+    
+        </div>
+    </div>
+
+    <div class="_bottom-section">
+        <div class="row m-0 h-100 align-items-center justify-content-between" >
+            <div id="new-element-draw-layer-btn" class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="buildingFeatureState !== 'finished'">
+                    <button (click)="drawLayer()"
+                    type="button" class="btn btn-block"
+                    [disabled]="! selectedLayer || buildingFeatureState !== 'waiting' || tourIsActive" 
+                    [ngClass]="{
+                        'btn-secondary': ! selectedLayer,
+                        'btn-warning': selectedLayer
+                    }"
+                    >
+                    {{buildingFeatureState === 'waiting' ? 'Continuar' : 'Construyendo...'}}
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="buildingFeatureState === 'finished'">
+                <button (click)="saveChanges()" 
+                [disabled]="drawing || showSpinner || tourIsActive" 
+                type="button" 
+                class="btn btn-block"
+                [ngClass]="{
+                    'btn-secondary': drawing,
+                    'btn-info': ! drawing
+                }">
+                    Guardar
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="buildingFeatureState === 'waiting'">
+                <button [disabled]="tourIsActive" (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+                    Cancelar
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="buildingFeatureState !== 'waiting'">
+                <button [disabled]="tourIsActive" (click)="clear()" type="button" class="btn btn-block btn-outline-info">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+        <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+
+</div>

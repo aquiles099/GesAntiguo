@@ -1,0 +1,163 @@
+<li *ngIf="hasAttributeData">
+                        
+    <form #form="ngForm" class="row m-0 align-items-center py-1 mb-2">
+
+        <!-- material -->
+        
+        <div class="col-6 col-md-3 mb-2 px-1 property-key">
+            <label title="material" for="material">
+                Material envolvente del cuadro
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-9 mb-2 px-1">
+           
+            <ng-select
+                id="material"
+                class="custom" 
+                [clearable]="false"
+                [items]="getAttributeByField('material').dominios"
+                name="material"
+                [(ngModel)]="template['material']"
+                placeholder="Seleccione..."
+                >
+            </ng-select>
+
+        </div>
+  
+        <!-- situacion -->
+        
+        <div class="col-6 col-md-3 mb-2 px-1 property-key">
+            <label title="situacion" for="situacion">
+                Situación
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-9 mb-2 px-1">
+           
+            <ng-select
+                id="situacion"
+                class="custom" 
+                [clearable]="false"
+                [items]="getAttributeByField('situacion').dominios"
+                name="situacion"
+                [(ngModel)]="template['situacion']"
+                placeholder="Seleccione..."
+                >
+            </ng-select>
+
+        </div>
+      
+        <!-- grado_proteccion_ip -->
+
+        <div class="col-6 col-md-3 mb-2 px-1 property-key">
+            <label title="Protección IP" for="grado_proteccion_ip">
+                Protección IP
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-3 mb-2 px-1">
+          
+            <input
+            id="grado_proteccion_ip"
+            type="number" 
+            step="1"
+            min="0"
+            class="form-control property-value"
+            name="grado_proteccion_ip"
+            [(ngModel)]="template['grado_proteccion_ip']"
+            >
+            
+        </div>
+      
+        <!-- grado_proteccion_ik -->
+
+        <div class="col-6 col-md-3 mb-2 px-1 text-center property-key">
+            <label title="Protección IK" for="grado_proteccion_ik">
+                Protección IK
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-3 mb-2 px-1">
+          
+            <input
+            id="grado_proteccion_ik"
+            type="number" 
+            step="1"
+            min="0"
+            class="form-control property-value"
+            name="grado_proteccion_ik"
+            [(ngModel)]="template['grado_proteccion_ik']"
+            >
+            
+        </div>
+
+        <!-- alto -->
+
+        <div class="col-6 col-md-3 mb-2 px-1 property-key">
+            <label title="Alto (cm)" for="alto">
+                Alto (cm)
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-3 mb-2 px-1">
+          
+            <input
+            id="alto"
+            type="number" 
+            step="1"
+            min="0"
+            class="form-control property-value"
+            name="alto"
+            [(ngModel)]="template['alto']"
+            >
+            
+        </div>
+       
+        <!-- ancho -->
+
+        <div class="col-6 col-md-3 mb-2 px-1 text-center property-key">
+            <label title="Ancho (cm)" for="ancho">
+                Ancho (cm)
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-3 mb-2 px-1">
+          
+            <input
+            id="ancho"
+            type="number" 
+            step="1"
+            min="0"
+            class="form-control property-value"
+            name="ancho"
+            [(ngModel)]="template['ancho']"
+            >
+            
+        </div>
+     
+        <!-- profundidad -->
+
+        <div class="col-6 col-md-3 mb-2 px-1 property-key">
+            <label title="Profundidad (cm)" for="profundidad">
+                Profundidad (cm)
+            </label>
+        </div>
+        
+        <div class="col-6 col-md-3 mb-2 px-1">
+          
+            <input
+            id="profundidad"
+            type="number" 
+            step="1"
+            min="0"
+            class="form-control property-value"
+            name="profundidad"
+            [(ngModel)]="template['profundidad']"
+            >
+            
+        </div>
+
+    </form>
+    
+</li>

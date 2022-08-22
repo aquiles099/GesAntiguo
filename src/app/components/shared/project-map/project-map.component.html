@@ -1,0 +1,24 @@
+<div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="h-100"
+    leaflet
+    [leafletLayer]="baseLayer"
+    [leafletLayers]="layers"
+    [leafletOptions]="options" 
+    [leafletFitBounds]="projectBBox"
+    (leafletMapReady)="onMapReady($event)"
+    (leafletMouseMove)="onMapMouseMove($event)" 
+    (leafletClick)="onMapClick($event)" 
+    >
+
+    <div class="map-scale-control">
+    
+        <label class="mx-2">{{cursorCoordinates}}</label>
+    
+        <label class="mx-2">{{ crs }}</label>
+            
+    </div>
+
+</div> 

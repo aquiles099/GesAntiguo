@@ -1,0 +1,127 @@
+<div *ngIf="isVisible" [@fadeInOnEnter] [@fadeOutOnLeave] class="row mx-4 my-1 text-center _container">
+
+    <div class="col-12 col-sm-8 py-2 text-left subtitle bordered-bottom">
+        Capa:
+    </div>
+
+    <div *ngIf="fileLayer" class="col-12 px-0">
+
+        <div class="row m-0 my-2 align-items-center">
+            
+            <div class="col-6 col-sm-4 px-2 bordered-bottom text-truncate">
+                <h4 class="layer-title">
+                    {{fileLayer.layerName}} <br>
+                    <small>({{ getLayerGeometryTypeLabel(fileLayer.geometryType) }})</small>
+                </h4>
+            </div>
+
+            <div class="col-6 col-sm-4 px-2 text-truncate">
+                
+                <label class="btn btn-sm btn-outline-secondary load-file-btn rounded-lg" for="file_layer_input">
+                    <img class="icon" src="assets/iconos-nuevo-proyecto-web/CARGAR.svg" alt="icono-cargar">
+                    &nbsp;
+                    Cargar archivo
+                </label>
+
+                <input 
+                accept=".geojson,.zip,.kml,.xlsx" 
+                type="file" 
+                class="hide"
+                id="file_layer_input"
+                (change)="onSelectLayerFile($event)">
+                
+                <h4 class="file-name d-block d-sm-none">
+                    {{ fileLayer.fileName }}
+                </h4>
+                
+            </div>
+
+            <div class="col-3 d-none d-sm-block">
+                <h4 class="file-name">
+                    {{ fileLayer.fileName }}
+                </h4>
+            </div>
+
+            <div *ngIf="! inConfirmationOfProjection" class="col-1 d-none d-sm-block animate__animated animate__fadeIn animate__faster">
+                <button type="button" 
+                        (click)="LayerStyleConfigurationModal.show( fileLayer.file.defaultStyle )" 
+                        class="btn-transparent"
+                        >
+                    <img title="Añadir estilo predeterminado" class="icon " src="assets/icons/SVG/CATEGORIAS.svg" alt="CATEGORIAS">
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-8 py-2 text-left subtitle bordered-bottom">
+        Proyección:
+    </div>
+
+    <div class="col-12" [ngClass]="{'scrollable-collapsed': isCollapsed, 'scrollable': ! isCollapsed}">
+
+        <div *ngFor="let epsgCode of getAvailableCrs(); let i = index" class="row m-0 align-items-center">
+            <div class="col-12 col-sm-8 my-1 py-2 bordered-bottom text-left">
+                            
+                <label for="checkbox_{{epsgCode}}"
+                        [class.checked]="selectedCrs === epsgCode" 
+                        class="checkbox-round float-left">
+                    <i *ngIf="selectedCrs === epsgCode" class="fa fa-check"></i>
+                </label>
+
+                <input type="radio" name="crs" class="hide" (change)="projectFileLayer(epsgCode)" id="checkbox_{{epsgCode}}">
+
+                <label for="checkbox_{{epsgCode}}" class="ml-4 checkbox-label w-75">
+                    EPSG:{{epsgCode}}
+                </label>
+
+            </div>
+        </div>
+        
+        <div class="row m-0 align-items-center">
+            <div class="col-12 col-sm-8 my-1 py-2 bordered-bottom text-left">
+                            
+                <label for="checkbox_custom_projection"
+                        [class.checked]="selectedCrs && ! getAvailableCrs().includes(selectedCrs)" 
+                        class="checkbox-round float-left">
+                    <i *ngIf="selectedCrs && ! getAvailableCrs().includes(selectedCrs)" class="fa fa-check"></i>
+                </label>
+
+                <input #radioRef type="radio" name="crs" class="hide" (change)="testFileWithCustomProjection(radioRef)" id="checkbox_custom_projection">
+
+                <label for="checkbox_custom_projection" class="ml-4 checkbox-label w-75">
+                    Proyección personalizada
+                </label>
+
+            </div>
+        </div>
+        
+    </div>
+    
+    <div *ngIf="isCollapsed" class="col-12 p-0 my-2 bottom-section">
+        <div class="row w-100 m-0 justify-content-end">
+            <div class="col-4 col-sm-3">
+                <button (click)="removeChangesAndHide()" type="button" class="btn btn-block _btn-outline-secondary">
+                    Cancelar
+                </button>
+            </div>
+            <div class="col-4 pr-0">
+                <button type="button" *ngIf="inConfirmationOfProjection" (click)="confirmProyection()" class="btn btn-block btn-info animate__animated animate__fadeIn animate__faster">
+                    Confirmar proyección
+                </button>
+                <button type="button" *ngIf="! inConfirmationOfProjection" (click)="saveSettings()" [disabled]="!selectedCrs" class="btn btn-block btn-info animate__animated animate__fadeIn animate__faster">
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <layer-style-configuration-modal 
+        *ngIf="fileLayer"   
+        [layerGeometryType]="fileLayer.geometryType"
+        (updateLayerStyle)="updateLayerStyle($event)"
+    ></layer-style-configuration-modal>
+    
+</div>
+

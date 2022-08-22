@@ -1,0 +1,15 @@
+.checkbox {
+    border: 1px solid #000;
+    cursor: pointer;
+    font-size: .75rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    text-align: center;
+}
+
+.checkbox input {
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}

@@ -1,0 +1,119 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section title">
+        Nuevo elemento
+    </div>
+
+    <div class="middle-section">
+
+        <div *ngIf="buildingFeatureState !== 'finished'" 
+                class="row mx-4 justify-content-center animate__animated animate__fadeIn animate__faster">
+        
+            <div class="col-12 p-0 mb-3">
+                
+                <label class="mb-2" for="">Modulo:</label>
+    
+                <ng-select
+                    class="custom" 
+                    [clearable]="false"
+                    [disabled]="buildingFeatureState === 'inProgress'"
+                    [items]="modules"
+                    [(ngModel)]="selectedModuleName"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="onChangeModuleSelector()"
+                    placeholder="Seleccione..."
+                    >
+                </ng-select>
+        
+            </div>
+            
+            <div class="col-12 p-0 mb-3">
+    
+                <label class="mb-2" for="">Capa:</label>
+        
+                <ng-select
+                    class="custom" 
+                    [clearable]="false"
+                    [disabled]="buildingFeatureState === 'inProgress'"
+                    [items]="fileLayers"
+                    bindLabel="layerName"
+                    bindValue="layerName"
+                    [(ngModel)]="selectedFileLayerName"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="onChangeFileLayerSelect($event)"
+                    placeholder="Seleccione..."
+                    >
+                </ng-select>
+        
+            </div>
+    
+            <div class="d-block d-xs-none p-0 col-12 mt-2">
+                <hr class="w-100 separator">
+            </div>
+            
+            <div [innerHTML]="helpText | safeHtml" class="col-12 p-0"> </div>
+            
+        </div>
+            
+        <div *ngIf="buildingFeatureState === 'finished'"  class="h-100 w-100 animate__animated animate__fadeIn animate__faster">
+            
+            <div *ngIf="helpText" [innerHTML]="helpText | safeHtml" class="py-2 mb-2"></div>
+
+            <ul class="h-100 _scrollable">
+                <li *ngFor="let property of file.enabledFeatureProperties">
+                    <div class="row m-0 py-2 mb-2 bottom-bordered">
+                        <div class="col-6 p-0 d-flex align-items-center property-key text-truncate">{{ property }}</div>
+                        <div class="col-6 p-0">
+                            <input 
+                            type="text" 
+                            class="form-control property-value"
+                            [(ngModel)]="newFeature.properties[property]"
+                            [typeaheadScrollable]="true"
+                            [disabled]="drawing"
+                            [typeahead]="featurePropertyValues[property]"
+                            >
+                        </div>
+                    </div>
+                </li>
+            </ul>
+    
+        </div>
+    </div>
+
+    <div class="_bottom-section">
+        <div class="row m-0 h-100 align-items-center justify-content-between" >
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="buildingFeatureState !== 'finished'">
+                    <button (click)="drawLayer()"
+                    type="button" class="btn btn-block"
+                    [disabled]="! file || buildingFeatureState !== 'waiting'" 
+                    [ngClass]="{
+                        'btn-secondary': ! file,
+                        'btn-warning': file
+                    }"
+                    >
+                    {{buildingFeatureState === 'waiting' ? 'Continuar' : 'Construyendo...'}}
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="buildingFeatureState === 'finished'">
+                <button (click)="saveChanges()" [disabled]="drawing" type="button" class="btn btn-block"
+                [ngClass]="{
+                    'btn-secondary': drawing,
+                    'btn-info': ! drawing
+                }">
+                    Guardar
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="buildingFeatureState === 'waiting'">
+                <button (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+                    Cancelar
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="buildingFeatureState !== 'waiting'">
+                <button (click)="clear()" type="button" class="btn btn-block btn-outline-info">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

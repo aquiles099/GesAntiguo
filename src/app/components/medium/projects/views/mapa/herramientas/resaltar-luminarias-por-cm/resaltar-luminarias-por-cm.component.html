@@ -1,0 +1,59 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="row mx-0 mb-4">
+        <div class="col-12 p-0 title">
+          
+          Resaltar luminarias por centro de mando
+  
+          <!-- <div title="Ayuda" class="float-right pointer d-inline" (click)="showTour()">
+              <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+          </div> -->
+  
+        </div>
+    </div>
+  
+    <div class="row mx-0 my-1">
+       
+        <div class="col-12 px-0 mb-4 property-key">
+          Seleccione un centro de mando y para resaltar las luminarias asociadas a este.
+        </div>
+
+        <div class="col-12 p-0 my-2">
+        
+            <ng-select
+                class="custom" 
+                placeholder="Centro de mando"
+                [disabled]="tourIsActive"
+                [clearable]="false"
+                [items]="commandCenters"
+                bindLabel="descripcion"
+                bindValue="descripcion"
+                [(ngModel)]="selectedCmName"
+                (change)="onChangeCmSelector($event)"
+                name="centro_mando"
+                >
+            </ng-select>
+            
+        </div>
+
+        <div class="d-block d-xs-none p-0 col-12">
+            <hr class="w-100 separator">
+        </div>
+
+    </div>    
+      
+    <div class="row m-0 text-center bottom-section animate__animated animate__faster" >
+
+        <div class="col-12 p-0">
+            <button (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+                Cancelar
+            </button>
+        </div>
+
+    </div>
+
+    <div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+        <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+  
+</div>    

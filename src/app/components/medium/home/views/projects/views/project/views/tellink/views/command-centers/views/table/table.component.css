@@ -1,0 +1,38 @@
+.map-col{
+    height: 81.5% !important;
+}
+
+.finder{
+    padding: 0.25rem 1.75rem !important;
+}
+
+.magnifying-glass{
+    margin-left: -96.5%;
+}
+
+.tellink-cms-table-component ::ng-deep .dataTables_info,
+.tellink-cms-table-component ::ng-deep .dataTables_paginate.paging_full_numbers{
+    width: 100% !important;
+    text-align: center !important;
+}
+
+table, th, tr, td{
+    border: none !important;
+} 
+
+.option-title{
+    font-size: 1.05rem;
+    color: #4F4F4F;
+}
+
+.option-box{
+    border: 1px solid #828282;
+    border-radius: 2px;
+    cursor: pointer;
+    height: 100%;
+    transition: transform .2s;
+}
+
+.option-box:hover{
+    transform: scale(1.03);
+}

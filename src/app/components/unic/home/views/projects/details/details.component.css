@@ -1,0 +1,71 @@
+*{
+    color: #333;
+    font-size: .8rem;
+}
+
+.project-data-container, 
+.module-layer-data-container{
+    position: absolute;
+    width: 90%;
+}
+
+.project-data-container{
+    height: 25%;
+}
+
+
+.back-button{
+    vertical-align: middle;
+    font-size: 1.5rem !important;
+    cursor: pointer;
+    transition: transform .2s;
+}
+
+.module-layer-data-container{
+    top: 30%;
+    height: 65%;
+    overflow-y: auto;
+    max-height: 97.5%;
+}
+
+.title{
+    color: #333;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+
+.project-icon{
+    width: 5.875rem;
+    height: 5.875rem;
+}
+
+.project-modules{
+    font-size: .6rem !important;
+}
+
+.module-icon{
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-block;
+}
+
+.bordered-bottom{
+    border-bottom: 1px solid #E0E0E0;
+}
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: .9rem;
+    height: .6rem;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background-color: #FFF; 
+    background-clip: padding-box;
+    border: .7rem solid transparent;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #F2F2F2 !important;
+}

@@ -1,0 +1,340 @@
+/*FUENTES*/
+@font-face {
+    font-family: 'Raleway';
+    src: url(/../assets/fonts/Raleway/static/Raleway-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: 'Raleway Extrabold';
+    src: url(/../assets/fonts/Raleway/static/Raleway-ExtraBold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: 'Raleway Light';
+    src: url(/../assets/fonts/Raleway/static/Raleway-Light.ttf) format("truetype");
+}
+/*nuevo diseño*/
+.texto_tabla{
+  color: #333;
+  font-family: Raleway !important;
+  font-size: 12px !important;
+}
+li{
+  list-style-type: none;
+}
+a, a:hover, a:focus, a:active {
+  text-decoration: none;
+  color: #4F4F4F;
+  font-size: 13pt;
+  font-weight: 700;
+  cursor: pointer;
+}
+.el_mes{
+  border-bottom: 1px solid #E5E5E5 !important;
+  font-size: 14pt;
+  font-weight: 700;
+  padding-bottom:6px;
+  /*border-bottom: 1px #4F4F4F*/
+}
+.los_items{
+  border-bottom: 0.5px solid #E5E5E5 !important;
+  padding-bottom:6px;
+  font-size: 12pt;
+  /*border-bottom: 1px #4F4F4F*/
+}
+.izquierda{
+  margin-left:  -8%;
+}
+
+.texto_proyecto{
+  color: #828282;
+  font-family: Raleway !important;
+  font-size: 12px !important;
+}
+.solicitud_cerrada{
+  height: 40px;
+  width: 200px;
+}
+.btn_nueva_solicitud{
+  height: 40px;
+  width: 200px;
+  border-radius: 2px;
+  font-size: 12px;
+  background-color: #26AAE2;
+}
+/**************/
+/* breadcumb*/
+ul.breadcrumb_plano {
+  padding: 10px 16px;
+  list-style: none;
+  margin-left: -4%;
+  margin-top: -1%;
+}
+
+/* Display list items side by side */
+ul.breadcrumb_plano li {
+  display: inline;
+  font-size: 12px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb_plano li+li:before {
+  padding: 8px;
+  color: black;
+  content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+ul.breadcrumb_plano li a {
+  color: #0275d8;
+  text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.breadcrumb_plano li a:hover {
+  color: #01447e;
+  text-decoration: underline;
+}
+/************/
+/* ordenes de trabajo*/
+.cabecera{
+  height: 18px;
+  width: 61px;
+  color: #333;
+  font-family: Raleway;
+  font-size: 12px;
+  line-height: 18px
+}
+.main-ordenes{
+    position: absolute;
+    font-size: 100%;
+    top: 7.8%;
+    left: 18.52%;
+    height: 28.5%;
+    width: 72%;
+  /*border: 0.5px solid #333;*/
+}
+.text-ordenes{
+  font-size: 12pt;
+  position:absolute;
+  top: 2.8%;
+
+}
+.cursor_pointer{
+  cursor: pointer;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  font-size: 19px;
+  font-weight: 100;
+}
+.al_lado{
+  margin-left: 0%;
+
+}
+.valor{
+  margin-left: -11%;
+  margin-right: -36px;
+}
+.escudo_proyecto {
+    background-color: white;
+    margin-left: -5.48%;
+    height: 50px;
+}
+.espacio_vertical{
+  position:absolute;
+  top: 51%;
+}
+.icon_modulo {
+    background-color: white;
+    height: 23px;
+}
+.imput_form {
+  position: absolute;
+  font-size: 100%;
+  top: 12.46%;
+  left: 52.15%;
+  box-sizing: border-box;
+  height: 80%;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #BDBDBD;
+  height: 40px;
+  width: 371px;
+}
+.input_form2{
+  left: 26.15%;
+}
+.lupa{
+  position: absolute;
+  font-size: 100%;
+  top: 18%;
+  left: 81%;
+  height: 4.86%;
+  opacity: 0.7;
+}
+.sinborde{
+    outline: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0;
+    outline-offset: 0;
+    margin-left: 15%;
+    margin-top: 2%;
+}
+.botonera{
+  left: 25.15%;
+  margin-top: 0.69%;
+}
+.botonera2{
+  left: 10.15%;
+}
+.btn1 {
+    color: #000;
+}
+.color_btn_crear{
+  background-color: #26AAE2;
+  color: #ffff;
+  height: 35px;
+  width: 103px;
+  margin-left: 2%;
+  font-size: 12px;
+  border-radius: 2px;
+}
+.tamano_texto_boton{
+  font-weight: 700;
+}
+.table_2{
+  width: 115%;
+  margin-left: -10.48%;
+}
+.color_table{
+  background-color: #FAFAFA;
+  font-weight: normal;
+  height: 54px;
+  width: 1580px;
+}
+.circuloIniciales {
+  position: absolute;
+  display: inline-block;
+  background-color: #6E63C8;
+  color: white;
+  padding: 0.3em;
+  border-radius: 50%;
+}
+.container{
+  max-width: 1058px;
+}
+.container_chart {
+  display: grid;
+  padding-top: 19px;
+  margin-left: -3%;
+  grid-template-columns: repeat(auto-fit, minmax(1100px, 500px));
+  grid-gap: 20px;
+  place-content: center;
+  margin-top: -19px;
+}
+/* Spinner */
+.loading {
+  position: absolute;
+  z-index: 10000;
+  width: 104em;
+  height: 59em !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -17%;
+}
+.loading ::ng-deep .mat-progress-spinner circle {
+  stroke: rgb(33, 141, 143);
+  stroke: var(--fisotec-main-color);
+}
+.notLoading {
+  display: none;
+}
+.tamano_inputs{
+  height: 33px;
+}
+.imput_form_2{
+  height: 37.4px;
+  width: 26% !important;
+  font-size: 100%;
+  margin-left: -11%;
+  margin-top: -1%;
+  border-radius: 5px;
+  border: 1px solid #BDBDBD;
+  text-align: center;
+}
+.nav-link.disabled {
+  color: #4F4F4F;
+  pointer-events: none;
+  cursor: default;
+}
+
+/*************/
+@media screen and (min-width: 1920px) {
+ /*la tabla*/
+  .valor{
+    margin-left: -19%;
+  }
+  .table_2{
+    width: 138%;
+    margin-left: -18.48%;
+  }
+ /***********/
+  /* breadcumb*/
+ul.breadcrumb_plano {
+  padding: 10px 16px;
+  list-style: none;
+  margin-left: -14%;
+  margin-top: 0%;
+}
+
+/* Display list items side by side */
+ul.breadcrumb_plano li {
+  display: inline;
+  font-size: 12px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb_plano li+li:before {
+  padding: 8px;
+  color: black;
+  content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+ul.breadcrumb_plano li a {
+  color: #0275d8;
+  text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.breadcrumb_plano li a:hover {
+  color: #01447e;
+  text-decoration: underline;
+}
+.container{
+  max-width: 1144px;
+}
+ .container_chart {
+    display: grid;
+    margin-left: -19%;
+    margin-top: -2%;
+    grid-template-columns: repeat(auto-fit, minmax(1300px, 1500px));
+    grid-gap: 20px;
+    place-content: center;
+    margin-top: -19px;
+    margin-left: -29px;
+  }
+  .valor{
+    margin-left: -12%;
+  }
+  .table_2{
+    width: 138%;
+    margin-left: -8.48%;
+  }
+  .imagen{
+    max-width: 114%;
+  }
+}

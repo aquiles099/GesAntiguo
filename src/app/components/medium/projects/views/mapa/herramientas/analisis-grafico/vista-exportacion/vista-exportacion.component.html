@@ -1,0 +1,78 @@
+<div class="modal fade" bsModal #exportModeSelectionModal="bs-modal" tabindex="-1" role="dialog">
+
+    <div class="modal-dialog modal-xs modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-body">
+                
+                <div class="row mx-2 text-center justify-content-center">
+
+                    <div class="col-12  mt-3">
+                        <img src="assets/icons/SVG/CERRARVENTANA.svg" alt="cerrar" class="close float-right" (click)="exportModeSelectionModal.hide()">
+                    </div>
+
+                    <div class="col-10 my-3 modal-title">
+                        <h4>Seleccione el modo de exportación de análisis:</h4>
+                    </div>
+
+                    <div class="col-5 mb-3">
+                        <button (click)="export('complete')" class="btn btn-block btn-warning">
+                            <i class="fas fa-bars"></i> &nbsp; Completo
+                        </button>
+                    </div>
+                    <div class="col-5 mb-3">
+                        <button (click)="export('chartsOnly')" class="btn btn-block btn-info">
+                            <i class="far fa-circle"></i> &nbsp; Solo gráficos 
+                        </button>
+                    </div>
+                  
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div #container *ngIf="isVisible" [@fadeInUpOnEnter] [@fadeOutDownOnLeave] class="map-section">
+
+    <div class="_container">
+
+        <div *ngFor="let chartData of chartsData" 
+            #chartContainerRef
+            class="row my-4 animate__animated animate__fadeIn animate__faster">
+    
+            <div class="p-0 col-12">
+                
+                <grafico-de-analisis 
+                    *ngIf="chartData.configuration.chartType !== 'linear_gauge'"
+                    [configuration]="chartData.configuration"
+                    [width]="chartContainerRef.offsetWidth - ((20 * 100) / chartContainerRef.offsetWidth)"
+                    [height]="400"
+                ></grafico-de-analisis>
+
+                <div #linearIndicator 
+                class="row my-3 align-items-center"
+                *ngIf="chartData.configuration.chartType === 'linear_gauge'">
+    
+                    <div class="col-12 p-0">
+                        <h1 [attr.title]="chartData.parameters.titulo" class="text-center mb-1 linear-indicator-title" [innerHTML]="chartData.parameters.titulo"></h1>
+                    </div>
+                
+                    <div class="col-12 p-0 text-muted ">
+                        <h2 [attr.title]="chartData.parameters.texto" class="text-center linear-indicator-content">{{chartData.parameters.texto}}</h2> 
+                    </div>
+                
+                </div>
+            
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

@@ -1,0 +1,82 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="row mx-2 mb-4">
+        <div class="col-12 p-0 title">
+            {{ ! selectedLayer || thereArelayersNearTheClick ? "Selecciona un elemento" : "Información del elemento"}}
+        </div>
+    </div>
+    
+    <div *ngIf="! selectedLayer && ! thereArelayersNearTheClick" class="row mx-2 my-1 animate__animated animate__fadeIn animate__faster">
+        <div class="col-12 px-1 py-2 property-key">
+            Seleccione o haga click cerca de un elemento.
+        </div>
+    </div>
+
+    <div *ngIf="selectedLayer && ! thereArelayersNearTheClick" 
+        class="row mx-2 my-1 scrollable animate__animated animate__fadeIn animate__faster">
+        <div class="col-12 px-1 py-2 bottom-bordered">
+            <div class="row m-0">
+                <div class="col-6 p-0 property-key">ID</div>
+                <div class="col-6 p-0 property-value">{{ selectedFeature.properties['ID']}}</div>
+            </div>
+        </div>
+        <div class="col-12 px-1 py-2 bottom-bordered animate__animated animate__fadeIn animate__faster" *ngFor="let key of featureProperties">
+            <div class="row m-0">
+                <div class="col-6 p-0 property-key">{{ key }}</div>
+                <div class="col-6 p-0 property-value">{{ selectedFeature.properties[key] ? selectedFeature.properties[key] : "-" }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="thereArelayersNearTheClick" 
+        class="row mx-2 my-1 scrollable layer-list animate__animated animate__fadeIn animate__faster">
+        <div class="col-12 px-1 py-2 bottom-bordered animate__animated animate__fadeIn animate__faster" *ngFor="let layerData of sortedLayersInPulseRange; let i = index;">
+            <div class="row m-0">
+
+                <div class="col-6 p-0 property-key">
+                    <label for="checkbox_layer_{{i}}">
+                        {{layerData.name}}
+                    </label>
+                </div>
+
+                <div class="col-6 p-0 property-value">
+
+                    <label for="checkbox_layer_{{i}}"
+                            [class.checked]="selectedLayer === layerData.layer" 
+                            class="checkbox-round">
+                        <i *ngIf="selectedLayer === layerData.layer" class="fa fa-check"></i>
+                    </label>
+
+                    <input type="checkbox" class="hide" (change)="onSelectLayer(layerData.layer)" id="checkbox_layer_{{i}}">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-0 bottom-section" >
+        <div class="col-5 animate__animated animate__fadeIn animate__faster" *ngIf="! selectedLayer || thereArelayersNearTheClick">
+            <button (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+                Cancelar
+            </button>
+        </div>
+        <div class="col-5 animate__animated animate__fadeIn animate__faster" *ngIf="selectedLayer && ! thereArelayersNearTheClick && lastClickLatLng">
+            <button (click)="onMapClickClosure(lastClickLatLng)" type="button" class="btn btn-block btn-outline-info">
+                Volver
+            </button>
+        </div>
+        <div class="col-5 animate__animated animate__fadeIn animate__faster" *ngIf="thereArelayersNearTheClick">
+            <button (click)="clearLayersInPulseRange()"
+                 type="button" class="btn btn-block"
+                [disabled]="! selectedLayer" 
+                [ngClass]="{
+                    'btn-secondary': ! selectedLayer,
+                    'btn-info': selectedLayer
+                }"
+                >
+                Continuar
+            </button>
+        </div>
+    </div>
+
+</div>

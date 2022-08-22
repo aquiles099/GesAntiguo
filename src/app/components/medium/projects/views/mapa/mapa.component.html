@@ -1,0 +1,494 @@
+<cabecera-de-mapa
+    (toggleFeaturePdfTemplateConfigurationToolVisibility)="toggleFeaturePdfTemplateConfigurationToolVisibility($event)"
+    (togglePlanimetrySectionVisibility)="alternarVisibilidadDeSeccion('Planimetria')"
+    (toggleLayerFileExportSectionVisibility)="alternarVisibilidadDeSeccion('ExportarArchivo')"
+    (showHelp)="showTour()"
+    [disableButtons]="ocultandoOMostrandoHerramienta"
+    [exportOptionsEnabled]="! usuarioEnMapaTienePermisoComoInstalador"
+></cabecera-de-mapa>
+
+<!-- TOOLBAR -->
+<div class="toolbar scrollable" #toolbar id="mapToolbar" (scroll)="establecerPosicionDeBuscadorDeDirecciones($event)">
+
+    <!-- CREATION & EDITION -->
+    <div id="creation-edition-btns-section" *ngIf="toolbarButtonGroupIsVisible('edition')" class="toolbar-btn-group">
+
+        <div title="Nuevo elemento" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('NuevoElemento')" class="toolbar-btn ml-3">
+            <img [src]="herramientaActualmenteAbierta === 'NuevoElemento' || (herramientaActualmenteAbierta === 'GestionCentroDeMando' && GestionCentroDeMando.mode === 'new') ? 
+            'assets/icons/SVG/NUEVOPUNTO_black.svg' : 'assets/icons/SVG/NUEVOPUNTO.svg'"
+                alt="NUEVOPUNTO">
+        </div>
+
+        <div title="Mover elemento" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('MoverElemento')" class="toolbar-btn">
+            <img [src]="herramientaActualmenteAbierta === 'MoverElemento' ? 'assets/icons/SVG/MOVER_black.svg' : 'assets/icons/SVG/MOVER.svg'" alt="MOVER">
+        </div>
+
+        <div title="Editar propiedades de elemento" class="toolbar-btn" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('EditarElemento')">
+            <img [src]="herramientaActualmenteAbierta === 'EditarElemento'  || (herramientaActualmenteAbierta === 'GestionCentroDeMando' && GestionCentroDeMando.mode === 'update') ? 
+            'assets/icons/SVG/EDITARPUNTO_BLACK.svg' : 'assets/icons/SVG/EDITARPUNTO.svg'" alt="EDITARPUNTO">
+        </div>
+
+        <div title="Editar multiples elementos" class="toolbar-btn" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('EdicionMultiple')">
+            <img [src]="herramientaActualmenteAbierta === 'EdicionMultiple' ? 'assets/icons/SVG/EDICIONMULTIPLE_BLACK.svg' : 'assets/icons/SVG/EDICIONMULTIPLE.svg'" alt="EDICIONMULTIPLE">
+        </div>
+
+        <div title="Copiar elemento" class="toolbar-btn" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('CopiarElemento')">
+            <img [src]="herramientaActualmenteAbierta === 'CopiarElemento' ? 'assets/icons/SVG/COPIARPUNTO_black.svg' : 'assets/icons/SVG/COPIARPUNTO.svg'" alt="EDITARPUNTO">
+        </div>
+
+        <div title="Remover elemento" class="toolbar-btn mr-3" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('EliminarElemento')">
+            <img [src]="herramientaActualmenteAbierta === 'EliminarElemento' ? 'assets/icons/SVG/PAPEPERA_black.svg' : 'assets/icons/SVG/PAPEPERA.svg'" alt="PAPEPERA">
+        </div>
+
+    </div>
+
+    <!-- ZOOM -->
+    <div id="zoom-btns-section" *ngIf="toolbarButtonGroupIsVisible('zoom')" class="toolbar-btn-group" >
+
+        <div title="Zoom (extender)" class="toolbar-btn ml-3" (click)="onZoomExtender()">
+            <img src="assets/icons/zoom-to-max-extent.png" alt="ZOOMEXTENDER">
+        </div>
+
+        <div title="Zoom (reducir)" class="toolbar-btn" (click)="onZoomMenos()">
+            <img src="assets/icons/SVG/ZOOM-.svg" alt="ZOOMREDUCIR">
+        </div>
+
+        <div title="Zoom (aumentar)" class="toolbar-btn" (click)="onZoomMas()">
+            <img src="assets/icons/SVG/ZOOM-AUMENTAR.svg" alt="ZOOMAUMENTAR">
+        </div>
+
+        <div title="Zoom por selección" class="toolbar-btn mr-3" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('zoomajustar', false)">
+            <img [src]="herramientaActualmenteAbierta === 'zoomajustar' ? 'assets/icons/SVG/ZOOMAJUSTAR_BLACK.svg' : 'assets/icons/SVG/ZOOMAJUSTAR.svg'" alt="EDICIONMULTIPLE">
+        </div>
+
+    </div>
+
+    <!-- GIS -->
+    <div id="information-btns-section" *ngIf="toolbarButtonGroupIsVisible('GIS')" class="toolbar-btn-group" >
+
+        <div *ngIf="! usuarioEnMapaTienePermisoComoInstalador" title="Galería" class="toolbar-btn ml-3" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('GaleriaDeElemento')">
+            <img [src]="herramientaActualmenteAbierta  === 'GaleriaDeElemento' ? 'assets/icons/SVG//MOSTRARFOTO_black.svg' : 'assets/icons/SVG//MOSTRARFOTO.svg'" alt="MOSTRARFOTO">
+        </div>
+
+        <div *ngIf="! usuarioEnMapaTienePermisoComoInstalador" title="Filtro de elementos" 
+            [class.active-tool]="FiltroDeElementos && herramientaActualmenteAbierta !== 'FiltroDeElementos' && FiltroDeElementos.isThereAnyLayerWithActiveFilter" 
+            class="toolbar-btn" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('FiltroDeElementos')">
+            <img [src]="
+            FiltroDeElementos && herramientaActualmenteAbierta !== 'FiltroDeElementos' && FiltroDeElementos.isThereAnyLayerWithActiveFilter ?
+            'assets/icons/SVG/FILTRADO_white.svg' :
+            (herramientaActualmenteAbierta === 'FiltroDeElementos' ? 'assets/icons/SVG/FILTRADO_black.svg' : 'assets/icons/SVG/FILTRADO.svg')"
+            alt="FILTRADO">
+        </div>
+
+        <div *ngIf="! usuarioEnMapaTienePermisoComoInstalador" title="Categorizar elementos" 
+            [class.active-tool]="categorizado && herramientaActualmenteAbierta !== 'categorizado' && categorizado.isThereAnyLayerWithCategorization" 
+            class="toolbar-btn" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('categorizado')">
+            <img [src]="
+            categorizado && herramientaActualmenteAbierta !== 'categorizado' && categorizado.isThereAnyLayerWithCategorization ?
+            'assets/icons/SVG/CATEGORIAS_white.svg' :
+            (herramientaActualmenteAbierta === 'categorizado' ? 'assets/icons/SVG/CATEGORIAS_black.svg' : 'assets/icons/SVG/CATEGORIAS.svg')"
+            alt="CATEGORIAS">
+        </div>
+
+        <div *ngIf="! usuarioEnMapaTienePermisoComoInstalador" title="Tabla de elementos filtrados"
+            class="toolbar-btn"  [class.active]="herramientaActualmenteAbierta  === 'TablaDeElementos'"
+            [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('TablaDeElementos')">
+            <img src="assets/icons/SVG/LUPA.svg" alt="LUPA">
+        </div>
+
+        <div *ngIf="! usuarioEnMapaTienePermisoComoInstalador" id="analysis-charts-tool-btn" title="Analisís y gráficos" [class.active-tool]="AnalisisGrafico && AnalisisGrafico.isActive" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('AnalisisGrafico')"
+            class="toolbar-btn">
+            <img [src]="AnalisisGrafico && AnalisisGrafico.isActive ?
+                'assets/icons/SVG/GRAFICA_white.svg' :
+                herramientaActualmenteAbierta === 'AnalisisGrafico' ?
+                'assets/icons/SVG/GRAFICA_BLACK.svg' :
+                'assets/icons/SVG/GRAFICA.svg'"
+                alt="GRAFICA">
+        </div>
+        
+        <!--  -->
+        <div id="export-analysis-charts-btn" *ngIf="herramientaActualmenteAbierta === 'AnalisisGrafico' && AnalisisGrafico && AnalisisGrafico.isActive"
+             [@fadeInOnEnter] [@fadeOutOnLeave] 
+             [class._disabled]="ocultandoOMostrandoHerramienta" 
+             title="Exportar análisis" class="toolbar-btn" (click)="AnalisisGrafico.export()">
+            <img src="assets/icons/SVG/IMPRIMIR.svg" alt="imprimir">
+        </div>
+
+        <div title="Información de elemento" class="toolbar-btn" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('InformacionElemento')">
+            <img [src]="herramientaActualmenteAbierta === 'InformacionElemento' || (herramientaActualmenteAbierta === 'GestionCentroDeMando' && GestionCentroDeMando.mode === 'details') ?
+             'assets/icons/SVG/INFORMACIÓN_BLACK.svg' : 'assets/icons/SVG/INFORMACIÓN.svg'" alt="INFORMACIÓN">
+        </div>
+        
+        <div title="Resaltar luminarias por centro de mando" class="toolbar-btn mr-3" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('ResaltarLuminariasPorCm')">
+            <img [src]="herramientaActualmenteAbierta === 'ResaltarLuminariasPorCm' ? 'assets/icons/REVISIONLUMINARIA_BLACK.svg' : 'assets/icons/REVISIONLUMINARIA.svg'" alt="LUMINARIA">
+        </div>
+
+    </div>
+
+    <!-- STREET VIEW MAP -->
+    <div id="street-view-btns-section" *ngIf="toolbarButtonGroupIsVisible('streetView')" class="toolbar-btn-group">
+
+        <div title="Mapa street view" [class.active-tool]="herramientaActualmenteAbierta === 'StreetViewMap'" class="toolbar-btn ml-3" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('StreetViewMap')">
+            <img [src]="herramientaActualmenteAbierta === 'StreetViewMap' ? 'assets/icons/SVG/STREETVIEW_white.svg' : 'assets/icons/SVG/STREETVIEW.svg'" alt="STREETVIEW">
+        </div>
+
+        <div title="Captura de mapa" class="toolbar-btn mr-3" (click)="capturaDeMapa()">
+            <img src="assets/icons/SVG/CAPTURARMAPA.svg" alt="CAPTURARMAPA">
+        </div>
+
+    </div>
+
+    <!-- MEASUREMENT -->
+    <div id="measurement-btns-section" *ngIf="toolbarButtonGroupIsVisible('measurement')" class="toolbar-btn-group">
+
+        <div title="Medir perímetro" [class._disabled]="ocultandoOMostrandoHerramienta" [class.active-tool]="enMedicion && tipoMedicion === 'perimetro'" (click)="iniciarMedicion('perimetro')" class="toolbar-btn ml-3">
+            <img [src]="enMedicion && tipoMedicion === 'perimetro' ? 'assets/icons/SVG/MEDIRLONGITUD_white.svg' : 'assets/icons/SVG/MEDIRLONGITUD.svg'" alt="MEDIRLONGITUD">
+        </div>
+
+        <div title="Medir área" class="toolbar-btn mr-3" [class._disabled]="ocultandoOMostrandoHerramienta" [class.active-tool]="enMedicion && tipoMedicion === 'area'" (click)="iniciarMedicion('area')">
+            <img [src]="enMedicion && tipoMedicion === 'area' ? 'assets/icons/SVG/MEDIRAREA_white.svg' : 'assets/icons/SVG/MEDIRAREA.svg'" alt="MEDIRAREA">
+        </div>
+
+    </div>
+
+    <!-- IMPORTACION -->
+    <div  id="import-layer-btns-section" *ngIf="toolbarButtonGroupIsVisible('importacion')" class="toolbar-btn-group">
+
+        <div title="Importar archivo" (click)="alternarVisibilidadDeSeccion('GestionArchivoExterno')" [class._disabled]="ocultandoOMostrandoHerramienta" class="toolbar-btn mx-3">
+            <img [src]="herramientaActualmenteAbierta === 'GestionArchivoExterno' ? 'assets/icons/SVG/IMPORTAR_black.svg' : 'assets/icons/SVG/IMPORTAR.svg'" alt="EXPORTAR">
+        </div>
+
+    </div>
+
+    <!-- GMAO -->
+    <div id="gmao-btns-section" *ngIf="toolbarButtonGroupIsVisible('gmao')" class="toolbar-btn-group">
+
+        <div title="Activar GMAO" class="toolbar-btn mx-3" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="activarGMAO()">
+          <img [src]="gmaoActivo ? 'assets/icons/INCIDENCIA_BLACK.svg' : 'assets/icons/INCIDENCIA.svg'" alt="GMAO">
+      </div>
+
+    </div>
+
+    <!-- OBRAS -->
+    <div id="works-btns-section" *ngIf="toolbarButtonGroupIsVisible('works')" class="toolbar-btn-group">
+
+      <div title="Activar Control de obras" class="toolbar-btn ml-3" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="revisionLuminaria()">
+        <img [src]="controlObraActiva ? 'assets/icons/REVISIONLUMINARIA_BLACK.svg' : 'assets/icons/REVISIONLUMINARIA.svg'" alt="REVISIONLUMINARIA">
+      </div>
+
+        <div title="Definir Luminaria Obra" [class.desactivado]="!controlObraActiva" [class._disabled]="ocultandoOMostrandoHerramienta" class="toolbar-btn">
+            <img *ngIf="controlObraActiva"  [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('ControObraFactura')"
+              [src]="herramientaActualmenteAbierta === 'ControObraFactura' ? 'assets/icons/DEFINIRLUMINARIAFUTURA_BLACK.svg' : 'assets/icons/DEFINIRLUMINARIAFUTURA.svg'" alt="DEFINIRLUMINARIAFUTURAOBRA_ASIGNAR_BLACK">
+            <img *ngIf="!controlObraActiva" alt="DEFINIRLUMINARIAFUTURAOBRA_ASIGNAR_BLACK" src="assets/icons/DEFINIRLUMINARIAFUTURA.svg">
+        </div>
+
+
+        <div title="Definir Instalador Obra" [class.desactivado]="!controlObraActiva" [class._disabled]="ocultandoOMostrandoHerramienta" class="toolbar-btn mr-3">
+            <img *ngIf="controlObraActiva" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('ControObraInstalador')"
+              [src]="herramientaActualmenteAbierta === 'ControObraInstalador' ? 'assets/icons/OBRA_ASIGNAR_BLACK.svg' : 'assets/icons/OBRA_ASIGNAR.svg'" alt="OBRA_ASIGNAR">
+            <img *ngIf="!controlObraActiva" src="assets/icons/OBRA_ASIGNAR.svg" alt="OBRA_ASIGNAR">
+        </div>
+
+    </div>
+
+    <!-- LAYERS AND CONFIGURATION -->
+    <div [class.movable-container]="barraDeHerramientasEsDesplazable" class="config-btn-group">
+
+        <div *ngIf="toolbarButtonGroupIsVisible('addressFinder')" #contenedorDeBuscadorDeDirecciones class="searcher-container">
+            <!-- referencia para posicionar campo de busqueda fuera de botonera-->
+            <input type="text" class="mx-2 searcher reference">
+        </div>
+
+        <div *ngIf="! usuarioEnMapaTienePermisoComoInstalador" id="sortToolbarBtn" class="toolbar-btn-group">
+            <div title="Ordenar barra de herramientas" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeEditorDeBotonera()" class="toolbar-btn ml-3">
+                <img [src]="editorDeBotoneraEsVisible ? 'assets/icons/SVG/PERSONALIZAR_black.svg' : 'assets/icons/SVG/PERSONALIZAR.svg'" alt="PERSONALIZAR">
+            </div>
+        </div>
+
+        <div id="layerControllerBtn" title="Mostrar capas" [class._disabled]="ocultandoOMostrandoHerramienta" (click)="alternarVisibilidadDeSeccion('ControladorCapasBase', false)" class="toolbar-btn mr-3">
+            <img [src]="herramientaActualmenteAbierta === 'ControladorCapasBase' ? 'assets/icons/SVG/CAPAS_black.svg' : 'assets/icons/SVG/CAPAS.svg'"
+                alt="CAPAS">
+        </div>
+
+    </div>
+
+</div>
+
+<!-- BUSCADOR DE DIRECCIONES -->
+<!-- campo de busqueda fuera de botonera-->
+<div id="address-finder" 
+    #buscadorDeDirecciones 
+    *ngIf="toolbarButtonGroupIsVisible('addressFinder')"
+    class="searcher-container searcher-completer">
+
+    <input type="text"
+        [(ngModel)]="direccionBuscada"
+        [typeahead]="direccionesSugerida$"
+        [typeaheadAsync]="true"
+        typeaheadWaitMs="1500"
+        [disabled]="tourEstaActivo"
+        placeholder="Escribe para buscar..."
+        class="mx-2 searcher"
+        (typeaheadOnSelect)="alBuscarDireccion()"
+        >
+    <img
+    [src]="direccionBuscada ? 'assets/icons/SVG/CERRARVENTANA.svg' : 'assets/icons/SVG/LUPA.svg'"
+    class="search-icon"
+    (click)="direccionBuscada = ''"
+    alt="lupa">
+</div>
+
+<!-- BUTTON GROUPS CONFIGURATION -->
+<div *ngIf="editorDeBotoneraEsVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave]
+    class="map-section tools-menu">
+
+    <div class="row mx-0 my-2" *ngFor="let buttonGroup of toolBarButtonGroups">
+
+        <div *ngIf="buttonGroup.enabled" class="col-2 p-0 mb-2 align-items-center text-center">
+            <label class="custom-checkbox" for="map_tool_{{buttonGroup.value}}_checkbox">
+
+                <input type="checkbox" (change)="toggleToolbarButtonGroupVisibility(buttonGroup)"
+                    [checked]="buttonGroup.visible" name="map_tool_{{buttonGroup.value}}_checkbox"
+                    id="map_tool_{{buttonGroup.value}}_checkbox">
+
+                <i class="fas fa-check" *ngIf="buttonGroup.visible"></i>
+
+            </label>
+        </div>
+
+        <div *ngIf="buttonGroup.enabled" class="col-10 pl-2 pr-0 py-0 mb-2 align-items-center text-justify text-truncate">
+            <label for="map_tool_{{buttonGroup.value}}_checkbox" title="{{buttonGroup.key}}"
+                class="ml-3 label text-truncate d-inline">
+                {{buttonGroup.key}}
+            </label>
+        </div>
+
+    </div>
+    
+</div>
+
+<!-- HERRAMIENTAS -->
+
+<!-- ZOOM AJUSTAR -->
+<herramienta-zoom-ajustar [map]="map"
+[capaDeElementosDibujados]="capaDeElementosDibujados"
+(onCerrar)="alternarVisibilidadDeSeccion('zoomajustar', false)"></herramienta-zoom-ajustar>
+
+<!-- CREACION Y EDICION -->
+
+<!-- NUEVO ELEMENTO -->
+<herramienta-nuevo-elemento
+    [map]="map"
+    (showCommandCenterManagementTool)="abrirGestionCentroDeMando($event)"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('NuevoElemento')"
+></herramienta-nuevo-elemento>
+
+<!-- MOVER ELEMENTO -->
+<herramienta-mover-elemento
+    [map]="map"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('MoverElemento')"
+></herramienta-mover-elemento>
+
+<!-- EDITAR ELEMENTO -->
+<herramienta-editar-elemento
+    [map]="map"
+    (showCommandCenterManagementTool)="abrirGestionCentroDeMando($event)"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('EditarElemento')"
+></herramienta-editar-elemento>
+
+<!-- EDICION MULTIPLE -->
+<herramienta-edicion-multiple 
+    [map]="map" 
+    [layers]="layers"
+    [capaDeElementosDibujados]="capaDeElementosDibujados" 
+    (onActualizarLayer)="actualizarLayerInfo()"
+    (onCerrar)="alternarVisibilidadDeSeccion('EdicionMultiple')"
+></herramienta-edicion-multiple>
+
+<!-- COPIAR ELEMENTO -->
+<herramienta-copiar-elemento
+    [map]="map"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('CopiarElemento')"
+></herramienta-copiar-elemento>
+
+<!-- ELIMINAR ELEMENTO -->
+<herramienta-eliminar-elemento
+    [map]="map"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('EliminarElemento')"
+></herramienta-eliminar-elemento>
+
+<!-- GESTION CENTRO DE MANDO -->
+<herramienta-gestion-centro-de-mando
+    [map]="map"
+    (whenClosing)="alCerrarGestionCentroDeMando($event)"
+></herramienta-gestion-centro-de-mando>
+
+<!-- //////////////////// -->
+
+<!-- ANALISIS E INFORMACION -->
+
+<!-- GALERIA -->
+<herramienta-galeria-de-elemento
+    [map]="map"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('GaleriaDeElemento')"
+></herramienta-galeria-de-elemento>
+
+<!-- FILTRO DE ELEMENTOS -->
+<herramienta-filtro-de-elementos
+    [map]="map"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('FiltroDeElementos')"
+></herramienta-filtro-de-elementos>
+
+<herramienta-filtro-de-elementos
+    [map]="map"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('FiltroDeElementos')"
+></herramienta-filtro-de-elementos>
+
+<!-- CATEGORIZADO -->
+<herramienta-categorizado
+    [layers]="layers" 
+    [defaultStyles]="estiloPorDefecto"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('categorizado')">
+</herramienta-categorizado>
+
+<!-- TABLA DE ELEMENTOS CON FILTRO -->
+<herramienta-tabla-de-elementos
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('TablaDeElementos')">
+</herramienta-tabla-de-elementos>
+
+<!-- ANALISIS GRAFICO -->
+<herramienta-analisis-grafico
+    [map]="map"
+    (onHidden)="alCerrarAnalisisGrafico()"
+></herramienta-analisis-grafico>
+
+<!-- INFORMACION ELEMENTO -->
+<herramienta-informacion-elemento
+    [map]="map"
+    (showCommandCenterManagementTool)="abrirGestionCentroDeMando($event)"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('InformacionElemento')"
+></herramienta-informacion-elemento>
+
+<!-- RESALTAR LUMINARIAS POR CM -->
+<herramienta-resaltar-luminarias-por-cm
+    [map]="map"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('ResaltarLuminariasPorCm')"
+></herramienta-resaltar-luminarias-por-cm>
+<!-- ////////////// -->
+
+<!-- STREET VIEW MAP -->
+<herramienta-street-view-map
+    [map]="map"
+></herramienta-street-view-map>
+
+ <!-- ///////////////  -->
+
+ <!-- GESTION ARCHIVO EXTERNO -->
+ <herramienta-gestion-archivo-externo
+    [map]="map"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('GestionArchivoExterno')"
+></herramienta-gestion-archivo-externo>
+    
+    <!-- EXPORTAR ARCHIVO -->
+<herramienta-exportar-archivo 
+    [map]="map"
+    [drawnElementsLayer]="capaDeElementosDibujados"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('ExportarArchivo')">
+</herramienta-exportar-archivo>
+
+ <!-- CONTROL DE OBRAS -->
+
+<!-- SOLCIITUD -->
+<app-solicitud></app-solicitud>
+
+<!-- CONTROLADOR DE obras futuros -->
+<app-control-obra-futura 
+    [map]="map" 
+    [layers]="layers"
+    [capaDeElementosDibujados]="capaDeElementosDibujados" 
+    (onCerrar)="alternarVisibilidadDeSeccion('ControObraFactura')">
+</app-control-obra-futura>
+
+<!-- CONTROLADOR DE obras instalador -->
+<app-control-obra-definir-instalador 
+    [map]="map" 
+    [layers]="layers"
+    [capaDeElementosDibujados]="capaDeElementosDibujados" 
+    (onCerrar)="alternarVisibilidadDeSeccion('ControObraInstalador')">
+</app-control-obra-definir-instalador>
+
+<!-- //////////// -->
+
+<!-- LISTADOS, FICHAS PLANIMETRIA Y EXPORTACION DE CAPAS -->
+
+<!-- EXPORTACION DE ELEMENTO O CAPA -->
+<herramienta-exportacion-elemento-capa
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('ExportacionElementoCapa')"
+    (showSheetsPerCommandCentersTool)="alternarVisibilidadDeSeccion('FichasCentrosDeMando')"
+    (activarExportacionDeFicha)="mostrarHerramientaDeExportacionDeFicha($event)"
+></herramienta-exportacion-elemento-capa>
+
+<!-- FICHAS POR CENTRO DE MANDO -->
+<herramienta-fichas-centros-de-mando
+    [map]="map"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('FichasCentrosDeMando')"
+></herramienta-fichas-centros-de-mando>
+
+
+<!-- EXPORTACION DE PLANO -->
+<herramienta-planimetria
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('Planimetria')"
+></herramienta-planimetria>
+
+<!-- EXPORTACION DE FICHA -->
+<herramienta-ficha-elemento
+    [map]="map"
+    (toggleSectionVisibility)="alternarVisibilidadDeSeccion('FichaElemento')"
+></herramienta-ficha-elemento>
+
+<!-- /////////// -->
+
+<!-- CONTROLADOR DE CAPAS -->
+<controlador-capas-base
+    [mapa]="map"
+    [añadirDatosDeModulos]="datosDeModulos"
+    [nombreCapaBaseActual]="nombreCapaBaseActual" (cambiarCapaBase)="cambiarCapaBase($event)">
+</controlador-capas-base>
+
+<!-- SPINNER -->
+<div *ngIf="!mapaCargado" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+    <mat-spinner></mat-spinner>
+</div>
+
+<!-- SMALL SPINNER -->
+<div *ngIf="mostrarSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+<!-- MAPA -->
+<div class="map-container"
+    leaflet
+    leafletDraw
+    [leafletOptions]="opcionesDeMapa"
+    [leafletLayer]="capaBase"
+    [leafletLayers]="layers"
+    (leafletMapReady)="onMapReady($event)"
+    (leafletMouseMove)="actualizarCursorDeCoordenadas($event)"
+></div>
+
+<!-- CONTROL DE ESCALA Y VISOR DE COORDENADAS DE CURSOR -->
+<div id="control-de-escala" #controlDeEscala *ngIf="mostrarControlDeEscala" [@fadeInOnEnter] [@fadeOutOnLeave] class="map-scale-control">
+
+    <label id="cursor-coordenadas" class="mx-2">{{cursorCoordenadas}}</label>
+
+    <label id="project-crs" class="mx-2">{{ crs }}</label>
+
+    <label id="current-scale" class="mx-2">{{ escalaActual }}</label>
+
+    <!-- CONTROL DE ESCALA  -->
+    <select [disabled]="tourEstaActivo" id="scale-selector" class="mx-2" (change)="alCambiarSelectorDeEscala($event)">
+        <option *ngFor="let escala of escalasDisponibles" [value]="escala.value" [selected]="! escala.value"
+            [disabled]="! escala.value">
+            {{escala.key}}
+        </option>
+    </select>
+
+</div>

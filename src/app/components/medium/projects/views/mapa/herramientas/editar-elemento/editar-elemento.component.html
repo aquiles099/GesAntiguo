@@ -1,0 +1,203 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section title">
+        Editar elemento
+
+        <div title="Ayuda" class="float-right pointer d-inline" (click)="showTour()">
+            <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+        </div>
+
+    </div>
+
+    <div class="middle-section">
+
+        <div *ngIf="! elementsInClickRange.length" class="row mx-0 my-1">
+            <div class="col-12 p-0 property-key">
+                <span *ngIf="! selectedElement" class="animate__animated animate__fadeIn animate__faster">
+                    Haga click encima o cerca de un elemento para seleccionarlo.
+                </span>
+            </div>
+        </div>
+    
+        <div *ngIf="elementsInClickRange.length > 1 && ! inEdition" class="row mx-0 my-1 scrollable layer-list animate__animated animate__fadeIn animate__faster">
+            <div class="col-12 px-0 py-2 bottom-bordered animate__animated animate__fadeIn animate__faster" *ngFor="let element of elementsInClickRange; let i = index;">
+                <div class="row m-0">
+    
+                    <div class="col-6 p-0 property-key">
+                        <label class="pointer" for="checkbox_layer_{{i}}">
+                            {{element.label | titlecase}}
+                        </label>
+                    </div>
+    
+                    <div class="col-6 p-0 property-value">
+    
+                        <label for="checkbox_layer_{{i}}"
+                                [class.checked]="selectedElement === element" 
+                                class="checkbox-round">
+                            <i *ngIf="selectedElement === element" class="fa fa-check"></i>
+                        </label>
+    
+                        <input type="checkbox" class="hide" (change)="onSelectElement(element)" id="checkbox_layer_{{i}}">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        <div *ngIf="inEdition"  class="h-100 w-100 animate__animated animate__fadeIn animate__faster">
+            
+            <ul class="h-100 _scrollable">
+                <li *ngFor="let propertyData of selectedElement.atributos_array">
+                    <div class="row m-0 py-2 mb-2 bottom-bordered">
+
+                        <div class="col-6 p-0 d-flex align-items-center property-key">
+                            <label [attr.title]="propertyData.nombre" for="property_{{propertyData.campo}}">
+                                {{ propertyData.nombre }}
+                            </label>
+                        </div>
+
+                        <div class="col-6 p-0 text-center" *ngIf="! propertyData.dominio">
+
+                            <div class="w-100" [ngSwitch]="propertyData.tipo">
+
+                                <input
+                                id="property_{{propertyData.campo}}"
+                                *ngSwitchCase="'Texto'" 
+                                type="text" 
+                                class="form-control _property-value"
+                                [(ngModel)]="selectedElement.datos_elemento[propertyData.nombre]"
+                                >
+
+                                <input
+                                id="property_{{propertyData.campo}}"
+                                *ngSwitchCase="'Número entero'" 
+                                type="number" 
+                                step="1"
+                                min="0"
+                                class="form-control _property-value"
+                                [(ngModel)]="selectedElement.datos_elemento[propertyData.nombre]"
+                                >
+
+                                <input
+                                id="property_{{propertyData.campo}}"
+                                *ngSwitchCase="'Número real'" 
+                                type="number"
+                                step=".01"
+                                min="0" 
+                                class="form-control _property-value"
+                                [(ngModel)]="selectedElement.datos_elemento[propertyData.nombre]"
+                                >
+
+                                <input
+                                id="property_{{propertyData.campo}}"
+                                *ngSwitchCase="'Fecha Completa'" 
+                                type="text"
+                                class="form-control _property-value"
+                                [(ngModel)]="selectedElement.datos_elemento[propertyData.nombre]"
+                                bsDatepicker
+                                [bsValue]="today"
+                                [bsConfig]="{ 
+                                    adaptivePosition: true,
+                                    isAnimated: true
+                                }">
+
+                                <input
+                                id="property_{{propertyData.campo}}"
+                                *ngSwitchCase="'Hora'" 
+                                type="text"
+                                class="form-control _property-value"
+                                [(ngModel)]="selectedElement.datos_elemento[propertyData.nombre]"
+                                [bsValue]="today"
+                                [bsConfig]="{ 
+                                    adaptivePosition: true,
+                                    isAnimated: true
+                                }">
+
+
+                                <label *ngSwitchCase="'Booleano'" class="checkbox" for="property_{{propertyData.campo}}">
+                                    
+                                    <input 
+                                    type="checkbox" 
+                                    [checked]="selectedElement.datos_elemento[propertyData.nombre]" 
+                                    name="property_{{propertyData.campo}}" 
+                                    [(ngModel)]="selectedElement.datos_elemento[propertyData.nombre]"
+                                    id="property_{{propertyData.campo}}">
+
+                                    <i class="fas fa-check" *ngIf="selectedElement.datos_elemento[propertyData.nombre]" ></i>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-6 p-0" *ngIf="propertyData.dominio">
+
+                            <ng-select
+                            class="custom" 
+                            [clearable]="false"
+                            [disabled]="drawing"
+                            [(ngModel)]="selectedElement.datos_elemento[propertyData.nombre]"
+                            (change)="onChangePropertyValueSelector(propertyData, $event)"
+                            [ngModelOptions]="{standalone: true}"
+                            placeholder="Seleccione..."
+                            >
+                                <ng-option [value]="domain.value ? domain.value : domain" *ngFor="let domain of propertyData.dominios">
+                                    {{ domain.label ? domain.label : domain}}
+                                </ng-option>
+                            </ng-select>
+                            
+                        </div>
+                    </div>
+                </li>
+            </ul>
+    
+        </div>
+    </div>
+    
+    <div class="_bottom-section">
+        <div class="row m-0 h-100 align-items-center justify-content-between" >
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="! inEdition">
+                    <button 
+                    (click)="showfieldsToEdit()"
+                    type="button" 
+                    class="btn btn-block"
+                    [disabled]="! selectedElement" 
+                    [ngClass]="{
+                        'btn-secondary': ! selectedElement,
+                        'btn-warning': selectedElement
+                    }"
+                    >
+                    Continuar
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="! inEdition">
+                <button (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+                    Cancelar
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="inEdition">
+                <button (click)="saveChanges()" 
+                        type="button" 
+                        class="btn btn-block"
+                        [disabled]="! selectedElement" 
+                        [ngClass]="{
+                            'btn-secondary': ! selectedElement,
+                            'btn-info': selectedElement
+                        }">
+                    Guardar
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="inEdition">
+                <button (click)="clear()" type="button" class="btn btn-block btn-outline-info">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+        <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+
+</div>

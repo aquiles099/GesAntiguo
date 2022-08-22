@@ -1,0 +1,443 @@
+<div *ngIf="hasAttributeData" class="row mx-0 py-1 pr-2 mb-2 align-items-center">
+
+    <form #form="ngForm">
+        
+        <div class="col-12 p-0 mb-3">
+            <b>Principal</b>
+        </div>
+    
+        <div class="col-12 py-2 px-3 mb-3 bordered">
+    
+            <div class="row align-items-center m-0">
+                
+                <!-- nombre -->
+                <div class="col-4 mb-2 px-1 property-key">
+                    <label title="nombre" for="nombre">
+                        Nombre
+                    </label>
+                </div>
+    
+                <div class="col-8 mb-2 px-1">
+                    <input
+                    id="nombre"
+                    name="nombre"
+                    type="text"
+                    class="form-control property-value"
+                    [(ngModel)]="template['nombre']"
+                    >
+                </div>
+                
+                <!-- tipo -->
+                <div class="col-4 mb-2 px-1 property-key">
+                    <label title="tipo" for="tipo">
+                        Tipo
+                    </label>
+                </div>
+    
+                <div class="col-8 mb-2 px-1">
+                    <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [items]="getAttributeByField('tipo').dominios"
+                        name="tipo"
+                        [(ngModel)]="template['tipo']"
+                        id="tipo"
+                        placeholder="Seleccione..."
+                        >
+                    </ng-select>
+                </div>
+        
+                <!-- tipo_conductor  -->
+                <div class="col-4 mb-2 px-1 property-key">
+                    <label title="tipo_conductor" for="tipo_conductor">
+                        Tipo de conductor
+                    </label>
+                </div>
+    
+                <div class="col-8 mb-2 px-1">
+                    
+                    <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [items]="getAttributeByField('tipo_conductor').dominios"
+                        name="tipo_conductor"
+                        [(ngModel)]="template['tipo_conductor']"
+                        id="tipo_conductor"
+                        placeholder="Seleccione..."
+                        >
+                    </ng-select>
+                    
+                </div>
+    
+                <!-- seccion  -->
+                <div class="col-4 mb-2 px-1 property-key">
+                    <label title="seccion" for="seccion">
+                        Seccion
+                    </label>
+                </div>
+    
+                <div class="col-8 mb-2 px-1">
+                    
+                    <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [items]="getAttributeByField('seccion').dominios"
+                        name="seccion"
+                        [(ngModel)]="template['seccion']"
+                        id="seccion"
+                        placeholder="Seleccione..."
+                        >
+                    </ng-select>
+    
+                </div>
+    
+                <!-- tipo_canalizacion  -->
+                <div class="col-4 mb-2 px-1 property-key">
+                    <label title="tipo_canalizacion" for="tipo_canalizacion">
+                        Tipo de canalización
+                    </label>
+                </div>
+    
+                <div class="col-8 mb-2 px-1">
+                    
+                    <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [items]="getAttributeByField('tipo_canalizacion').dominios"
+                        name="tipo_canalizacion"
+                        [(ngModel)]="template['tipo_canalizacion']"
+                        id="tipo_canalizacion"
+                        placeholder="Seleccione..."
+                        >
+                    </ng-select>
+    
+                </div>
+                
+                <!-- manual_automatico  -->
+                <div class="col-4 px-1 property-key">
+                    <label title="manual_automatico" for="manual_automatico">
+                        Int. M.A. de Línea
+                    </label>
+                </div>
+    
+                <div class="col-8 px-1">
+                    
+                    <label class="checkbox" for="manual_automatico">
+                        
+                        <input 
+                        type="checkbox" 
+                        name="manual_automatico" 
+                        [(ngModel)]="template['manual_automatico']"
+                        [checked]="template['manual_automatico']" 
+                        id="manual_automatico">
+        
+                        <i class="fas fa-check" *ngIf="template['manual_automatico']" ></i>
+        
+                    </label>    
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+        <!-- PROTECCIONES -->
+    
+        <div *ngFor="let protection of protections; let i = index" class="col-12 mb-3 p-0">
+    
+            <div class="row m-0">
+                
+                <div class="col-12 p-0 mb-2">
+                    <b>{{ protection.tipo | titlecase }} {{ protectionCanBeRepeat(protection) ? getProtectionIndexByType(protection) + 1 : "" }}</b>
+                </div>
+                
+                <!-- PLANTILLA MAGNETOTERMICO -->
+                <div *ngIf="protection.tipo === 'MAGNETOTÉRMICO'" class="col-12 py-2 px-3 bordered">
+            
+                    <div class="row align-items-center m-0">
+                        
+                        <!-- cantidad -->
+                        <div class="col-4 mb-2 px-1 property-key">
+                            <label title="cantidad" for="">
+                                Cantidad
+                            </label>
+                        </div>
+            
+                        <div class="col-8 mb-2 px-1">
+    
+                            <input
+                            type="number" 
+                            step="1"
+                            min="0"
+                            class="form-control property-value"
+                            [disabled]="mode === 'details'"
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="protection['cantidad']"
+                            >    
+        
+                        </div>
+                        
+                        <!-- cantidad -->
+                        <div class="col-4 mb-2 px-1 property-key">
+                            Polaridad
+                        </div>
+            
+                        <div class="col-8 mb-2 px-1">
+                            
+                            <ng-select
+                                class="custom" 
+                                [clearable]="false"
+                                [items]="getProtectionAttributeByField('polaridad').dominios"
+                                [disabled]="mode === 'details'"
+                                [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="protection['polaridad']"
+                                placeholder="Seleccione..."
+                                >
+                            </ng-select>
+    
+                        </div>
+                        
+                        <!-- intensidad -->
+                        <div class="col-4 mb-2 px-1 property-key">
+                            Intensidad
+                        </div>
+            
+                        <div class="col-8 mb-2 px-1">
+                            
+                            <ng-select
+                                class="custom" 
+                                [clearable]="false"
+                                [items]="getProtectionAttributeByField('intensidad').dominios"
+                                [disabled]="mode === 'details'"
+                                [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="protection['intensidad']"
+                                placeholder="Seleccione..."
+                                >
+                            </ng-select>
+    
+                        </div>
+                        
+                        <!-- marca -->
+                        <div class="col-4 mb-2 px-1 property-key">
+                            Marca
+                        </div>
+            
+                        <div class="col-8 mb-2 px-1">
+                            
+                            <ng-select
+                                class="custom" 
+                                [clearable]="false"
+                                [items]="getProtectionAttributeByField('marca').dominios"
+                                [disabled]="mode === 'details'"
+                                [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="protection['marca']"
+                                placeholder="Seleccione..."
+                                >
+                            </ng-select>
+    
+                        </div>
+                    
+                    </div>
+                
+                </div>
+    
+                <!-- PLANTILLA DIFERENCIAL Y CONTACTOR -->
+                <div *ngIf="protection.tipo !== 'MAGNETOTÉRMICO'" class="col-12 py-2 px-3 bordered">
+    
+                    <div class="row m-0 align-items-center text-center py-1">
+                    
+                        <div class="col-2 px-1 property-key">
+                            <b>Cantidad</b>
+                        </div>
+                
+                        <div class="col-3 px-1 property-key">
+                            <b>Polaridad</b>                    
+                        </div>
+                
+                        <div class="col-3 px-1 property-key">
+                            <b>Intensidad</b>    
+                        </div>
+                
+                        <div class="col-2 px-1 property-key">
+                            <b>Marca</b>    
+                        </div>
+                
+                    </div>
+                
+                    <div class="row mx-0 align-items-center py-1 mb-3">
+                
+                        <div class="col-6 px-1 text-center col-md-2">
+                            
+                            <input
+                            type="number" 
+                            step="1"
+                            min="0"
+                            class="form-control property-value"
+                            [disabled]="mode === 'details'"
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="protection['cantidad']"
+                            >    
+                            
+                        </div>
+                        <div class="col-6 px-1 text-center col-md-3">
+                            
+                            <ng-select
+                                class="custom" 
+                                [clearable]="false"
+                                [disabled]="mode === 'details'"
+                                [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="protection['polaridad']"
+                                placeholder="Seleccione..."
+                                >
+                                <ng-option [value]="domain" *ngFor="let domain of getProtectionAttributeByField('polaridad').dominios">
+                                    {{ domain }}
+                                </ng-option>
+                            </ng-select>
+                            
+                        </div>
+                        <div class="col-6 px-1 text-center col-md-3">
+                            
+                            <ng-select
+                                class="custom" 
+                                [clearable]="false"
+                                [disabled]="mode === 'details'"
+                                [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="protection['intensidad']"
+                                placeholder="Seleccione..."
+                                >
+                                <ng-option [value]="domain" *ngFor="let domain of getProtectionAttributeByField('intensidad').dominios">
+                                    {{ domain }}
+                                </ng-option>
+                            </ng-select>
+                            
+                        </div>
+                        <div class="col-6 px-1 text-center col-md-3">
+                            
+                            <ng-select
+                                class="custom" 
+                                [clearable]="false"
+                                [disabled]="mode === 'details'"
+                                [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="protection['marca']"
+                                placeholder="Seleccione..."
+                                >
+                                <ng-option [value]="domain" *ngFor="let domain of getProtectionAttributeByField('marca').dominios">
+                                    {{ domain }}
+                                </ng-option>
+                            </ng-select>
+                            
+                        </div>
+                
+                        <div *ngIf="protectionCanBeRepeat(protection) && mode !== 'details'" class="col-12 col-md-1 px-1 text-center">
+                            
+                            <button *ngIf="! protectionsIsTheLastOneByType(protection, i)" 
+                                    type="button"
+                                    (click)="removeProtection(i)"
+                                    title="Remover"
+                                        class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i>
+                            </button>
+                            
+                            <button *ngIf="protectionsIsTheLastOneByType(protection, i)" 
+                                    type="button"
+                                    (click)="duplicateProtection(protection, i)"
+                                    title="Duplicar"
+                                        class="btn btn-sm btn-warning">
+                                    <i class="fas fa-plus"></i>
+                            </button>
+                
+                        </div>
+                                    
+                        <!-- ADICIONAL PARA PROTECCION DIFERENCIAL  -->
+                        <div *ngIf="protection.tipo === 'DIFERENCIAL'" class="col-12 px-1 mt-1">
+                
+                            <div class="row m-0 align-items-center">
+                
+                                <div class="col-2 px-1 property-key">
+                                    <b>Sensibilidad</b>    
+                                </div>
+                
+                                <div class="col-3 px-1 text-center">
+                                    
+                                    <ng-select
+                                        class="custom" 
+                                        [clearable]="false"
+                                        [disabled]="mode === 'details'"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="protection['sensibilidad']"
+                                        placeholder="Seleccione..."
+                                        (change)="onChangeSensibilitySelector($event, protection)"
+                                        >
+                                        <ng-option [value]="domain" *ngFor="let domain of getProtectionAttributeByField('sensibilidad').dominios">
+                                            {{ domain }}
+                                        </ng-option>
+                                    </ng-select>
+                                    
+                                </div>
+                
+                                <div class="col-2 px-1 text-center">
+                                    
+                                    <input
+                                    type="number" 
+                                    step="1"
+                                    min="0"
+                                    class="form-control property-value"
+                                    [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="protection['sensibilidad_personalizada']"
+                                    [disabled]="! protection['sensibilidad'] || ! protection['sensibilidad_personalizada_habilitada'] || mode === 'details'"
+                                    >    
+                
+                                </div>
+                            
+                                <div class="col-1 px-1 text-center">
+                        
+                                    <select
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="protection['medida_sensibilidad_personalizada']"
+                                        placeholder="Seleccione..."
+                                        [disabled]="! protection['sensibilidad'] || ! protection['sensibilidad_personalizada_habilitada'] || mode === 'details'"
+                                        >
+                                        <option *ngFor="let measure of amperageMeasurements; let i = index" 
+                                                [value]="measure" 
+                                                [selected]="i === 0" 
+                                                >
+                                            {{measure}}
+                                        </option>
+                                    </select>
+                
+                                </div>
+                
+                                <div class="col-3 px-1 text-center text-center">
+                                    
+                                    <label class="checkbox" for="proteccion_{{i + 1}}_rearmable">
+                                    
+                                        <input 
+                                        type="checkbox" 
+                                        [disabled]="mode === 'details'" 
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="protection['rearmable']"
+                                        [checked]="protection['rearmable']" 
+                                        id="proteccion_{{i + 1}}_rearmable">
+                        
+                                        <i class="fas fa-check" *ngIf="protection['rearmable']" ></i>
+                        
+                                    </label>    
+                
+                                    <label class="d-inline ml-2" for="proteccion_{{i + 1}}_rearmable">Rearmable</label>
+                                    
+                                </div>    
+                            </div>
+                
+                        </div>
+                        
+                    </div>
+    
+                </div>
+    
+            </div>
+                        
+        </div>
+
+    </form>
+
+</div>

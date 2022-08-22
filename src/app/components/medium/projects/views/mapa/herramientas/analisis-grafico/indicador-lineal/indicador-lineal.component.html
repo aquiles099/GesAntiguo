@@ -1,0 +1,21 @@
+<div class="row w-100 h-100 m-0 align-items-center" #chartRef>
+    
+    <div *ngIf="parameters.buttons" class="col-12 p-0 mb-2 text-right align-self-start">
+        <button type="button"
+                title="revertir configuracion" 
+                (click)="hideEvent($event)" 
+                class="btn revert-config-btn btn-sm main-btn mr-2"
+                >
+            <i  class="fa fa-trash-alt"></i>
+        </button>
+    </div>
+
+    <div class="col-12 p-0 m-0">
+        <h1 [attr.title]="parameters.title" class="text-center text-truncate px-1 mb-1 chart-title" [innerHTML]="parameters.title"></h1>
+    </div>
+
+    <div class="col-12 p-0 text-muted ">
+        <h1 [attr.title]="parameters.units" class="text-center px-1 mb-2 chart-content">{{parameters.units}}</h1> 
+    </div>
+
+</div>

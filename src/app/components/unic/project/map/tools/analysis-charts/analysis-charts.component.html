@@ -1,0 +1,32 @@
+<div *ngIf="isVisible" [@fadeInOnEnter] [@fadeOutOnLeave] class="container-fluid">
+    
+    <configuration-modal
+        (onHide)="onHideConfigurationModal($event)"
+    ></configuration-modal>
+
+    <div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+    <div *ngFor="let chartData of chartsData" 
+            [attr.data-position]="chartData.configuration.position" 
+            #chartContainerRef
+            class="chart-container chart-{{chartData.configuration.position}} animate__animated animate__fadeIn animate__faster">
+    
+            <chart 
+                *ngIf="chartData.configuration.chartType !== 'linear_gauge'"
+                [configuration]="chartData.configuration"
+                [width]="chartContainerRef.offsetWidth"
+                [height]="chartContainerRef.offsetHeight"
+            ></chart>
+
+            <linear-indicator
+                *ngIf="chartData.configuration.chartType === 'linear_gauge'"
+                [configuration]="chartData.configuration"
+            ></linear-indicator>
+    
+    </div>
+
+    <export-view
+        [chartsData]="chartsData"
+    ></export-view>
+
+</div>

@@ -1,0 +1,219 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+<div class="col-12 p-0">
+  <div class="container">
+    <br>
+      <br>
+      <br>
+      <div class="parametros valor">        
+          <div class="container">
+              <br>
+              <div class="row valor">
+                  <div class="col-1 col11">
+                      <img [src]="proyecto.icono" alt="icono" class="escudo_proyecto" />
+                  </div>
+                  <div class="col-3">
+                      <strong>Proyecto: </strong> <span>{{proyecto.nombre}}</span>
+                      <div class="espacio_vertical">
+                          <strong>Módulos: </strong><span *ngFor="let modulos of proyecto.modulos">  <img [src]="modulos.icono_modulo" alt="icono" class="icon_modulo" /></span>
+                      </div>
+                  </div>
+              </div>
+              <br>
+              <br>
+              <br>
+    	  </div>
+    	  <div class="container">
+            <div class="valor nueva_solicitud border">
+                <div class="row p-4">
+                    <div class="col-6">
+                    </div>
+                    <div class="col-6  pr-4" align="right">
+                        <div>
+                            <span class="fecha_creacion">Fecha de creación:</span> <span class="fecha"> &nbsp;{{data_solicitud.fecha | date:'dd/MM/yyyy'}}</span>
+                        </div>
+                    </div>
+                    <div class=" col-6 ">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" class="fecha_creacion">Tipo de Orden*</label>
+                             <input type="text"  [(ngModel)]="data_solicitud.tipo_id" class="form-control text_input tamano_inputs" [disabled]="isDisabled">
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==1">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="fecha_creacion">Elemento*</label>
+                            <input type="text"  [(ngModel)]="data_solicitud.elemento_id" class="form-control text_input tamano_inputs" [disabled]="isDisabled">      
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==2">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        </div>
+                        <!-- *** -->
+                        <div class="form-group">
+                            <label for="" class="fecha_creacion">Prioridad*</label>
+                            <input type="text"  [(ngModel)]="data_solicitud.descripcion_priodidad" class="form-control text_input tamano_inputs" [disabled]="isDisabled">      
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==4">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                              </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="fecha_creacion">Usuario*</label>
+                            <input type="text"  [(ngModel)]="data_solicitud.nombre_usuario" class="form-control text_input tamano_inputs" [disabled]="isDisabled">      
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==4">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                              </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="fecha_creacion">Dirección*</label>
+                            <textarea name="txt_descripcion" [(ngModel)]="data_solicitud.direccion_2" placeholder="Ingrese una descripción" class="form-control text_input" [disabled]="isDisabled"></textarea>
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==3">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                            </div>
+                        </div>
+                        <!-- *** -->
+                        <div class="form-group">
+                            <label for="" class="fecha_creacion">Descripción*</label>
+                            <textarea name="txt_descripcion" [(ngModel)]="data_solicitud.descripcion" placeholder="Ingrese una descripción" class="form-control text_input" [disabled]="isDisabled"></textarea>
+                            <div class="alert alert-error alert-dismissible fade show animate__animated animate__animated animate__fadeIn animate__shakeX" role="alert" *ngIf="alert==3">
+                                <strong>Advertencia!</strong> {{mensaje}}.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                            </div>
+                        </div>
+                        <!-- ** -->
+                        <div class="form-group">
+                            <label for="" class="fecha_creacion">Observaciones</label>
+                            <textarea name="txt_descripcion" [(ngModel)]="data_solicitud.comentarios" placeholder="Ingrese Observaciones" class="form-control text_input" [disabled]="isDisabled"></textarea>
+                            
+                        </div>
+                        <div class="row  pr-6">
+                            <!-- la tabla -->
+                            <!-- aqui la grilla -->
+                              <div class="col-12">
+                                <table width="100%" class="table-condensed table-bordered table-striped color_table table-hover">
+                                  <thead class="color_table">
+                                      <tr class="cabecera">
+                                        <th scope="col" style="text-align: center;">id</th>
+                                        <th scope="col" style="text-align: center;">Almacen</th>
+                                        <th scope="col" style="text-align: center;">Tipo</th>
+                                        <th scope="col" style="text-align: center;">Inventario</th>
+                                        <th scope="col" style="text-align: center;">Cantidad</th>
+                                      </tr>
+                                    </thead>
+                                  <tbody>
+                                      <tr *ngIf="carga_datos==2">
+                                          No hay datos que mostrar 
+                                      </tr>
+                                       <ng-container class="animate__animated animate__fadeIn" *ngFor="let item of _det_orden_trabajo; let i = index">
+                                        <tr *ngIf="i >= valor_0 && i<valor_1" class="animate__animated animate__fadeIn cursor_pointer" > 
+                                          <td style="text-align: center;">{{item.id_inventario}}</td>
+                                          <td style="text-align: center;">{{item.almacen}}</td>
+                                          <td style="text-align: center;">{{item.tipo_inventario}}</td>
+                                          <td style="text-align: center;">{{item.nombre}}</td>
+                                          <td style="text-align: center;" >{{item.cantidad}}</td>
+                                        </tr>
+                                           </ng-container>
+                                    </tbody>
+                              </table>
+                              <br>
+                              </div>
+                            <!-- ******** -->
+                        </div>
+                        <br>
+                        <div  class="row">
+                          <div class="col-3" *ngFor="let item of imagen; let i = index">
+                            <img [src]="item.imagen" class="img-thumbnail" (click)="abrir_imagen(item.imagen)" data-toggle="modal" data-target="#exampleModal2"> 
+                          </div>
+                        </div>
+                        <!-- *** -->
+                        
+                    </div>                    
+                    <div class="col-6">
+                     <div class="form-group">
+                        <app-mapa-leaft></app-mapa-leaft>
+                        <br>
+                        <!-- ******fin mapa***** -->
+                        <!-- <div align="right">
+                          <button class="btn color_btn_crear btn_ampliar btn-lg tamano_texto_boton" data-toggle="modal" data-target=".bd-example-modal-lg" (click)="apmplia()"> Ampliar</button>
+                        </div> -->
+                      </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <br>
+            <div class="row botones">
+                <div class="col-12" align="right">
+                  <span *ngIf="data_solicitud.estado_id!=3" >
+                    <button class="btn color_btn_crear btn_crear_consulta btn-lg tamano_texto_boton" [disabled]="isDisabled_2" (click)="en_espera()">
+                      <div class="lds-ring" *ngIf="isDisabled_espera_resuelta==1" [disabled]="isDisabled_espera_resuelta">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>Poner en espera</button>
+                  </span>
+                  <span *ngIf="data_solicitud.estado_id!=4">
+                    <button class="btn color_btn_crear btn_crear_consulta btn-lg tamano_texto_boton" (click)="resuelta()" [disabled]="isDisabled_2">
+                       <div class="lds-ring" *ngIf="isDisabled_espera_resuelta==2" [disabled]="isDisabled_espera_resuelta">
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                        </div>
+                    Marcar como resuelta </button>
+                    <button class="btn color_btn_crear btn_crear_consulta btn-lg tamano_texto_boton" (click)="no_resuelta()" [disabled]="isDisabled_2" *ngIf="data_solicitud.estado_id!=7">
+                       <div class="lds-ring" *ngIf="isDisabled_espera_resuelta==2" [disabled]="isDisabled_espera_resuelta">
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                        </div>
+                    Marcar como NO resuelta </button>
+                  </span>
+                  <!-- <button class="btn color_btn_crear btn_crear_consulta btn-lg tamano_texto_boton" (click)="nuevo_mantenimiento_preventivo()" [disabled]="isDisabled_espera_resuelta">Crear mantenimiento preventivo </button> -->
+                    <button class="btn btn1 btn-light  btn-lg btn_crear_consulta tamano_texto_boton" (click)="volver()" [disabled]="isDisabled_2">Volver</button>&nbsp;&nbsp;
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+</div>
+</div>
+<!-- la modal -->
+<div>
+    <div class="modal fade bd-example-modal-lg" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+           <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+             <img [src]="imagen_seleccionada" class="img-fluid"> 
+          </div>
+         
+        </div>
+      </div>
+        </div>
+    
+</div>
+

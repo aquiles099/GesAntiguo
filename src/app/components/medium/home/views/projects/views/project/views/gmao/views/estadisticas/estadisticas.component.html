@@ -1,0 +1,136 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+    <home-view-header title="Estadisticas" [enableTourButton]="false"></home-view-header>
+
+    <!-- de aca se puede manejar el nro de columnas base que se quiera (sin padding), y dentro de estas el contenido de la vista.-->
+    <div class="col-12 p-0">
+       <div class="container_chart">
+        <div class="row">
+          <div class="col-4">
+            <li class="nav-item">
+              <a [class]=" class_solicitudes ? 'nav-link disabled' : 'nav-link active'" tabindex="-1" aria-disabled="true" (click)="seleccion_cinta(0)" ><span *ngIf="class_solicitudes"><u>Incidencias</u> </span><span *ngIf="!class_solicitudes">Incidencias</span></a>
+            </li>
+          </div>
+          <div class="col-4">
+            <li class="nav-item">
+              <a [class]=" class_ordenes ? 'nav-link disabled' : 'nav-link active'" aria-current="page" (click)="seleccion_cinta(1)"><span *ngIf="class_ordenes"><u>Órdenes de trabajo</u></span> <span *ngIf="!class_ordenes">Órdenes de trabajo</span></a>
+            </li>
+          </div>
+          <div class="col-4">
+            <li class="nav-item">
+              <a [class]=" class_mant_preventivo ? 'nav-link disabled' : 'nav-link active'" aria-current="page" (click)="seleccion_cinta(2)" ><span *ngIf="class_mant_preventivo"><u>Mantenimiento preventivo</u></span><span *ngIf="!class_mant_preventivo">Mantenimiento preventivo</span></a>
+            </li>
+          </div>
+          
+        </div>
+        <div class="row al_lado">
+          <div class="col-1">
+            <div align="left">
+              <span><strong class="text- cursor_pointer">Fecha</strong></span>
+            </div>
+          </div>
+          <div class="col-10">
+            <div>
+              <input type="radio" id="contactChoice1" name="contact" value="ultimo"  [(ngModel)]="data.radio" (click)="seleccion_periodo(0)">
+              <label for="contactChoice1">&nbsp;Último mes</label>
+            </div>
+            <br>
+            <div>
+              <input type="radio" id="contactChoice1" name="contact" value="mes_ant"  [(ngModel)]="data.radio" (click)="seleccion_periodo(2)">
+              <label for="contactChoice1">&nbsp;Mes anterior</label>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-2 periodo">
+                  <input type="radio" id="contactChoice1" name="contact" value="periodo" [(ngModel)]="data.radio" (click)="seleccion_periodo(1)">
+                  <label for="contactChoice1">&nbsp;Periodo</label>
+              </div>
+              <div class="col-9" align="left">
+               <div *ngIf="seleccione_periodo==1">
+                  <input type="text" autocomplete="off" ngxDaterangepickerMd [locale]="local" startKey="start" endKey="end" [(ngModel)]="selected_dates" name="daterange12" [maxDate]="maxDateRange" [minDate]="minDateRange" [alwaysShowCalendars]="true" [ranges]="ranges" class="imput_form_2 tamano_inputs fechas input" (ngModelChange)="datesUpdated($event)" [linkedCalendars]="true"/>
+                  <button class="btn color_btn_crear btn_crear_consulta btn-default tamano_texto_boton" (click)="ver()" >Ver</button>
+               </div>
+                <br>
+                <div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_inicio==1">
+                  <strong>{{mensaje}}.</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(3)">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </div>
+        <br>
+            </div>     
+      </div>
+    </div>
+        <div *ngIf="seleccione_periodo==0" class="izquierda">
+          <div class="row" >
+            <div class="col-12" align="center">
+              <label class="el_mes">Último mes</label>
+            </div>
+          </div>
+            <br>
+          <div class="row">
+            <div class="col-4" *ngFor="let item of series_mes; let i = index">
+              <div class="form-group" align="center">
+                <label class="los_items">{{item.name}}</label>
+                <div>{{item.data}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="seleccione_periodo==2" class="izquierda">
+          <div class="row" >
+            <div class="col-12" align="center">
+              <label class="el_mes">Mes pasado</label>
+            </div>
+          </div>
+            <br>
+          <div class="row">
+            <div class="col-4" *ngFor="let item of series_pasado; let i = index">
+              <div class="form-group" align="center">
+                <label class="los_items">{{item.name}}</label>
+                <div>{{item.data}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="seleccione_periodo==1" class="izquierda">
+          <div class="row" >
+            <div class="col-12" align="center">
+              <label class="el_mes"><li>{{data.fecha_i | date:'dd/MM/yyyy'}} - {{data.fecha_f | date:'dd/MM/yyyy'}}</li></label>
+            </div>
+          </div>
+            <br>
+          <div class="row">
+            <div class="col-4" *ngFor="let item of series; let i = index">
+              <div class="form-group" align="center">
+                <label class="los_items">{{item.name}}</label>
+                <div>{{item.data}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+         <div class="col-12 offset-md-9 col-md-2 p-0" *ngIf="tipo==2">
+              <ng-select
+                  class="custom d-block" 
+                  [clearable]="false"
+                  [items]="types"
+                  bindLabel="key"
+                  bindValue="value"
+                  (change)="changeType($event.value)"
+                  placeholder="Tipo de gráfico"
+                  >
+              </ng-select>
+          </div>
+        </div>
+        <div class="container_chart">
+          <div id="spinnerCargaMapa" *ngIf="el_chart==0" class="h-100" [ngClass]="el_chart==0 ? 'loading' : 'notLoading'">
+          <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+          </div>
+          <hr>
+          <div class="bar"  [chart]="barchart" *ngIf="tipo==2 && el_chart==1"></div>
+          <br>
+        </div>
+
+</div>
+

@@ -1,0 +1,447 @@
+.fisotec-main-color{
+    color: #218D8F;
+}
+.fisotec-color-oscuro{
+    color: #196869;
+}
+.fisotec-color-claro{
+    color: #d9ebec;
+}
+.fisotec-color-cabecera{
+    color: #f8f9fa;
+}
+
+.spinner{
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+
+mat-spinner{
+    margin: auto;
+}
+
+.cdk-overlay-container, .cdk-overlay-pane {
+    z-index: 9999 !important;
+}
+
+.spinner .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: var(--fisotec-main-color);
+}
+
+.icon.help{
+    width: 1.2rem !important;
+    height: 1.2rem !important;
+}
+
+
+.small-icon{
+    width: .9rem;
+    height: .9rem;
+    cursor: pointer;
+}
+
+.medium-icon{
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+}
+
+.icon{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.big-icon{
+    width: 3rem;
+    height: 3rem;
+}
+
+.default-btn{
+    background-color: var(--fisotec-main-color);
+    color: var(--fisotec-color-claro);
+}
+
+.default-btn:hover{
+    background-color: var(--fisotec-color-oscuro);
+    color: var(--fisotec-color-cabecera);
+}
+
+input[type=checkbox]{
+    display: block;
+}
+
+.hide{
+    display: none !important;
+    opacity: 0 !important;
+    width: 0;
+    height: 0;
+}
+
+.map-section{
+    position: absolute;
+    color: #333;
+    background-color: #F9F9F9;
+    z-index: 999;
+    font-size: 12px;
+}
+
+.checkbox-round {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.3em;
+    height: 1.3em;
+    background-color: transparent;
+    color: #FFF;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #808080;
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+}
+
+.checkbox-round > i {
+    color: white;
+    font-size: .6rem;
+}
+
+.custom-checkbox{
+    border: 1px solid #000;
+    cursor: pointer;
+    font-size: .75rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    position: absolute;
+}
+
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkbox-round.checked {
+    background-color: #26AAE2;
+}
+
+@media (min-width: 576px)
+{
+    .checkbox-round {
+        width: 1.4em;
+        height: 1.4em;
+    }
+}
+
+._disabled{
+    opacity: .5;
+    cursor: default;
+  }
+
+.overflow-hidden{
+    overflow: hidden !important;
+}
+
+.text-info{
+    color: #26AAE2 !important;
+}
+
+.text-secondary{
+    color: #BDBDBD !important;
+}
+
+.text-warning{
+    color: #F9B032 !important;
+}
+
+.text-success{
+    color: #1D7B2A !important;
+}
+
+.badge{
+    font-weight: normal !important;
+}
+
+.bg-warning{
+    background-color: #F9B032 !important;
+    color: #fff;
+}
+
+.bg-info{
+    background-color: #26AAE2 !important;
+    color: #fff;
+}
+
+.bg-secondary{
+    background-color: #F6F6F6 !important;
+    color: #fff;
+}
+
+.badge-outline-info{
+    border: 1px solid #26AAE2;
+    background-color: transparent;
+    color: #26AAE2;    
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+.badge-secondary{
+    border: 1px solid #E0E0E0;
+    background-color: #F6F6F6;
+    color: #4F4F4F;    
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: bolder;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+
+/* buttons */
+
+.btn-block{
+    border-radius: 2px !important;
+}
+
+.btn-secondary{
+    background-color: #BDBDBD !important;
+    color: #FFF !important;
+    border: 1px solid #BDBDBD !important;
+}
+
+.btn-info{
+    background-color: #26AAE2 !important;
+    color: #FFF !important;
+    border: 1px solid #26AAE2 !important;
+}
+
+.btn-warning{
+    background-color: #F9B032 !important;
+    color: #FFF !important;
+    border: 1px solid #F9B032 !important;
+}
+
+.btn-danger{
+    background-color: rgba(253,47,51,0.87);
+    color: #FFF !important;
+    border: 1px solid rgba(253,47,51,0.87) !important;
+}
+
+._btn-outline-secondary{
+    background-color: #FFF;
+    color: #BDBDBD;
+    border: 1px solid #BDBDBD;
+}
+
+.btn-transparent{
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+
+.btn-transparent:active {
+    border-style: outset;
+}
+
+.btn-outline-info{
+    background-color: #FFF;
+    color: #26AAE2 !important;
+    border: 1px solid #26AAE2;
+}
+
+.btn-outline-info:hover{
+    background-color: #26AAE2;
+    color: #FFF !important;
+    border: 1px solid #26AAE2;
+}
+
+/* cursor styles */
+
+.cursor-default{
+    cursor: default !important;
+}
+
+.cursor-help{
+    cursor: help !important;
+}
+
+.cursor-crosshair{
+    cursor: crosshair !important;
+}
+
+.cursor-wait {
+    cursor: wait !important;
+}
+
+.pointer{
+    cursor: pointer !important;
+}
+
+.cursor-all-scroll{
+    cursor: all-scroll;
+}
+
+
+/* others */
+
+.separator{
+    color: #F2F2F2;
+    background-color: #F2F2F2;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+kbd{
+    border: 1px solid #BDBDBD;
+    background-color: #BDBDBD;
+    color: #FFF;
+    font-size: .8rem !important;
+    padding: 0.2rem;
+}
+
+/* GLOBALES MAPA */
+
+/* estilo de contenedor superpuesto al generar capturas de mapa */
+.map-screenshot-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999 !important;
+    overflow: hidden;
+  }
+
+.leaflet-draw-section,
+.leaflet-draw-toolbar,
+.leaflet-draw.leaflet-control,
+.leaflet-control-attribution {
+  display: none !important;
+  z-index: 1 !important;
+}
+/* shepherd styles */
+
+.shepherd-button {
+    padding: 0.25rem 0.5rem !important;
+}
+
+.shepherd-header {
+    align-items: start !important;
+    line-height: 1em !important;
+}
+
+.shepherd-has-title .shepherd-content .shepherd-header {
+    padding: 0.75rem 1rem .25rem 1rem !important;
+}
+
+.mat-h3, .mat-subheading-2, .mat-typography h3{
+    font-weight: bolder;
+    margin-bottom: 0px;
+}
+.mat-h3, 
+.mat-subheading-2, 
+.mat-typography h3,
+.shepherd-button,
+.shepherd-text {
+    font-size: .9rem;
+}
+
+/* for step video */
+video {
+    width:100%;
+    height:auto;
+    max-height:100%
+}
+
+/* pure css loaders */
+
+/*  ellipsis: <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div> */
+
+.lds-ellipsis {
+    margin: auto;
+    display: block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-ellipsis div {
+    position: absolute;
+    top: 33px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #BDBDBD;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+  .lds-ellipsis div:nth-child(1) {
+    left: 8px;
+    animation: lds-ellipsis1 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(2) {
+    left: 8px;
+    animation: lds-ellipsis2 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(3) {
+    left: 32px;
+    animation: lds-ellipsis2 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(4) {
+    left: 56px;
+    animation: lds-ellipsis3 0.6s infinite;
+  }
+  @keyframes lds-ellipsis1 {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes lds-ellipsis3 {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0);
+    }
+  }
+  @keyframes lds-ellipsis2 {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(24px, 0);
+    }
+  }
+  
+  /*  */
+  .table-striped tbody tr:nth-of-type(odd){
+      background-color: #FAFAFA !important;
+  }
+
+  .table-hover tbody tr:hover {
+    color: inherit !important;
+    background-color: #FAFAFA !important;
+}

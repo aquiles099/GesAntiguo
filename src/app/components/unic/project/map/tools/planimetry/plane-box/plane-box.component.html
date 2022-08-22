@@ -1,0 +1,89 @@
+<table #htmlRef *ngIf="data.model === 1">
+    <tr>
+        <td colspan="4" style="height:42.86%" class="title">{{data.title ? data.title : 'TITULO DE PROYECTO'}}</td>
+    </tr>
+    <tr>
+        <td class="label">Titular: </td>
+        <td colspan="2" class="info" style="width: 67.26%"> {{data.titular}} </td>
+        <td rowspan="2" class="text-center label"> 
+            Fecha: <br>
+            <span class="info">{{data.date ? data.date : 'XX/XX/XX'}}</span>
+        </td>
+    </tr>
+    <tr>
+        <td class="label">Promotor: </td>
+        <td colspan="2" class="info"> {{data.sponsor}} </td>
+    </tr>
+    <tr>
+        <td style="height:28.57%" class="label">Escala: <br> <span class="info"> {{ data.scale ? data.scale : 'XXX'}}</span></td>
+        <td colspan="2" class="info"> DESIGNACIÓN: {{data.designation }}</td>
+        <td class="text-center label"> Plano nº: <br> <span class="plane-number">{{data.number ? data.number : 'XXX' }}</span></td>
+    </tr>
+</table>
+
+<table #htmlRef *ngIf="data.model === 2">
+    <tr>
+        <td style="background-color: #F2F2F2; text-align: center; padding: 0; width: 16.37%; height: 70%;" rowspan="3">
+            <img *ngIf="getImage('left')" [src]="getImage('left').src" [attr.alt]="getImage('left').name">
+        </td>
+        <td class="title" colspan="3">{{data.title ? data.title : 'TITULO DE PROYECTO'}}</td>
+    </tr>
+    <tr>
+        <td class="label" style="width: 16.37%;">Titular: </td>
+        <td class="info">{{ data.titular }}</td>
+        <td style="width: 16.37%;" class="text-center label" rowspan="2">Fecha: <br> 
+            <span class="info">
+                {{data.date ? data.date : 'XX/XX/XX'}}
+            </span> 
+        </td>
+    </tr>
+    <tr>
+        <td class="label" style="width: 16.37%;">Promotor: </td>
+        <td class="info">{{ data.sponsor }}</td>
+    </tr>
+    <tr>
+        <td class="label" style="width: 16.37%;">Escala: <br> 
+            <span class="info">{{data.scale ? data.scale : 'XXX' }}</span>
+        </td>
+        <td colspan="2" class="info"> DESIGNACIÓN: {{data.designation }}</td>
+        <td style="width: 16.37%;" class="text-center label"> Plano nº: <br> 
+            <span class="plane-number">{{data.number ? data.number : 'XXX' }}</span>
+        </td>
+    </tr>
+</table>
+
+<table #htmlRef *ngIf="data.model === 3">
+    <tr>
+        <td class="title" colspan="4">{{data.title ? data.title : 'TITULO DE PROYECTO'}}</td>
+    </tr>
+    <tr>
+        <td class="info" colspan="3">DESIGNACIÓN: {{data.designation }} </td>
+        <td style="width: 16.37%;" class="text-center label"> Plano nº: <br> 
+            <span class="plane-number"> {{data.number ? data.number : 'XXX'}}</span>
+        </td>
+    </tr>
+    <tr>
+        <td #imageCell1 style="background-color: #F2F2F2; text-align: center; padding: 0; width: 16.37%; height: 50%;" rowspan="3">
+            <img *ngIf="getImage('left')" [src]="getImage('left').src" [attr.alt]="getImage('left').name">
+        </td>
+
+        <td class="label" style="width: 15%;">Titular:</td>
+        <td class="info">{{ data.titular }}</td>
+        
+        <td #imageCell2 style="background-color: #F2F2F2; text-align: center; padding: 0.2rem; width: 16.37%; height: 50%;" rowspan="3">
+            <img *ngIf="getImage('right')" [src]="getImage('right').src" [attr.alt]="getImage('right').name">
+        </td>
+    </tr>
+    <tr>
+        <td class="label" style="width: 15%;">Promotor: </td>
+        <td class="info">{{ data.sponsor }}</td>
+    </tr>
+    <tr>
+        <td style="width: 15%;" class="label" rowspan="2">Fecha: <br>
+            <span class="info">{{data.date ? data.date : 'XX/XX/XX'}}</span>
+        </td>
+        <td class="label">Escala: <br> 
+            <span class="info"> {{data.scale ? data.scale : 'XXX'}}</span>
+        </td>
+    </tr>
+</table>

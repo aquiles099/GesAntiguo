@@ -1,0 +1,40 @@
+<div class="row m-0">
+    
+    <div class="col-6 p-0">
+        <small class="d-block text-primary py-2">
+        
+            <i class="fas fa-info mr-2"></i>
+            Haga click y arrastre en el área de trazado para acercar.
+        
+        </small>
+    </div>
+
+    <div class="col-6 offset-md-4 col-md-2 p-0">
+
+        <ng-select
+            class="custom d-block" 
+            [clearable]="false"
+            [disabled]="loading"
+            [items]="types"
+            bindLabel="key"
+            bindValue="value"
+            [(ngModel)]="chartType"
+            [ngModelOptions]="{standalone: true}"
+            (change)="changeType($event.value)"
+            placeholder="Tipo de gráfico"
+            >
+        </ng-select>
+    
+    </div>
+
+    <div class="col-12 p-0">
+        <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="options"
+        [callbackFunction]="chartCallback"
+        [(update)]="updateFlag"
+        [oneToOne]="true"
+        ></highcharts-chart>
+    </div>
+</div>
+

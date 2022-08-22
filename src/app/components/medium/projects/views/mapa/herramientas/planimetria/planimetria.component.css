@@ -1,0 +1,105 @@
+.map-section{
+    padding: 0 !important;
+}
+
+.section{
+    padding: 0 1rem;
+}
+
+.header-section,
+.selector-section,
+.recent-templates-section,
+.all-templates-section,
+.bottom-section{
+    position: absolute;
+    width: 100% !important;
+    padding: 0 2rem;
+}
+
+.header-section{
+    top: 2.5%;
+    height: 7.5%;
+}
+
+.selector-section{
+    top: 10%;
+    height: 42.5%;
+}
+
+.recent-templates-section{
+    top: 52.5%;
+    height: 18.75%;
+    padding-bottom: .5rem;
+}
+
+.all-templates-section{
+    top: 71.25%;
+    height: 18.75%;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+/* .for-only-one-module */
+
+.selector-section.for-only-one-module{
+    height: 25%;
+}
+
+.recent-templates-section.for-only-one-module{
+    top: 35%;
+    height: 27.5%;
+}
+
+.all-templates-section.for-only-one-module{
+    top: 62.5%;
+    height: 27.5%;
+}
+
+/*  */
+
+.bottom-section{
+    height: 10% !important;
+    bottom: 0 !important;
+}
+
+.scrollable{
+    max-height: 87.5% !important;
+    overflow-y: auto;
+}
+
+label{
+    font-size: .875rem;
+    color: #4F4F4F;
+}
+
+.template-title{
+    color: #39F;
+}
+
+.icon{
+    width: 1.2rem !important;
+    height: 1.2rem !important;
+}
+
+.category-list{
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+}
+
+.shape{
+    width: 1rem;
+    height: 1rem;
+    margin: auto;
+    vertical-align: middle;
+}
+
+.legend-label{
+    font-size: .7rem;
+}
+
+@media (min-width: 567px)
+{
+
+}

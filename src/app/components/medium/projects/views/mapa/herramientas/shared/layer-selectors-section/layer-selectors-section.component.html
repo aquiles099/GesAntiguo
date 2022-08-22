@@ -1,0 +1,63 @@
+<div class="row mx-0 justify-content-center">
+
+    <div *ngIf="thereIsMoreThanOneModule" class="module-selector col-12 p-0 {{ selectorsBottomMarginClass }}" >
+        
+        <label class="mb-2" for="">Modulo:</label>
+
+        <ng-select
+            class="custom" 
+            [clearable]="false"
+            [disabled]="disableSelectors"
+            [items]="modules"
+            bindLabel="nombre"
+            bindValue="nombre"
+            [(ngModel)]="form.module"
+            [ngModelOptions]="{standalone: true}"
+            (change)="onChangeModuleSelector($event)"
+            placeholder="Seleccione..."
+            >
+        </ng-select>
+
+    </div>
+    
+    <div *ngIf="thereIsMoreThanOneModule" class="group-selector col-12 p-0 {{ selectorsBottomMarginClass }}" >
+        
+        <label class="mb-2" for="">Grupo:</label>
+
+        <ng-select
+            class="custom" 
+            [clearable]="false"
+            [disabled]="disableSelectors"
+            [(ngModel)]="form.group"
+            [items]="groups"
+            bindLabel="nombre"
+            bindValue="nombre"
+            [ngModelOptions]="{standalone: true}"
+            (change)="onChangeGroupSelector($event)"
+            placeholder="Seleccione..."
+            >
+        </ng-select>
+
+    </div>
+    
+    <div class="layer-selector col-12 p-0 {{ selectorsBottomMarginClass }}" >
+
+        <label class="mb-2" for="">Capa:</label>
+
+        <ng-select
+            class="custom" 
+            [clearable]="false"
+            [disabled]="disableSelectors"
+            [(ngModel)]="form.layer"
+            [items]="layers"
+            bindLabel="nombre"
+            bindValue="nombre"
+            [ngModelOptions]="{standalone: true}"
+            (change)="onChangeLayerSelector($event)"
+            placeholder="Seleccione..."
+            >
+        </ng-select>
+
+    </div>
+        
+</div>

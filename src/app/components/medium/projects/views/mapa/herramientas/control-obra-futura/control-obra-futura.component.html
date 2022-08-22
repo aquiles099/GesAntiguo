@@ -1,0 +1,217 @@
+<div *ngIf="isVisible" id="define-future-luminary-tool" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="row mx-0 mb-2 title">
+       
+        <div class="col-12 p-0">
+            
+            Definir Luminaria Obra
+            
+            <div title="Ayuda" class="float-right pointer d-inline" (click)="showTour()">
+                <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="attributes-selector" class="elementoSelect" *ngIf="primeraVista">
+        
+        <label>Filtrar elementos (facilitar selección): </label>
+
+        <div *ngIf="dataSelectoresFiltro.length == 0" class="my-3">
+            Sin atributos habilitados para filtrar - puede habilitarlos desde <b>gestión de atributos</b>.
+        </div>
+
+        <div *ngFor="let selector of dataSelectoresFiltro" class="row my-2">
+            <div class="nombreFilt col-4"><label>{{ selector.nombre }}</label></div>
+            <ng-select 
+                class="custom col-8" 
+                placeholder="Seleccione {{selector.nombre}}" 
+                [readonly]="tourIsActive"
+                [clearable]="false"
+                [items]="selector.valores" 
+                (change)="filtroSeleccionado($event,selector.nombre_formateado)">
+            </ng-select>
+        </div>
+
+    </div>
+
+    <div *ngIf="mostrarMensajeEmpezar" class="row mx-0 mt-4">
+       
+        <div class="col-12 p-0 property-key">
+            
+            Para seleccionar las luminarias encierrelas en un polígono.
+            <br><br>
+            Para empezar polígono haga click sobre el mapa.
+
+        </div>
+
+    </div>
+
+    <!-- SELECCIÓN DE ELEMENTOS -->
+    <div *ngIf="segundaVista && valores.length" class="divValores">
+        <section>
+            <ul>
+                <li style="margin-left: -1em;" class="elementoCheck">
+                    <mat-checkbox [disabled]="tourIsActive" [checked]="checkTodos" (change)="selectTodos($event)">TODOS</mat-checkbox>
+                </li>
+                <li class="elementoCheck" *ngFor="let val of valores">
+                    <mat-checkbox [disabled]="tourIsActive" [checked]=" val[1]" (change)="eventoValorSeleccionado($event, val[0])">{{
+                        val[0] }}
+                    </mat-checkbox>
+                </li>
+            </ul>
+        </section>
+    </div>
+
+    <form *ngIf="terceraVista"
+            [formGroup]="componentsForm" 
+            class="infromacionElemenesoSeleccionado"
+            >
+
+        <div class="row my-4">
+            <div class="col-12 property-key">
+                Asigne los componentes para instalaciones futuras. 
+                <br>
+                <b>Todos son requeridos</b>.
+            </div>
+        </div>
+
+        <div class="row tituloTipoModelo">
+            <div class="col-6">
+                <label>Tipo Luminaria Futuro</label>
+            </div>
+            <div class="col-6">
+                <input type="text" class="inputText" required formControlName="tipoLuminaria">
+            </div>
+        </div>
+        <div class="row tituloTipoModelo">
+            <div class="col-6">
+                <label>Marca Luminaria Futuro</label>
+            </div>
+            <div class="col-6">
+                <input type="text" class="inputText" required formControlName="marcaLuminaria">
+            </div>
+        </div>
+        <div class="row tituloTipoModelo">
+            <div class="col-6">
+                <label>Modelo Luminaria Futuro</label>
+            </div>
+            <div class="col-6">
+                <input type="text" class="inputText" required formControlName="modeloLuminaria">
+            </div>
+        </div>
+        <div class="row tituloTipoModelo">
+            <div class="col-6">
+                <label>Tipo Lámpara Futuro</label>
+            </div>
+            <div class="col-6">
+                <input type="text" class="inputText" required formControlName="tipoLampara">
+            </div>
+        </div>
+        <div class="row tituloTipoModelo">
+            <div class="col-6">
+                <label>Marca Lámpara Futuro</label>
+            </div>
+            <div class="col-6">
+                <input type="text" class="inputText" required formControlName="marcaLampara">
+            </div>
+        </div>
+        <div class="row tituloTipoModelo">
+            <div class="col-6">
+                <label>Modelo Lámpara Futuro</label>
+            </div>
+            <div class="col-6">
+                <input type="text" class="inputText" required formControlName="modeloLampara">
+            </div>
+        </div>
+        <div class="row tituloTipoModelo">
+            <div class="col-6">
+                <label>Tipo Soporte Futuro</label>
+            </div>
+            <div class="col-6">
+                <input type="text" class="inputText" required formControlName="tipoSoporte">
+            </div>
+        </div>
+        <div class="row tituloTipoModelo">
+            <div class="col-6">
+                <label>Marca Soporte Futuro</label>
+            </div>
+            <div class="col-6">
+                <input type="text" class="inputText" required formControlName="marcaSoporte">
+            </div>
+        </div>
+        <div class="row tituloTipoModelo">
+            <div class="col-6">
+                <label>Modelo Soporte Futuro</label>
+            </div>
+            <div class="col-6">
+                <input type="text" class="inputText" required formControlName="modeloSoporte">
+            </div>
+        </div>
+        <div class="row tituloTipoModelo">
+            <div class="col-6">
+                <label>Potencia Futuro</label>
+            </div>
+            <div class="col-6">
+                <input type="number" class="inputText" required formControlName="potencia">
+            </div>
+        </div>
+
+    </form>  
+
+    <div class="bottom-section m-0 row justify-content-between">
+    
+        <div class="col-5 p-0">
+            
+            <button type="button" 
+                    *ngIf="primeraVista"
+                    id="drawPolygonBtn" 
+                    class="btn btn-block btn-warning" 
+                    [disabled]="tourIsActive"
+                    (click)="onClickSiguienteCapaSeleccionada()"
+                    >
+                Continuar
+            </button>
+            
+            <button type="button" 
+                    *ngIf="segundaVista" 
+                    class="btn btn-block animate__animated animate__fadeIn animate__faster"
+                    [ngClass]="{
+                        'btn-info': activarSiguienteEle,
+                        'btn-secondary': ! activarSiguienteEle || tourIsActive
+                    }" 
+                    [disabled]="! activarSiguienteEle || tourIsActive"
+                    (click)="onSiguente()"
+                    >
+                    Siguente
+            </button>
+           
+            <button type="button" 
+                    *ngIf="terceraVista" 
+                    class="btn btn-block animate__animated animate__fadeIn animate__faster"
+                    [ngClass]="{
+                        'btn-info': componentsForm.valid,
+                        'btn-secondary': ! componentsForm.valid || tourIsActive
+                    }" 
+                    [disabled]="! componentsForm.valid || tourIsActive"
+                    (click)="onGuardar()"
+                    >
+                    Guardar
+            </button>
+
+        </div>
+
+        <div class="col-5 p-0">
+            <button type="button" [disabled]="tourIsActive" (click)="onClickCancelar()" class="btn btn-block btn-outline-info">
+                Cancelar
+            </button>
+        </div>
+
+    </div>
+
+    <div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+        <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+
+</div>

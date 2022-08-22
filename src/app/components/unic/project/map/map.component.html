@@ -1,0 +1,350 @@
+<!-- MAP HEADER -->
+<map-header 
+    (toggleFeaturePdfTemplateConfigurationToolVisibility)="toggleFeaturePdfTemplateConfigurationToolVisibility($event)"
+    (togglePlanimetrySectionVisibility)="toggleSectionVisibility('Planimetry')"
+    (toggleLayerFileExportSectionVisibility)="toggleSectionVisibility('ExportLayerFile')"
+    [disableButtons]="hidingOrShowingTool"
+></map-header>
+
+<!-- TOOLBAR -->
+<div class="toolbar scrollable" id="mapToolbar" (scroll)="setPositionOfSearcherCompleter($event)">
+    
+    <!-- CREATION & EDITION -->
+    <div *ngIf="toolbarButtonGroupIsEnabled('edition')" [@fadeInOnEnter] [@fadeOutOnLeave] class="toolbar-btn-group">
+
+        <div title="Nuevo elemento" [class._disabled]="hidingOrShowingTool" (click)="toggleSectionVisibility('NewFeature')" class="toolbar-btn ml-3">
+            <img [src]="currentlyOpenSection === 'NewFeature' ? 'assets/icons/SVG/NUEVOPUNTO_black.svg' : 'assets/icons/SVG/NUEVOPUNTO.svg'"
+                alt="NUEVOPUNTO">
+        </div>
+       
+        <div title="Mover elemento" [class._disabled]="hidingOrShowingTool" (click)="toggleSectionVisibility('EditFeatureGeometry')" class="toolbar-btn">
+            <img [src]="currentlyOpenSection === 'EditFeatureGeometry' ? 'assets/icons/SVG/MOVER_black.svg' : 'assets/icons/SVG/MOVER.svg'"
+                alt="MOVER">
+        </div>
+
+        <div title="Editar propiedades de elemento" class="toolbar-btn" [class._disabled]="hidingOrShowingTool" (click)="toggleSectionVisibility('EditFeature')">
+            <img [src]="currentlyOpenSection === 'EditFeature' ? 'assets/icons/SVG/EDITARPUNTO_BLACK.svg' : 'assets/icons/SVG/EDITARPUNTO.svg'" alt="EDITARPUNTO">
+        </div>
+     
+        <div title="Editar multiples elementos" class="toolbar-btn" [class._disabled]="hidingOrShowingTool" (click)="toggleSectionVisibility('EditMultipleFeatures')">
+            <img [src]="currentlyOpenSection === 'EditMultipleFeatures' ? 'assets/icons/SVG/EDICIONMULTIPLE_BLACK.svg' : 'assets/icons/SVG/EDICIONMULTIPLE.svg'" alt="EDICIONMULTIPLE">
+        </div>
+      
+        <div title="Copiar elemento" class="toolbar-btn" [class._disabled]="hidingOrShowingTool" (click)="toggleSectionVisibility('CopyFeature')">
+            <img [src]="currentlyOpenSection === 'CopyFeature' ? 'assets/icons/SVG/COPIARPUNTO_black.svg' : 'assets/icons/SVG/COPIARPUNTO.svg'" alt="EDITARPUNTO">
+        </div>
+
+        <div title="Remover elemento" class="toolbar-btn mr-3" [class._disabled]="hidingOrShowingTool" (click)="toggleSectionVisibility('RemoveFeature')">
+            <img [src]="currentlyOpenSection === 'RemoveFeature' ? 'assets/icons/SVG/PAPEPERA_black.svg' : 'assets/icons/SVG/PAPEPERA.svg'" alt="PAPEPERA">
+        </div>
+
+    </div>
+
+    <!-- ANALYSIS -->
+    <div *ngIf="toolbarButtonGroupIsEnabled('analysis')" [@fadeInOnEnter] [@fadeOutOnLeave] class="toolbar-btn-group" >
+
+        <div title="Galería" class="toolbar-btn ml-3" [class._disabled]="hidingOrShowingTool" (click)="toggleSectionVisibility('FeatureImageGallery')">
+            <img [src]="currentlyOpenSection  === 'FeatureImageGallery' ? 'assets/icons/SVG//MOSTRARFOTO_black.svg' : 'assets/icons/SVG//MOSTRARFOTO.svg'" alt="MOSTRARFOTO">
+        </div>
+
+        <div title="Filtro de elementos" [class._disabled]="hidingOrShowingTool" [class.active-tool]="FeatureFilter && currentlyOpenSection !== 'FeatureFilter' && FeatureFilter.isThereAnyLayerWithActiveFilter" class="toolbar-btn" (click)="toggleSectionVisibility('FeatureFilter')">
+            <img [src]="
+            FeatureFilter && currentlyOpenSection !== 'FeatureFilter' && FeatureFilter.isThereAnyLayerWithActiveFilter ?
+            'assets/icons/SVG/FILTRADO_white.svg' : 
+            (currentlyOpenSection === 'FeatureFilter' ? 'assets/icons/SVG/FILTRADO_black.svg' : 'assets/icons/SVG/FILTRADO.svg')" 
+            alt="FILTRADO">
+        </div>
+
+        <div title="Categorizar elementos" [class._disabled]="hidingOrShowingTool" [class.active-tool]="CategorizeFeature && currentlyOpenSection !== 'CategorizeFeature' && CategorizeFeature.isThereAnyLayerWithCategorization" class="toolbar-btn" (click)="toggleSectionVisibility('CategorizeFeature')">
+            <img [src]="
+            CategorizeFeature && currentlyOpenSection !== 'CategorizeFeature' && CategorizeFeature.isThereAnyLayerWithCategorization ?
+            'assets/icons/SVG/CATEGORIAS_white.svg' : 
+            (currentlyOpenSection === 'CategorizeFeature' ? 'assets/icons/SVG/CATEGORIAS_black.svg' : 'assets/icons/SVG/CATEGORIAS.svg')" 
+            alt="CATEGORIAS">
+        </div>
+      
+        <div title="Tabla de elementos" 
+            class="toolbar-btn" [class._disabled]="hidingOrShowingTool"  [class.active]="currentlyOpenSection  === 'FeatureTable'"
+            (click)="toggleSectionVisibility('FeatureTable')">
+            <img src="assets/icons/SVG/LISTADO.svg" alt="LUPA">
+        </div>
+
+        <div title="Tabla de elementos con filtro de atributos" 
+            class="toolbar-btn" [class._disabled]="hidingOrShowingTool"  [class.active]="currentlyOpenSection  === 'FilteredFeatureTable'"
+            (click)="toggleSectionVisibility('FilteredFeatureTable')">
+            <img src="assets/icons/SVG/LUPA.svg" alt="LUPA">
+        </div>
+
+        <div title="Analisís y gráficos" [class._disabled]="hidingOrShowingTool" [class.active-tool]="AnalysisCharts && AnalysisCharts.isActive" (click)="toggleSectionVisibility('AnalysisCharts',false)"
+            class="toolbar-btn">
+            <img [src]="AnalysisCharts && AnalysisCharts.isActive ? 
+                'assets/icons/SVG/GRAFICA_white.svg' : 
+                currentlyOpenSection === 'AnalysisCharts' ?
+                'assets/icons/SVG/GRAFICA_BLACK.svg' :
+                'assets/icons/SVG/GRAFICA.svg'"
+                alt="GRAFICA">
+        </div>
+        
+        <div *ngIf="currentlyOpenSection === 'AnalysisCharts' && AnalysisCharts && AnalysisCharts.isActive"
+             [@fadeInOnEnter] [@fadeOutOnLeave]
+             [class._disabled]="hidingOrShowingTool"
+              title="Exportar análisis" class="toolbar-btn" (click)="AnalysisCharts.export()">
+            <img src="assets/icons/SVG/IMPRIMIR.svg" alt="imprimir">
+        </div>
+
+        <div title="Información de elemento" [class._disabled]="hidingOrShowingTool" class="toolbar-btn mr-3" (click)="toggleSectionVisibility('FeatureInfo')">
+            <img [src]="currentlyOpenSection === 'FeatureInfo' ? 'assets/icons/SVG/INFORMACIÓN_BLACK.svg' : 'assets/icons/SVG/INFORMACIÓN.svg'"
+                alt="INFORMACIÓN">
+        </div>
+
+    </div>
+
+    <!-- STREET VIEW MAP -->
+    <div *ngIf="toolbarButtonGroupIsEnabled('streetView')" [@fadeInOnEnter] [@fadeOutOnLeave] class="toolbar-btn-group">
+
+        <div title="Mapa street view" [class._disabled]="hidingOrShowingTool" [class.active-tool]="currentlyOpenSection === 'StreetViewMap'" class="toolbar-btn ml-3" (click)="toggleSectionVisibility('StreetViewMap')">
+            <img [src]="currentlyOpenSection === 'StreetViewMap' ? 'assets/icons/SVG/STREETVIEW_white.svg' : 'assets/icons/SVG/STREETVIEW.svg'" alt="STREETVIEW">
+        </div>
+        
+        <div title="Captura de mapa" [class._disabled]="hidingOrShowingTool" class="toolbar-btn mr-3" (click)="mapScreenshot()">
+            <img src="assets/icons/SVG/CAPTURARMAPA.svg" alt="CAPTURARMAPA">
+        </div>
+
+    </div>
+
+    <!-- MEASUREMENT -->
+    <div *ngIf="toolbarButtonGroupIsEnabled('measurement')" [@fadeInOnEnter] [@fadeOutOnLeave] class="toolbar-btn-group">
+        
+        <div title="Medir perímetro" [class._disabled]="hidingOrShowingTool" [class.active-tool]="inMeasurement && measurementType === 'perimeter'" (click)="startMeasurement('perimeter')" class="toolbar-btn ml-3">
+            <img [src]="inMeasurement && measurementType === 'perimeter' ? 'assets/icons/SVG/MEDIRLONGITUD_white.svg' : 'assets/icons/SVG/MEDIRLONGITUD.svg'" alt="MEDIRLONGITUD">
+        </div>
+
+        <div title="Medir área" [class._disabled]="hidingOrShowingTool" class="toolbar-btn mr-3" [class.active-tool]="inMeasurement && measurementType === 'area'" (click)="startMeasurement('area')">
+            <img [src]="inMeasurement && measurementType === 'area' ? 'assets/icons/SVG/MEDIRAREA_white.svg' : 'assets/icons/SVG/MEDIRAREA.svg'" alt="MEDIRAREA">
+        </div>
+
+    </div>
+
+    <!-- LAYERS AND CONFIGURATION -->
+    <div class="config-btn-group">
+        
+        <div #addressFinderContainer class="searcher-container">
+            <!-- referencia para posicionar campo de busqueda fuera de botonera-->
+            <input type="text" class="mx-2 searcher">
+        </div>
+
+        <div class="toolbar-btn-group">
+            <div title="Ordenar barra de herramientas" [class._disabled]="hidingOrShowingTool" (click)="toggleToolsMenuVisibility()" class="toolbar-btn ml-3">
+                <img [src]="showToolsMenu ? 'assets/icons/SVG/PERSONALIZAR_black.svg' : 'assets/icons/SVG/PERSONALIZAR.svg'" alt="PERSONALIZAR">
+            </div>
+        </div>
+
+        <div title="Mostrar capas" [class._disabled]="hidingOrShowingTool" (click)="toggleSectionVisibility('LayerController', false)" class="toolbar-btn mr-3">
+            <img [src]="currentlyOpenSection === 'LayerController' ? 'assets/icons/SVG/CAPAS_black.svg' : 'assets/icons/SVG/CAPAS.svg'"
+                alt="CAPAS">
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ADDRESS SEARCHER -->
+<!-- campo de busqueda fuera de botonera-->
+<div #addressSearcher class="searcher-container searcher-completer">
+    <input type="text" 
+        [(ngModel)]="addressSearched"
+        [typeahead]="suggestedDirection$"
+        [typeaheadAsync]="true"
+        typeaheadWaitMs="1500"
+        placeholder="Escribe para buscar..." 
+        class="mx-2 searcher"
+        (typeaheadOnSelect)="onSearchAddress()"
+        >
+    <img 
+    [src]="addressSearched ? 'assets/icons/SVG/CERRARVENTANA.svg' : 'assets/icons/SVG/LUPA.svg'" 
+    class="search-icon" 
+    (click)="addressSearched = ''" 
+    alt="lupa">
+</div>
+
+<!-- BUTTON GROUPS CONFIGURATION -->
+<div *ngIf="showToolsMenu" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section tools-menu">
+    <div class="row mx-0 my-2" *ngFor="let buttonGroup of toolBarButtonGroups">
+
+        <div class="col-2 p-0 mb-2 align-items-center text-center">
+            <label class="custom-checkbox" for="map_tool_{{buttonGroup.value}}_checkbox">
+                
+                <input 
+                type="checkbox" 
+                (change)="toggleToolbarButtonGroupVisibility(buttonGroup)" 
+                [checked]="buttonGroup.enabled" 
+                name="map_tool_{{buttonGroup.value}}_checkbox" 
+                id="map_tool_{{buttonGroup.value}}_checkbox">
+
+                <i class="fas fa-check" *ngIf="buttonGroup.enabled" ></i>
+
+            </label>
+        </div>
+
+        <div class="col-10 pl-2 pr-0 py-0 mb-2 align-items-center text-justify text-truncate">
+            <label for="map_tool_{{buttonGroup.value}}_checkbox" title="{{buttonGroup.key}}" class="ml-3 label text-truncate d-inline">
+                {{buttonGroup.key}}
+            </label>
+        </div>
+
+    </div>
+</div>
+
+<!-- SPINNER -->
+<div *ngIf="showSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="spinner">
+    <mat-spinner></mat-spinner>
+</div>
+
+<!-- SMALL SPINNER -->
+<div *ngIf="showSmallSpinner" [@fadeInOnEnter] [@fadeOutOnLeave] class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+<!-- LAYER CONTROLLER -->
+<layer-controller 
+    [currentBaseLayer]="currentBaseLayer" 
+    (changeBaseLayer)="changeBaseLayer($event)"
+></layer-controller>
+
+<!-- ANALYSIS CHARTS -->
+<analysis-charts 
+    [map]="map" 
+    (onHidden)="onHideAnalysisCharts()"
+    (toggleSmallSpinnerVisibilityEvent)="toggleSmallSpinnerVisibility()"
+></analysis-charts>
+
+<!-- FEATURE INFO  -->
+<feature-info-section 
+    [map]="map" (toggleSectionVisibility)="toggleSectionVisibility('FeatureInfo')">
+</feature-info-section>
+
+<!-- NEW FEATURE -->
+<new-feature-section [map]="map" (toggleSectionVisibility)="toggleSectionVisibility('NewFeature')">
+</new-feature-section>
+
+<!-- EDIT FEATURE -->
+<edit-feature-section
+    [map]="map"
+    (toggleSectionVisibility)="toggleSectionVisibility('EditFeature')"
+></edit-feature-section>
+
+<!-- EDIT MULTIPLE FEATURES -->
+<edit-multiple-features-section
+    [map]="map"
+    (toggleSectionVisibility)="toggleSectionVisibility('EditMultipleFeatures')"
+></edit-multiple-features-section>
+
+<!-- COPY FEATURE -->
+<copy-feature-section
+    [map]="map"
+    (toggleSectionVisibility)="toggleSectionVisibility('CopyFeature')"
+></copy-feature-section>
+
+<!-- EDIT FEATURE GEOMETRY -->
+<edit-feature-geometry-section
+    [map]="map"
+    (toggleSectionVisibility)="toggleSectionVisibility('EditFeatureGeometry')"
+></edit-feature-geometry-section>
+
+<!-- REMOVE FEATURE -->
+<remove-feature-section
+    [map]="map"
+    (toggleSectionVisibility)="toggleSectionVisibility('RemoveFeature')"
+></remove-feature-section>
+
+<!-- STREET VIEW MAP -->
+<street-view-map
+    [map]="map"
+></street-view-map>
+
+<!-- FEATURE FILTER -->
+<feature-filter-section
+    [map]="map"
+    (toggleSectionVisibility)="toggleSectionVisibility('FeatureFilter')"
+></feature-filter-section>
+
+<!-- CATEGORIZE FEATURE -->
+<categorize-feature-section
+    [map]="map"
+    (toggleSectionVisibility)="toggleSectionVisibility('CategorizeFeature')"
+></categorize-feature-section>
+
+<!-- FEATURE IMAGE GALLERY -->
+<feature-image-gallery
+    [map]="map"
+    (toggleSectionVisibility)="toggleSectionVisibility('FeatureImageGallery')"
+></feature-image-gallery>
+
+<!-- FEATURE EXPORT -->
+
+<!-- TEMPLATE CONFIGURATION -->
+<feature-pdf-template-configuration-section
+    (toggleSectionVisibility)="toggleSectionVisibility('FeaturePdfTemplateConfiguration')"
+    (showFeatureExportTool)="showFeatureExportTool($event)"
+></feature-pdf-template-configuration-section>
+
+<!-- EXPORT -->
+<feature-export-section
+    [map]="map"
+    (toggleSectionVisibility)="toggleSectionVisibility('FeatureExport')"
+></feature-export-section>
+
+<!-- PLANIMETRY -->
+<planimetry-section
+    (toggleSectionVisibility)="toggleSectionVisibility('Planimetry')"
+></planimetry-section>
+
+<!-- EXPORT -->
+<export-layer-file-section
+    (toggleSectionVisibility)="toggleSectionVisibility('ExportLayerFile')"
+></export-layer-file-section>
+
+<!-- FEATURE TABLE -->
+<feature-table
+    [map]="map"
+    (toggleSectionVisibility)="toggleSectionVisibility('FeatureTable')"
+></feature-table>
+
+<!-- FILTERED FEATURE TABLE -->
+<filtered-feature-table
+    [map]="map"
+    (toggleSectionVisibility)="toggleSectionVisibility('FilteredFeatureTable')"
+></filtered-feature-table>
+
+<!-- MAP -->
+<div class="map-container" 
+    leaflet
+    leafletDraw
+    [leafletOptions]="options"
+    [leafletLayer]="baseLayer"
+    (leafletMapReady)="onMapReady($event)" 
+    (leafletMouseMove)="onLeafletMouseMove($event)" 
+    >
+
+</div>
+
+<!-- CONTROL DE ESCALA Y VISOR DE COORDENADAS DE CURSOR -->
+<div #scaleControl *ngIf="showScaleControl" [@fadeInOnEnter] [@fadeOutOnLeave] class="map-scale-control">
+
+    <label class="mx-2">{{cursorCoordinates}}</label>
+
+    <label class="mx-2">{{ crs }}</label>
+
+    <label class="mx-2">{{ currentScale }}</label>
+
+    <!-- CONTROL DE ESCALA  -->
+    <select class="mx-2" (change)="onChangeScaleSelect($event)">
+        <option *ngFor="let scale of availableScales" [value]="scale.value" [selected]="! scale.value"
+            [disabled]="! scale.value">
+            {{scale.key}}
+        </option>
+    </select>
+
+</div>
+
+
+<!-- MAP TOOLTIP -->
+<div id='map-tooltip'></div>

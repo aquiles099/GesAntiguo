@@ -1,0 +1,98 @@
+<div *ngIf="isVisible" [@fadeInRightOnEnter] [@fadeOutRightOnLeave] class="map-section">
+
+    <div class="header-section title">
+        Editar elemento
+    </div>
+    
+    <div class="middle-section">
+        
+        <div *ngIf="! selectedLayer && ! thereArelayersNearTheClick" class="row mx-2 scrollable animate__animated animate__fadeIn animate__faster">
+            <div class="col-12 p-0 property-key">
+                Seleccione o haga click cerca de un elemento.
+            </div>
+        </div>
+        
+        <div *ngIf="inEdition" class="w-100 h-100 animate__animated animate__fadeIn animate__faster">
+
+            <ul class="h-100 _scrollable">
+                <li *ngFor="let property of layerFile.enabledFeatureProperties">
+                    <div class="row m-0 py-2 mb-2 bottom-bordered">
+                        <div class="col-6 p-0 d-flex align-items-center property-key text-truncate">{{ property }}</div>
+                        <div class="col-6 p-0">
+                            <input 
+                            type="text" 
+                            class="form-control property-value"
+                            [typeaheadScrollable]="true"
+                            [(ngModel)]="selectedFeature.properties[property]"
+                            [disabled]="drawing"
+                            [typeahead]="featurePropertyValues[property]"
+                            >
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    
+        <div *ngIf="thereArelayersNearTheClick && ! inEdition" class="row mx-2 scrollable layer-list animate__animated animate__fadeIn animate__faster">
+            <div class="col-12 px-1 py-2 bottom-bordered" *ngFor="let layerData of sortedLayersInPulseRange; let i = index;">
+                <div class="row m-0">
+    
+                    <div class="col-6 p-0 property-key">
+                        <label for="checkbox_layer_{{i}}">
+                            {{layerData.name}}
+                        </label>
+                    </div>
+    
+                    <div class="col-6 p-0 text-right">
+    
+                        <label for="checkbox_layer_{{i}}"
+                                [class.checked]="selectedLayer === layerData.layer" 
+                                class="checkbox-round">
+                            <i *ngIf="selectedLayer === layerData.layer" class="fa fa-check"></i>
+                        </label>
+    
+                        <input type="checkbox" class="hide" (change)="onSelectLayer(layerData.layer)" id="checkbox_layer_{{i}}">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="_bottom-section">
+        <div class="row m-0 h-100 align-items-center justify-content-between" >
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="! inEdition">
+                <button (click)="activateEdition()"
+                     type="button" class="btn btn-block"
+                     [ngClass]="{
+                        'btn-secondary': ! selectedLayer,
+                        'btn-info': selectedLayer
+                    }"
+                    [disabled]="! selectedLayer" 
+                    >
+                    Continuar
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="inEdition">
+                <button (click)="saveChanges()"
+                     type="button" class="btn btn-block btn-info"
+                    >
+                    Guardar
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="! inEdition || ! lastClickLatLng">
+                <button (click)="toggleSectionVisibilityEvent()" type="button" class="btn btn-block btn-outline-info">
+                    Cancelar
+                </button>
+            </div>
+            <div class="col-5 p-0 animate__animated animate__fadeIn animate__faster" *ngIf="inEdition && lastClickLatLng">
+                <button (click)="showLayersInPulseRange()" type="button" class="btn btn-block btn-outline-info">
+                    Volver
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
