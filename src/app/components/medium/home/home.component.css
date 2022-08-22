@@ -1,0 +1,49 @@
+
+._container{
+    position: absolute;
+    left: 0%;
+    top: 6%;
+    width: 100%;
+    height: 94%;
+    padding: 2rem;
+    overflow: hidden;
+    transition: all .2s;
+    overflow-y: scroll;
+  }
+  
+  .spinner{
+    z-index: 999 !important;
+    height: 100% !important;
+    width: 100% !important;
+  }
+  
+  @media (min-width: 576px)
+  {   
+    ._container{
+        left: 20%;
+        width: 80%;
+        padding: 3rem 4rem;
+    }
+  }
+  
+  @media (min-width: 768px)
+  {   
+    ._container{
+        left: 14.84%;
+        width: 85.16%;
+        padding: 2rem 3rem;
+    }
+  }
+  
+  @media (min-width: 992px)
+  {   
+    /* ._container{
+      padding: 3rem 4rem;
+    } */
+  }
+  
+  @media (min-width: 1280px)
+  {
+   
+  
+  }

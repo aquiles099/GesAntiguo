@@ -1,0 +1,57 @@
+*{
+    color: #333;
+    font-size: .8rem;
+  }
+
+.scrollable {
+    max-height: 55.5vh !important;
+  }
+
+  .project-modules{
+    font-size: .6rem !important;
+  }
+  
+  .module-icon{
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-block;
+  }
+  
+  .bordered-bottom{
+    border-bottom: 1px solid #E0E0E0;
+  }
+  
+  .icon.help{
+    vertical-align: -webkit-baseline-middle;
+  }
+  
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: .9rem;
+    height: .6rem;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background-color: #FFF; 
+    background-clip: padding-box;
+    border: .7rem solid transparent;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #F2F2F2 !important;
+  }
+  
+  .users-data-list{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: start;
+    max-height: 16vh;
+    overflow-y: auto;
+  }
+  
+  .bolder{
+    font-weight: bolder;
+  }
+  

@@ -1,0 +1,233 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+
+    <home-view-header
+    title="editar empresa"
+    [enableTourButton]="false"
+    ></home-view-header> 
+
+    <form id="companyEditionForm" enctype="multipart/form-data" #companyForm [formGroup]="form" (submit)="onSubmit(companyForm)" class="col-12 px-0 py-2 d-flex align-items-center">
+        
+        <div class="row m-0 justify-content-center">
+
+            <div class="col-12 p-2 company-info-section">
+
+                <div class="row m-0">
+
+                    <div class="col-12 py-0 px-0">
+
+                        <div class="row m-0">
+
+                            <div class="col-12 p-0 mb-3">
+                                <b>Empresa</b>:
+                            </div>
+
+                            <div class="col-5 px-1 mb-2">
+     
+                                <label class="mb-2" for="company-logo-preview">Logo de la empresa: <span class="required-mark">*</span></label>
+                                
+                                <div class="row mx-0 align-items-end">
+
+                                    <div class="col-7 h-100 p-0 icon-preview-container" [ngClass]="{
+                                        'bkg-dark': ! companyLogoImgSrc,
+                                        'bkg-light': companyLogoImgSrc
+                                    }">
+
+                                        <img id="company-logo-preview" [class.d-none]="! companyLogoImgSrc" class="icon-preview pointer" (click)="toggleFullscreen($event)" [src]="companyLogoImgSrc" alt="icono">
+
+                                    </div>
+        
+                                    <div class="col-5 pl-4 align-self-end">
+                                        
+                                        <label id="company-icon-upload" class="btn btn-sm btn-outline-secondary load-icon-btn rounded-lg" for="company-logo">
+                                            <img class="small-icon" src="assets/icons/SVG/CARGAR.svg" alt="icono-cargar">
+                                            &nbsp;
+                                            Cargar imagen
+                                        </label>
+
+                                        <input 
+                                        #imageInput
+                                        formControlName="image"
+                                        accept=".png, .jpg, .jpeg" 
+                                        class="hide"
+                                        type="file" 
+                                        name="image" 
+                                        id="company-logo"
+                                        (change)="onSelectCompanyLogo($event)">
+
+                                    </div>
+        
+                                </div>
+                                
+                            </div>
+
+                            <div class="col-7 px-1 mb-2">
+
+                                <div class="row m-0">
+
+                                    <div class="col-6 p-0 mb-2 pl-0 pr-1">
+
+                                        <label class="mb-2" for="name">Nombre de la empresa: <span class="required-mark">*</span></label>
+                                        
+                                        <input type="text" id="name" name="name" formControlName="name" required>
+                                        
+                                    </div>
+
+                                    <div class="col-6 mb-2 pr-1 pl-0">
+
+                                        <label class="mb-2" for="cif">CIF: <span class="required-mark">*</span></label>
+                                        
+                                        <input type="text" id="cif" name="cif" formControlName="cif" required>
+
+                                    </div>
+                                    
+                                    <div class="col-6 mb-2 pl-0 pr-1">
+
+                                        <label class="mb-2" for="user_ids">Administradores (max. 2):<span class="required-mark">*</span></label>
+                                        
+                                        <ng-select
+                                            id="user_ids"
+                                            class="custom" 
+                                            name="user_ids" 
+                                            formControlName="user_ids"
+                                            required 
+                                            placeholder="Seleccione usuario..."
+                                            [clearable]="false"
+                                            [multiple]="true"
+                                            maxSelectedItems="2"
+                                            [items]="users"
+                                            bindLabel="full_name"
+                                            bindValue="id"
+                                        >
+                                        </ng-select>
+
+                                    </div>
+
+                                    <div class="col-6 mb-0 pr-1 pl-0">
+                                    
+                                        <label class="mb-2" for="company-province">Ubicación: <span class="required-mark">*</span></label>
+        
+                                        <ng-select
+                                            id="company-province"
+                                            class="custom" 
+                                            name="province_id" 
+                                            formControlName="province_id"
+                                            required 
+                                            placeholder="Seleccione provincia..."
+                                            [clearable]="false"
+                                            [items]="provinces"
+                                            bindLabel="name"
+                                            bindValue="provincia"
+                                            [loading]="loadingProvinces"
+                                            [loadingText]="'Cargando provincias...'"
+                                            (change)="onChangeProvinceSelector($event)"
+                                        >
+                                        </ng-select>
+        
+                                    </div>
+
+                                    <div class="col-6 mb-2 pl-0 pr-1">
+                                
+                                        <div class="row m-0 text-left">
+                                            
+                                            <div class="col-4 pl-0 pr-1 mb-2">
+                                                <label for="is_active">Activo:<span class="required-mark">*</span></label>
+                                            </div>
+                
+                                            <div class="col-8 pl-1 pr-0">
+                                                <label for="is_active" class="m-auto checkbox">
+                                                    <input type="checkbox" class="checkbox" id="is_active" value="1" formControlName="is_active" name="is_active" >
+                                                    <i *ngIf="getFormValue('is_active')" class="fas fa-check"></i>
+                                                </label>                
+                
+                                            </div>
+                                            
+                                        </div>
+                                
+                                    </div>   
+
+                                    <div class="col-6 mb-2 pr-1 pl-0">
+                                    
+                                        <ng-select
+                                            id="company-municipality"
+                                            required 
+                                            formControlName="municipality_id" 
+                                            name="municipality_id" 
+                                            class="custom mt-1" 
+                                            [clearable]="false"
+                                            placeholder="Seleccione municipio..."
+                                            [loading]="loadingMunicipalities"
+                                            [loadingText]="'Cargando municipios...'"
+                                            [items]="municipalities"
+                                            bindLabel="name"
+                                            bindValue="id"
+                                        >
+                                        </ng-select>
+        
+                                    </div>
+
+                                </div>
+     
+                            </div>
+
+                            <div class="col-7 px-1 mb-2">
+
+                                <div class="row m-0">
+
+                                    <div class="col-4 px-0 mb-2">
+                                        
+                                        <label class="mb-2" for="users_per_project">Nº usuarios por proyecto:</label>
+
+                                        <input type="number" id="users_per_project" name="users_per_project" formControlName="users_per_project">
+
+                                    </div>
+
+                                    <div class="col-4 px-1 mb-2">
+                                        
+                                        <label class="mb-2" for="installers_per_project">Nº instaladores por proyecto:</label>
+
+                                        <input type="number" id="installers_per_project" name="installers_per_project" formControlName="installers_per_project">
+
+                                    </div>
+
+                                    <div class="col-4 px-0 mb-2">
+                                        
+                                        <label class="mb-2" for="max_users_number">Nº usuarios permitidos:</label>
+
+                                        <input type="number" id="max_users_number" name="max_users_number" formControlName="max_users_number">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+           
+        </div>
+        
+    </form>
+
+    <div class="col-12 px-0 d-flex align-items-center justify-content-end">
+        
+        <div class="col-2 p-2">
+            <button type="submit" form="companyEditionForm" [disabled]="form.invalid" class="btn btn-block btn-info p-1">
+                Actualizar
+            </button>
+        </div>
+
+        <div class="col-2 pl-2 pr-0">
+            <a [routerLink]="['../..']" class="btn btn-block btn-outline-info p-1">
+                Volver
+            </a>
+        </div>
+    </div>
+
+
+</div>
+

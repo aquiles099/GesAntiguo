@@ -1,0 +1,85 @@
+
+
+.spinner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(255, 255, 255, 0.4) !important;
+    z-index: 999;
+    }
+  
+  #sort-attributes-btn > .btn{
+    font-size: .8rem;
+    border-radius: 3px;
+    line-height: 1rem;
+  }
+
+  .project-icon{
+      width: 50% !important;
+      height: auto !important;
+  }
+
+  label{
+    font-size: .8rem;
+    font-weight: bold;
+  }
+  
+  input:not([type="radio"]){
+    padding: .5rem 2rem !important;
+  }
+  
+  .magnifying-glass{
+    margin-left: -96.5%;
+  }
+
+  .table-col{
+    height: 67.5% !important;
+  }
+  
+  .empty{
+    font-size: 2rem;
+    width: 100%; 
+    text-align: center;
+  }
+  
+  table{
+    text-align: center;
+    border: none !important;
+    font-size: .8rem !important;
+    /* PARA QUE SE AJUSTE AL DISE;O DE INVISION */
+    padding-right: .5%;
+    margin-left: -5%;
+    width: 110%;
+  }
+
+  thead{
+    border-top: 1px solid #BDBDBD;
+    border-bottom: none;
+    width: calc( 100% - .65rem ) !important
+  }
+
+  .thead-w-100{
+    width: 100% !important;
+  }
+
+  tbody {
+      display:block;
+      height: 45.5vh;
+      overflow:auto;
+  }
+
+  thead, tbody tr {
+      display:table;
+      width:100%;
+      table-layout:fixed;
+  }
+
+  th, tr, td{
+    border: none;
+    font-weight: normal;
+  }
+
+  th, td{
+    padding: .5rem .25rem;
+  }
+

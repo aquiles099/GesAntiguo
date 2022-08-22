@@ -1,0 +1,41 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+<div class="col-12 p-0">
+	<br>
+    <br>
+    <br>
+    <div class="parametros valor">
+      <div>
+          <label><strong>Crear nueva tarea</strong></label>
+          <br>
+          <br>
+      </div>
+      <div>
+        <div class="col-7">
+            <div class="form-group">
+                <label for="">Tarea</label>
+                <input type="text" class="form-control" name="name" [(ngModel)]="tarea.descripcion" placeholder="Ingrese una descripción" [disabled]="isDisabled">
+                <div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==1">
+                    <strong>Advertencia!</strong> {{mensaje}}.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+		              <span aria-hidden="true">&times;</span>
+		            </button>
+                </div>
+            </div>
+        </div>
+       </div>
+      <div class="row botonera2">
+            <div class="col-2">
+                <button class="btn color_btn_crear btn_crear_consulta btn-default tamano_texto_boton" (click)="guardar()" [disabled]="isDisabled">
+              <div class="lds-ring" *ngIf="isDisabled">
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+             Guardar</button>
+            </div>
+            <div class="col-2">
+                <button class="btn btn1 btn-light btn_crear_consulta tamano_texto_boton" (click)="cancelar()" [disabled]="isDisabled"> Cancelar</button>
+            </div>
+        </div>

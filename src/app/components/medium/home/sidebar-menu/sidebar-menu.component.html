@@ -1,0 +1,197 @@
+<div class="sidebar">
+
+    <div class="top-section">
+
+        <ul class="menu">
+            
+            <li [routerLink]="['proyectos']" routerLinkActive="link-active" [routerLinkActiveOptions]="{exact: true}">
+                <div class="row mx-2">
+                    <div class="p-0 col-2 text-truncate">
+                        <img src="assets/icons/HOME.svg" class="icon">
+                    </div>
+                    <div class="p-0 col-7 text-truncate">
+                        Proyectos activos
+                    </div>
+                    <div class="p-0 col-2 text-lg-right">
+                        {{ numberOfActiveProjects }}
+                    </div>
+                </div>
+            </li>
+
+            <li *ngIf="! inProjectView && ! inProjectActionsView" 
+                [routerLink]="['proyectos']" 
+                [queryParams]="{favoritos: true}" 
+                routerLinkActive="link-active"
+                [@fadeInOnEnter] [@fadeOutOnLeave]
+                >
+
+                <div class="row mx-2">
+                    <div class="p-0 col-2 text-truncate">
+                        <img src="assets/icons/FAVORITO_B.svg" class="icon">
+                    </div>
+                    <div class="p-0 col-7 text-truncate">
+                        Favoritos
+                    </div>
+                    <div class="p-0 col-2 text-lg-right">
+                       {{ numberOfFavoriteActiveProjects }}
+                    </div>
+                </div>
+
+            </li>
+            
+            <li *ngIf="inProjectView" 
+                [routerLink]="['/medium/home/proyectos', selectedProjectId, 'acciones']"
+                [@fadeInOnEnter] [@fadeOutOnLeave]>
+
+                <div class="row mx-2">
+                    <div class="p-0 col-2 text-truncate">
+                        <img src="assets/icons/SVG/3PUNTOS_w.svg" class="icon">
+                    </div>
+                    <div class="p-0 col-10 text-truncate">
+                        Acciones
+                    </div>
+                </div>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+    <div *ngIf="inProjectView" class="middle-section" [class.with-selected-project]="inProjectView" [@fadeInOnEnter] [@fadeOutOnLeave]>
+
+        <ul class="menu scrollable">
+
+            <!-- grupo de opciones -->
+            <li *ngFor="let option of getAvailableOptionGroups()">
+
+                <!-- boton para desplegar opciones -->
+                <div class="row mx-2" (click)="toggleCollapseStateInMenus(option)" aria-expanded="false">
+                   
+                    <div class="p-0 col-10 text-truncate">
+                        {{ option.label }}
+                    </div>
+                   
+                    <div class="p-0 col-2 text-lg-right">
+                        <i class="fas" [ngClass]="{ 'fa-chevron-right': option.collapse, 'fa-chevron-down': ! option.collapse}"></i>
+                    </div>
+
+                </div>
+
+                <!-- listado de opciones -->
+                <ul class="menu sub mt-2" [collapse]="option.collapse" [isAnimated]="true">
+
+                    <!-- opcion hija -->
+                    <li *ngFor="let childOption of option.children" class="sub-menu-option" [attr.title]="childOption.label">
+
+                        <!-- boton para redireccionar a vista (opcion sin hijos) -->
+                        <div *ngIf="! childOption.children" 
+                            [routerLink]="childOption.path" 
+                            routerLinkActive="link-active"  
+                            class="row mx-2 p-1 text-white">
+
+                            <div class="p-0 col-2">
+                                <img *ngIf="childOption.icon" [src]="childOption.icon" class="icon">
+                            </div>
+
+                            <div class="p-0 col-10 text-truncate">
+                                {{ childOption.label }}
+                            </div>
+
+                        </div>
+
+                        <!-- grupo de opciones (opcion hija tambien tiene hijos) -->
+                        <div *ngIf="childOption.children" class="row mx-2 p-1 text-white" (click)="toggleCollapseStateInMenus(childOption)">
+
+                            <div class="p-0 col-2">
+                                <img *ngIf="childOption.icon" [src]="childOption.icon" class="icon">
+                            </div>
+
+                            <div class="p-0 col-8 text-truncate">
+                                {{ childOption.label }}
+                            </div>
+
+                            <div class="p-0 col-2 text-lg-right">
+                                <i class="fas" [ngClass]="{ 'fa-chevron-right': childOption.collapse, 'fa-chevron-down': ! childOption.collapse}"></i>
+                            </div>        
+
+                        </div>
+
+                        <!-- listado de opciones -->
+                        <ul class="menu mt-2" *ngIf="childOption.children" [collapse]="childOption.collapse" [isAnimated]="true">
+
+                            <!-- boton para redireccionar a vista -->
+                            <li *ngFor="let _childOption of childOption.children" class="sub-menu-option" [attr.title]="_childOption.label">
+        
+                                <div [routerLink]="_childOption.path" 
+                                    routerLinkActive="link-active"  
+                                    class="row mx-2 p-1 text-white">
+
+                                    <div class="p-0 col-2">
+                                        <img *ngIf="_childOption.icon" [src]="_childOption.icon" class="icon">
+                                    </div>
+
+                                    <div class="p-0 col-10 text-truncate">
+                                        {{ _childOption.label }}
+                                    </div>
+
+                                </div>
+        
+                            </li>
+        
+                        </ul>
+
+                    </li>
+
+                </ul>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+    <div *ngIf="! inProjectView && ! inProjectActionsView" 
+    [@fadeInOnEnter] [@fadeOutOnLeave] class="bottom-section">
+
+        <!-- Menu Administración -->
+        <ul class="menu" *ngIf="authenticatedUser.isAdmin">
+
+            <li *ngIf="authenticatedUser.isSuperAdmin" (click)="showProjectCreationModalEvent()">
+                <div class="row mx-2">
+                    <div class="p-0 col-2 text-truncate">
+                        <img src="assets/iconos-home/NUEVOPUNTO_B.svg" class="icon">
+                    </div>
+                    <div class="p-0 col-10 text-truncate">
+                        Crear nuevo proyecto
+                    </div>
+                </div>
+            </li>
+
+            <li [routerLink]="['usuarios']" routerLinkActive="link-active">
+                <div class="row mx-2">
+                    <div class="p-0 col-2 text-truncate">
+                        <img src="assets/iconos-home/ADMUSUARIO_B.svg" class="icon">
+                    </div>
+                    <div class="p-0 col-10 text-truncate">
+                        Administrar usuarios
+                    </div>
+                </div>
+            </li>
+
+            <li *ngIf="authenticatedUser.isSuperAdmin" [routerLink]="['empresas']" routerLinkActive="link-active">
+                <div class="row mx-2">
+                    <div class="p-0 col-2 text-truncate">
+                        <img src="assets/icons/ADMEMPRESAS.svg" class="icon">
+                    </div>
+                    <div class="p-0 col-10 text-truncate">
+                        Administrar empresas
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>

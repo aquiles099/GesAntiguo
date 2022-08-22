@@ -1,0 +1,29 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+
+    <home-view-header
+    title="configuración de perfil"
+    [enableTourButton]="false"
+    ></home-view-header>  
+
+    <div class="col-12 p-0">
+
+        <tabset #tabset class="_tabs">
+
+            <tab heading="PERFIL" >
+
+              <user-tab></user-tab>
+
+            </tab>
+            
+            <tab *ngIf="authenticatedUser.isCompanyAdmin" heading="EMPRESA">
+
+                <company-tab></company-tab>
+
+              </tab>
+
+        </tabset>
+
+    </div>
+
+</div>
+

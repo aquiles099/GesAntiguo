@@ -1,0 +1,12 @@
+.company-image-container{
+    height: 16vh !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.company-image-container > img{
+    max-width: 100%;
+    max-height: 100%;
+    cursor: pointer;
+}

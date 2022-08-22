@@ -1,0 +1,133 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+<div class="col-12 p-0">
+	<div class="parametros valor">
+	<div>
+		<div class="col-7">
+			<div class="form-group" *ngIf="_dispositivos==0">
+    			<label>Dispositivo de referencia*</label>
+	    		 	<div class="imput_form">
+		  		 		<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+		  		 	</div>
+    		</div>
+				<div class="form-group" *ngIf="_dispositivos==1">
+						<label>Dispositivo de referencia*</label>
+						<ng-select [items]="devices" bindLabel="name" bindValue="id" placeholder="Seleccione dispositivo" appendTo="body" multiple="true" [(ngModel)]="selected">
+						</ng-select>
+        		<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_device==1">
+						  <strong>Advertencia!</strong> {{mensaje}}.
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(1)">
+						    <span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+				</div>
+		</div>
+	</div>
+		<div>
+			<div class="col-7">
+				<div class="form-group" >
+					<label >Parámetros*</label>
+					<select name="tipo" class="form-control"  [(ngModel)]="data_dashboard.parametro" [disabled]="isDisabled" placeholder="Seleccione parametros">
+	    			<option value="{{item.id}}" *ngFor="let item of parameters">{{item.name}}</option>
+	    		</select>
+	    		<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==1">
+					  <strong>Advertencia!</strong> {{mensaje}}.
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+				</div>
+			</div>
+		</div>
+			<div>
+				<div class="col-7">
+					<div class="form-group">
+						<label for="exampleInputEmail1" class="fecha_creacion">Frecuencia*</label>
+							<select name="tipo" class="form-control"  [(ngModel)]="data_dashboard.frecuencia" placeholder="Seleccione un concentrador" [disabled]="isDisabled" (ngModelChange)="cambiar(data_dashboard.frecuencia)">
+		      			<option value="" >Seleccione frecuencia</option>
+		      			<option value="Hora">Hora</option>
+		      			<option value="Diaria">Diaria</option>
+		      			<option value="Mensual">Mensual</option>
+		      		</select>
+		      		<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==3">
+							  <strong>Advertencia!</strong> {{mensaje}}.
+							  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+							    <span aria-hidden="true">&times;</span>
+							  </button>
+							</div>
+					</div>
+			</div>
+		<div class="col-7">
+			<div class="form-group" *ngIf="valor_frecuencia==1">
+				<label for="exampleInputEmail1" class="fecha_creacion">Periodo*</label>
+					<select name="tipo" class="form-control"  [(ngModel)]="data_dashboard.periodo" placeholder="Seleccione un concentrador" [disabled]="isDisabled">
+		      			<option value="" >Seleccione periodo</option>
+		      			<option value="ult_24_horas">Ultimas 24 horas</option>
+		      			<option value="ayer">Ayer</option>
+		      			<option value="hoy">Hoy</option>
+		      			<option value="semana_hoy">Semana hasta hoy</option>
+		      		</select>
+			</div>
+			<div class="form-group" *ngIf="valor_frecuencia==2">
+				<label for="exampleInputEmail1" class="fecha_creacion">Periodo*</label>
+					<select name="tipo" class="form-control"  [(ngModel)]="data_dashboard.periodo" placeholder="Seleccione un concentrador" [disabled]="isDisabled">
+		      			<option value="" >Seleccione periodo</option>
+		      			<option value="ult_7_dias">Últimos 7 dias</option>
+		      			<option value="ult_30_dias">Últimos 30 dias</option>
+		      			<option value="sem_pasada">Semana pasada</option>
+		      			<option value="mes_pasado">Mes pasado</option>
+		      		</select>
+		      	
+			</div>
+			<div class="form-group" *ngIf="valor_frecuencia==3">
+				<label for="exampleInputEmail1" class="fecha_creacion">Periodo*</label>
+					<select name="tipo" class="form-control"  [(ngModel)]="data_dashboard.periodo" placeholder="Seleccione un concentrador" [disabled]="isDisabled">
+		      			<option value="" >Seleccione periodo</option>
+		      			<option value="ult_12_meses">Últimos 12 meses</option>
+		      			<option value="anio_pasado">Año pasado</option>
+		      		</select>
+		      		
+			</div>
+			<div class="form-group">
+					<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==4">
+							  <strong>Advertencia!</strong> {{mensaje}}.
+							  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+							    <span aria-hidden="true">&times;</span>
+							  </button>
+							</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		<div class="col-7">
+			<div class="form-group">
+				<label for="exampleInputEmail1" class="fecha_creacion">Nombre*</label>
+				<input type="text" class="form-control" name="key"  [(ngModel)]="data_dashboard.nombre" placeholder="Ingrese un nombre" [disabled]="isDisabled">
+				<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==2">
+					  <strong>Advertencia!</strong> {{mensaje}}.
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row botonera2">
+			<div class="col-3">
+				<button class="btn color_btn_crear btn_crear_consulta btn-default tamano_texto_boton" (click)="guardar()" [disabled]="isDisabled">
+					<div class="lds-ring" *ngIf="isDisabled">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+				 Guardar</button>
+			</div>
+			<div class="col-3">
+				<button class="btn btn1 btn-light btn_crear_consulta tamano_texto_boton" (click)="cancelar()" [disabled]="isDisabled"> Regresar</button>
+			</div>
+	</div>
+</div>
+</div>

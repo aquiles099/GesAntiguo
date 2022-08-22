@@ -1,0 +1,192 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+<div class="col-12 p-0">
+	<br>
+    <br>
+    <br>
+    <div class="parametros valor">
+        <div>
+            <label><strong>Crear nuevo Artículo</strong></label>
+            <br>
+            <br>
+        </div>
+        <div>
+          <div>
+              <div class="col-7">
+                <div class="form-group">
+                  <label>Código</label>
+                  <input class="form-control" type="text"  [(ngModel)]="inventario.codigo" placeholder="ingrese código" [disabled]="isDisabled">
+                  <div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==1">
+                <strong>Advertencia!</strong> {{mensaje}}.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-7">
+                <div class="form-group">
+                  <label>Tipo de inventario</label>
+                  <select name="tipo" class="form-control"  [(ngModel)]="inventario.id_tipo_inventario" [disabled]="isDisabled">
+                    <option value="" >Seleccione tipo de inventario</option>
+                    <option value="{{item.id}}"  *ngFor="let item of tipo_inventario">{{item.description}}</option>
+                  </select>
+                  <div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==2">
+                    <strong>Advertencia!</strong> {{mensaje}}.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
+            </div>
+            <div class="col-7">
+                <div class="form-group">
+                  <label>Marca</label>
+                  <select name="tipo" class="form-control"  [(ngModel)]="inventario.marca_id" placeholder="Seleccione un concentrador" (change)="get_modelo_id_marca(inventario.marca_id)" [disabled]="isDisabled">
+                    <option value="" >Seleccione Marca</option>
+                    <option value="{{item.id_marca}}"  *ngFor="let item of marca">{{item.descripcion}}</option>
+                  </select>
+              <div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==3">
+                <strong>Advertencia!</strong> {{mensaje}}.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+          </div>
+            </div>
+        </div>
+        <div>
+            <div class="col-7">
+                <div class="form-group">
+                  <label>Modelo</label>
+                  <select name="tipo" class="form-control"  [(ngModel)]="inventario.modelo_id" placeholder="Seleccione un concentrador" [disabled]="isDisabled">
+                    <option value="" >Seleccione modelo</option>
+                    <option value="{{item.id_modelo}}"  *ngFor="let item of modelo">{{item.descripcion}}</option>
+                  </select>
+              <div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==4">
+                <strong>Advertencia!</strong> {{mensaje}}.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+          </div>
+            </div>
+        </div>
+        <div>
+            <div class="col-7">
+                <div class="form-group">
+                  <label>Almacén</label>
+                  <select name="tipo" class="form-control"  [(ngModel)]="inventario.id_taller" placeholder="Seleccione un almacen" [disabled]="isDisabled">
+                    <option value="" >Seleccione almacen</option>
+                    <option value="{{item.id_almacen}}"  *ngFor="let item of almacen">{{item.descripcion}}</option>
+                  </select>
+              <div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==5">
+                <strong>Advertencia!</strong> {{mensaje}}.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+          </div>
+            </div>
+            <div class="col-7">
+                <div class="form-group">
+                   <label>Descripción</label>
+                   <textarea class="form-control" name="" id="" cols="10" rows="5" [(ngModel)]="inventario.description" placeholder="Ingrese una descripción" [disabled]="isDisabled"></textarea>
+              <div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==6">
+                <strong>Advertencia!</strong> {{mensaje}}.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            </div>
+            </div>
+            <div>
+              <div class="col-12">
+                <div class="form-group">
+                  <p>¿Tiene Stock?</p>
+                    <div>
+                      <input type="radio" name="contact" value="1"  [(ngModel)]="inventario.stock" (change)="cambia_stock(inventario.stock)">
+                      <label for="contactChoice1">Si</label> &nbsp;&nbsp;
+                      <input type="radio" id="contactChoice2"name="contact" value="0" [(ngModel)]="inventario.stock" (change)="cambia_stock(inventario.stock)">
+                      <label for="contactChoice2">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="col-7" *ngIf="stock">
+                <div class="form-group">
+                  <label>Cantidad</label>
+                  <input class="form-control" type="number"  [(ngModel)]="inventario.cantidad" placeholder="ingrese cantidad" [disabled]="isDisabled">
+                  <div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==9">
+                <strong>Advertencia!</strong> {{mensaje}}.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="col-7">
+                <div class="form-group">
+                   <label>Precio de compra</label>
+                  <input class="form-control" type="number"  [(ngModel)]="inventario.precio_compra" placeholder="ingrese precio de compra" [disabled]="isDisabled">
+                  <div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==6">
+                    <strong>Advertencia!</strong> {{mensaje}}.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="col-7">
+                <div class="form-group">
+                   <label>Descuento</label>
+                  <input class="form-control" type="number"  [(ngModel)]="inventario.descuento" placeholder="ingrese descuento" [disabled]="isDisabled">
+                  <div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==7">
+                    <strong>Advertencia!</strong> {{mensaje}}.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="col-7">
+                <div class="form-group">
+                   <label>Precio de venta</label>
+                  <input class="form-control" type="number"  [(ngModel)]="inventario.precio_venta_publico" placeholder="ingrese precio de venta al público" [disabled]="isDisabled">
+                  <div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==8">
+                    <strong>Advertencia!</strong> {{mensaje}}.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        
+        <div class="row botonera2">
+            <div class="col-2">
+                <button class="btn color_btn_crear btn_crear_consulta btn-default tamano_texto_boton" (click)="guardar()" [disabled]="isDisabled">
+              <div class="lds-ring" *ngIf="isDisabled">
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+             Guardar</button>
+            </div>
+            <div class="col-2">
+                <button class="btn btn1 btn-light btn_crear_consulta tamano_texto_boton" (click)="cancelar()" [disabled]="isDisabled">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+</div>

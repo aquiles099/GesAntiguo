@@ -1,0 +1,38 @@
+
+
+._tabs{
+    color: #828282;
+}
+
+._tabs ::ng-deep .nav-item .nav-tabs .nav-link{
+    border: 1px solid #F2F2F2;
+    background-color: transparent;
+    font-size: .875rem;
+}
+
+._tabs ::ng-deep .nav-link {
+    background-color: #F2F2F2 !important;
+    color: #828282;
+    border-radius: 0 !important;
+    font-size: .6rem;
+}
+
+._tabs ::ng-deep .nav-link.active {
+    background-color: #FFF !important;
+}
+
+._tabs ::ng-deep .nav-tabs {
+    overflow-x: auto;
+    overflow-y:hidden;
+    flex-wrap: nowrap;
+ }
+ 
+ ._tabs ::ng-deep .nav-tabs .nav-link {
+   white-space: nowrap;
+ }
+
+ label{
+    color: #333;
+    font-size: .875rem;
+    font-weight: bold;
+}

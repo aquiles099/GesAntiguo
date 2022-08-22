@@ -1,0 +1,74 @@
+
+<div class="animate__animated animate__fadeIn animate__faster row m-0 text-center text-md-left">
+
+    <div class="col-12 title mb-3">
+        
+        {{ onlyFavoriteProjects ? "Proyectos favoritos" : "Proyectos activos" }}
+
+        <div title="Ayuda" class="ml-3 pointer d-inline" (click)="showTour()">
+            <img src="assets/icons/SVG/AYUDA.svg" class="icon help" alt="Ayuda">
+        </div>    
+    </div>
+
+    <div id="projects-list-header" class="col-12 mb-3">
+
+        <div class="row m-0 align-items-center">
+            
+            <div id="sort-projects-selector-container" class="col-7 px-0 col-lg-5">
+                
+                <label class="_label mr-3" for="sortSelector"> 
+                    Ordenar: 
+                </label>
+                
+                <select [disabled]="tourIsActive" (change)="onChangeOrder($event)" name="sort" id="sortSelector">
+                    <option *ngFor="let option of sortOptions; let i = index" [attr.selected]="i === 0" [value]="option.value">
+                        {{option.label}}
+                    </option>
+                </select>
+                
+                <span class="separator mx-4"></span>
+
+                <span class="icon pointer" (click)="changeSortMode()">
+                    <i class="fas" [ngClass]="{
+                        'fa-arrow-up': sortMode === 'asc',
+                        'fa-arrow-down': sortMode === 'desc'
+                    }"></i>
+                </span>
+
+            </div>
+            
+            <div id="projects-by-module-selector-container" class="col-5 px-0 col-lg-3">
+                
+                <label class="_label mr-3" for="categorySelector">
+                    Categoría: 
+                </label>
+                
+                <select [disabled]="tourIsActive" class="category-selector" (change)="onChangeCategory($event)" name="sort" id="categorySelector">
+                    <option *ngFor="let module of projectModules; let i = index" [value]="module">
+                        {{module}}
+                    </option>
+                </select>
+                
+            </div>
+
+            <div id="projects-finder-input-container" class="col-12 px-0 mt-2 mt-lg-0 col-lg-4">
+
+                <img src="assets/icons/LUPA.png" alt="" class="search-icon">
+
+                <input [disabled]="tourIsActive" type="text" class="form-control search-input" placeholder="Buscar proyecto" inputmode="text"
+                    [(ngModel)]="search">
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="projects-container" class="col-12 p-0">
+        <div class="row m-0" [class.scrollable]="(filteredProjects | valueKey:search:'nombre').length > 8">
+            <div *ngFor="let project of (filteredProjects | valueKey:search:'nombre')" class="col-12 col-sm-6 col-md-4 col-lg-3 p-2 my-2 item">
+                <project-box [project]="project"></project-box>
+            </div>
+        </div>
+    </div>
+
+</div>

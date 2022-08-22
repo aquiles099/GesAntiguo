@@ -1,0 +1,328 @@
+<div class="row h-100 m-0 animate__animated animate__fadeIn animate__faster">
+
+    <!-- CABECERA -->
+    <home-view-header
+        title="configurar atributos"
+        (showTour)="showTour()"
+    ></home-view-header>
+
+    <!-- TITULO - INFO -->
+    <div class="col-12 p-0">
+
+        <div class="row m-0">
+
+            <div class="col-1 text-center p-0">
+
+                <img [src]="project.icono" alt="icono-proyecto" class="project-icon">
+
+            </div>
+
+            <div class="col-3 px-2">
+
+                <b>Proyecto</b>: &nbsp;&nbsp;&nbsp;{{project.nombre}}
+                
+                <br>
+
+                <b>Estado</b>: &nbsp;&nbsp;&nbsp;{{project.proyecto_activo ? "Activo" : "Inactivo"}}
+
+            </div>
+
+            <div class="col-3 offset-3">
+
+                <input id="attributes-finder" [disabled]="tourIsActive" type="text" class="w-100"
+                    placeholder="Buscar coincidencias..." [(ngModel)]="busqueda">
+
+                <img src="assets/icons/LUPA.png" alt="LUPA" class="magnifying-glass small-icon">
+                    
+            </div>
+            
+            <div class="col-2 pl-2 pr-0">
+                
+                <button id="new-attribute-btn" [disabled]="tourIsActive" class="btn btn-block btn-info"
+                    (click)="AttributeCreationModal.show()">Nuevo atributo</button>
+
+            </div>
+
+        </div>
+    
+    </div>
+
+    <!-- SELECTORES - BOTONES -->
+    <div class="col-12 p-0 my-2">
+
+        <div class="row m-0 d-flex align-items-center">
+
+            <div id="sort-attributes-btn" class="col-4 mt-4 px-0">
+
+                <div class="row m-0">
+                    
+                    <div class="col-5 px-0 animate__animated animate__fadeIn animate__faster" *ngIf="! ordenandoAtributos">
+                        
+                        <button [disabled]="tourIsActive || ! atributosFiltrados.length" 
+                                (click)="ordenarAtributos()" 
+                                class="btn btn-block btn-warning">
+                            Ordenar atributos
+                        </button>
+
+                    </div>
+                   
+                    <div class="col-5 px-0 animate__animated animate__fadeIn animate__faster" *ngIf="ordenandoAtributos">
+                        
+                        <button [disabled]="tourIsActive" (click)="guardarOrdenDeAtributos()" class="btn btn-block btn-warning">
+                            Guardar orden
+                        </button>
+                       
+                    </div>
+                
+                    <div *ngIf="ordenandoAtributos" class="col-5 px-0 offset-1 animate__animated animate__fadeIn animate__faster">
+                            
+                        <button [disabled]="tourIsActive" (click)="deshacerOrden()" class="btn btn-block btn-secondary">
+                            Cancelar
+                        </button>
+
+                    </div>
+
+                </div>
+                
+            </div>
+
+            <div class="col-8 px-0">
+
+                <div class="row d-flex justify-content-between m-0">
+
+                    <div id="module-selector" class="col-2 px-0">
+                            
+                        <label class="mb-1">Módulo:</label>
+            
+                        <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [disabled]="tourIsActive || modulos.length === 1"
+                        [items]="modulos"
+                        bindLabel="nombre"
+                        bindValue="nombre"
+                        [(ngModel)]="nombreModuloSelecionado"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="alCambiarSelectorDeModulos($event)"
+                        placeholder="Seleccione..."
+                            >
+                        </ng-select>
+                           
+                    </div>
+                   
+                    <div id="group-selector" class="col-2 px-0">
+                            
+                        <label class="mb-1">Grupo:</label>
+            
+                        <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [disabled]="tourIsActive"
+                        [items]="grupos"
+                        bindLabel="nombre"
+                        bindValue="nombre"
+                        [(ngModel)]="nombreGrupoSelecionado"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="alCambiarSelectorDeGrupos($event)"
+                        placeholder="Seleccione..."
+                            >
+                        </ng-select>
+                           
+                    </div>
+                   
+                    <div id="layer-selector" class="col-2 px-0">
+                            
+                        <label class="mb-1">Capa:</label>
+            
+                        <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [disabled]="tourIsActive"
+                        [items]="capas"
+                        bindLabel="nombre"
+                        bindValue="nombre"
+                        [(ngModel)]="nombreCapaSeleccionada"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="obtenerHerramientasYAtributosDeCapaPorTipoDeAcceso()"
+                        placeholder="Seleccione..."
+                            >
+                        </ng-select>
+                           
+                    </div>
+                   
+                    <div id="access-type-selector" class="col-2 px-0">
+                            
+                        <label class="mb-1">Tipo de acceso:</label>
+            
+                        <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [disabled]="tourIsActive"
+                        [items]="tiposDeAcceso"
+                        [(ngModel)]="tipoAccesoSeleccionado"
+                        [ngModelOptions]="{standalone: true}"
+                        bindLabel="nombre"
+                        bindValue="nombre" 
+                        (change)="obtenerHerramientasYAtributosDeCapaPorTipoDeAcceso()"
+                        placeholder="Seleccione..."
+                            >
+                        </ng-select>
+                           
+                    </div>
+                   
+                    <div id="attribute-type-selector" class="col-2 px-0">
+                            
+                        <label class="mb-1">Tipo de atributo:</label>
+            
+                        <ng-select
+                        class="custom" 
+                        [clearable]="false"
+                        [disabled]="tourIsActive"
+                        [items]="tiposDeAtributo"
+                        [(ngModel)]="tipoAtributoSeleccionado"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="alSeleccionarTipoDeAtributo()"
+                        placeholder="Seleccione..."
+                            >
+                        </ng-select>
+                           
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TABLA -->
+    <div class="col-12 p-0 table-col mt-2">
+        
+        <div class="d-flex align-items-center h-100" *ngIf="! atributosFiltrados.length && ! tourIsActive">
+            <div class="empty">
+                Vacio
+            </div>
+        </div>
+
+        <table id="attributes-table" *ngIf="atributosFiltrados.length > 0 || tourIsActive" class="table table-striped">
+           
+            <thead id="attributes-table-header" [class.thead-w-100]="tipoAtributoSeleccionado === 'Nuevos'">
+                <tr>
+                    <th class="pl-4">
+                        Todos
+                    </th>
+
+                    <th *ngFor="let toolInfo of listaDeHerramientas">
+
+                        <label class="mb-2" for="table_tool_{{toolInfo.nombre_formateado}}">
+                            {{toolInfo.nombre}}
+                        </label>
+
+                        <br/>
+
+                        <label for="table_tool_{{toolInfo.nombre_formateado}}" class="checkbox">
+                            
+                            <input type="checkbox" 
+                                [disabled]="tourIsActive"    
+                                class="checkbox" 
+                                (change)="habilitarAtributoEnTodasLasHerramientas(toolInfo,$event)"
+                                id="table_tool_{{toolInfo.nombre_formateado}}" 
+                                value="1"
+                                [(ngModel)]="toolInfo.checkTodos"
+                            >
+
+                            <i *ngIf="toolInfo.checkTodos" class="fas fa-check"></i>
+
+                        </label>     
+                        
+                    </th>
+
+                    <th id="actions-buttons-column">
+
+                    </th>
+                </tr>
+
+            </thead>
+
+            <tbody id="attributes-table-body"
+                [sortablejs]="atributosFiltrados"
+                [sortablejsOptions]="tableSortableOptions"
+                >
+
+                <tr *ngFor="let atributo of atributosFiltrados | valueKey:busqueda:'nombre' ; let rowIndex = index"
+                    [ngClass]="{'cursor-all-scroll': ordenandoAtributos}">
+
+                    <td class="pl-4 ml-2">
+
+                        <span>
+                            {{atributo.nombre}}
+                        </span>
+
+                    </td>
+
+                    <td class="text-center" *ngFor="let herramienta of listaDeHerramientas">
+
+                        <label for="tool_{{herramienta.nombre_formateado}}_attr_{{rowIndex}}" class="checkbox">
+                                
+                            <input type="checkbox" 
+                                [disabled]="tourIsActive"    
+                                class="checkbox" 
+                                (change)="modificarVisibilidadDeAtributoEnHerramienta(atributo)"
+                                id="tool_{{herramienta.nombre_formateado}}_attr_{{rowIndex}}" 
+                                value="1"
+                                [(ngModel)]="atributo[herramienta.nombre_formateado]"
+                            >
+
+                            <i *ngIf="atributo[herramienta.nombre_formateado]" class="fas fa-check"></i>
+
+                        </label>     
+
+                    </td>
+
+                    <td class="actions-buttons-columns">
+
+                        <div *ngIf="atributo.atributo_proyecto" class="w-100">
+
+                            <!-- <button [disabled]="tourIsActive" (click)="editarAtributo(rowIndex,atributo)"
+                                title="Editar" class="btn-transparent d-inline">
+                                <img title="editar" src="assets/icons/SVG/EDITAR.svg" class="medium-icon mx-0"
+                                    alt="editar">
+                            </button> -->
+    
+                            <button [disabled]="tourIsActive" (click)="eliminarAtributo(atributo)" title="Eliminar"
+                                class="btn-transparent d-inline">
+                                <img src="assets/icons/SVG/PAPEPERA.svg" class="medium-icon mx-0" alt="papelera">
+                            </button>
+    
+                            <!-- <button [disabled]="tourIsActive" (click)="actualizarAtributo(atributo)" title="Editar"
+                                class="btn-transparent d-inline">
+                                <img title="editar" src="assets/icons/GUARDAR.svg" class="medium-icon mx-0" alt="editar">
+                            </button> -->
+
+                        </div>
+                        
+                    </td>
+                
+                </tr>
+
+            </tbody>
+            
+        </table>
+
+    </div>
+
+    <!-- SPINNER -->
+    <div *ngIf="showSpinner" class="spinner animate__animated animate__fadeIn animate__faster">
+        <mat-spinner></mat-spinner>
+    </div>
+
+</div>
+
+<!-- MODAL NUEVO ATRIBUTO -->
+<attribute-creation-modal 
+    [proyecto]="project"
+    [modulos]="modulos" 
+    [tiposDeAcceso]="tiposDeAcceso" 
+    (alCrearAtributo)="obtenerHerramientasYAtributosDeCapaPorTipoDeAcceso()">
+</attribute-creation-modal>

@@ -1,0 +1,341 @@
+/*FUENTES*/
+@font-face {
+  font-family: 'Raleway';
+  src: url(/../assets/fonts/Raleway/static/Raleway-Regular.ttf) format("truetype");
+}
+@font-face {
+  font-family: 'Raleway Extrabold';
+  src: url(/../assets/fonts/Raleway/static/Raleway-ExtraBold.ttf) format("truetype");
+}
+@font-face {
+  font-family: 'Raleway Light';
+  src: url(/../assets/fonts/Raleway/static/Raleway-Light.ttf) format("truetype");
+}
+.main-{
+    position: absolute;
+    font-size: 100%;
+    top: 7.8%;
+    left: 18.52%;
+    height: 28.5%;
+    width: 72%;
+  /*border: 0.5px solid #333;*/
+}
+.btn_crear_consulta{
+    width: 279px;
+    height: 37px;
+    margin-top: 5%;
+}
+.text-{
+  font-size: 13pt;
+  position:absolute;
+  top: 2.8%;
+
+}
+.cursor_pointer{
+  cursor: pointer;
+}
+.valor{
+  margin-left: -3%;
+  margin-right: -36px;
+  width: 100%;
+}
+.parametros{
+  margin-left: 20%;
+}
+.btn_crear_consulta{
+    height: 44px;
+    margin-top: 9%;
+}
+.borde_bajo{
+  border-bottom: 1px solid #F0F0F0;
+  margin-left: 1%;
+  width: 100%;
+}
+
+.escudo_proyecto {
+    background-color: white;
+    margin-left: -5.48%;
+    height: 50px;
+}
+.espacio_vertical{
+  position:absolute;
+  top: 51%;
+}
+.icon_modulo {
+    background-color: white;
+    height: 23px;
+}
+.imput_form_parametros_dispositivos {
+  position: absolute;
+  font-size: 100%;
+  top: 33.5%;
+  left: 4.15%;
+  box-sizing: border-box;
+  height: 64.7%;
+  width: 93%;
+  border-radius: 5px;
+  border: 1px solid #BDBDBD;
+}
+.imput_form{
+    display: block;
+    position: relative;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: -0.625rem 2.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.input_form2{
+  left: 26.15%;
+}
+.lupa{
+  position: absolute;
+  font-size: 100%;
+  top: 18%;
+  left: 81%;
+  height: 4.86%;
+  opacity: 0.7;
+}
+.sinborde{
+    outline: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0;
+    outline-offset: 0;
+    margin-left: 15%;
+    margin-top: 2%;
+}
+.botonera{
+  left: 25.15%;
+  margin-top: 0.69%;
+}
+.botonera2{
+  left: 5.15%;
+  position: relative;
+  width: 100%;
+}
+
+.tamano_texto_boton{
+  font-size: 11pt;
+}
+.table_2{
+  width: 115%;
+  margin-left: -2.48%;
+}
+.color_table{
+  background-color: #FAFAFA;
+  font-weight: normal;
+}
+.circuloIniciales {
+  position: absolute;
+  display: inline-block;
+  background-color: #6E63C8;
+  color: white;
+  padding: 0.3em;
+  border-radius: 50%;
+}
+/*el spinner*/
+.lds-ellipsis {
+  position: relative;
+  top: -15%;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 20px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #BDBDBD;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 15px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 15px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+/*spinner*/
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 24px;
+  height: 17px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  margin: 0px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/*********/
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+.color_btn_crear{
+  height: 40px;
+  width: 225px;
+  background-color: #26AAE2;
+  color: #ffff;
+  border-radius: 2px;
+  font-weight: 700;
+  font-size: 13px;
+}
+.btn1 {
+  box-sizing: border-box;
+  color: #26AAE2;
+  height: 40px;
+  width: 165px;
+  border: 0.8px solid #26AAE2 !important;
+  border-radius: 2px;
+}
+.tamano_inputs{
+  height: 36px;
+}
+.imput_form_parametros_dispositivos {
+  position: absolute;
+  font-size: 100%;
+  top: 98.46%;
+  left: 2.15%;
+  box-sizing: border-box;
+  height: 173.7%;
+  width: 96%;
+  border-radius: 5px;
+  border: 1px solid #BDBDBD;
+  margin-bottom: 1rem;
+}
+/*el spinner*/
+.lds-ellipsisdisp {
+  position: relative;
+  top: -15%;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsisdisp div {
+  position: absolute;
+  top: 20px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #BDBDBD;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsisdisp div:nth-child(1) {
+  left: 15px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsisdisp div:nth-child(2) {
+  left: 15px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsisdisp div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsisdisp div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+/***********/
+/***********/
+@media screen and (min-width: 1920px) {
+  .valor{
+    margin-left: 24%;
+    margin-right: -36px;
+    width: 100%;
+  }
+  .botonera2{
+    left: 9.15%;
+    position: relative;
+  }
+  .table_2{
+    width: 138%;
+    margin-left: -11.48%;
+  }
+}

@@ -1,0 +1,134 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+
+    <home-view-header
+        [title]="project.nombre"
+        [enableTourButton]="false"
+    ></home-view-header> 
+
+    <div class="col-12 p-0 scrollable">
+
+        <div class="row mx-0 my-2 bordered-bottom" *ngFor="let group of groups">
+            
+            <div class="col-12 p-0 pointer" (click)="toggleCollapsedStateInGroups(group)">
+                
+                <div class="row m-0 p-2">
+
+                    <div *ngIf="group.title" class="col-11 title">
+                        {{ group.title }}
+                    </div>
+        
+                    <div *ngIf="group.collapsible" class="col-1 p-0 text-right">
+                        <i class="fas" [ngClass]="{
+                            'fa-chevron-down': group.collapsed,
+                            'fa-chevron-up': ! group.collapsed
+                        }"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-12 mb-1" [collapse]="group.collapsible ? group.collapsed : false" [isAnimated]="true">
+
+                <div class="row m-0">
+
+                    <div class="col-12 p-2" 
+                        *ngFor="let option of group.children"
+                        [ngClass]="{
+                            'col-md-2': ! option.children,
+                            'col-md-12': option.children
+                        }"
+                        >
+        
+                        <div *ngIf="option.action" 
+                            (click)="this[option.action]()"
+                            class="row m-0 p-2 align-items-center justify-content-center text-center option-box">
+                            
+                            <div class="col-12 mb-2">
+        
+                                <img class="big-icon" [src]="option.iconSrc" [alt]="option.title">
+        
+                            </div>
+                            
+                            <div class="col-12 option-title">
+                                {{ option.title }}
+                            </div>
+        
+                        </div>
+                        
+                        <div *ngIf="! option.action && ! option.children" 
+                            [routerLink]="[option.path]"
+                            [queryParams]="option.queryParams ? option.queryParams : {}"
+                            class="row m-0 p-2 align-items-center justify-content-center text-center option-box">
+                            
+                            <div class="col-12 mb-2">
+        
+                                <img class="big-icon" [src]="option.iconSrc" [alt]="option.title">
+        
+                            </div>
+                            
+                            <div class="col-12 option-title">
+                                {{ option.title }}
+                            </div>
+        
+                        </div>
+
+                        <div *ngIf="! option.action && option.children" class="row mx-0 my-2 bordered-bottom">
+        
+                            <div class="col-12 p-0 pointer">
+                                
+                                <div class="row m-0 p-2">
+                
+                                    <div *ngIf="option.title" class="col-12 title">
+                                        {{ option.title }}
+                                    </div>
+                                            
+                                </div>
+                
+                            </div>
+
+                            <div class="col-12 mb-1">
+
+                                <div class="row m-0">
+                
+                                    <div  class="col-6 col-md-2 p-2" 
+                                        *ngFor="let _option of option.children"
+                                        [routerLink]="[_option.path]"
+                                        [queryParams]="_option.queryParams ? _option.queryParams : {}"
+                                        >
+                        
+                                        <div class="row m-0 p-2 align-items-center justify-content-center text-center option-box">
+                                            
+                                            <div class="col-12 mb-2">
+                        
+                                                <img class="big-icon" [src]="_option.iconSrc" [alt]="_option.title">
+                        
+                                            </div>
+                                            
+                                            <div class="col-12 option-title">
+                                                {{ _option.title }}
+                                            </div>
+                        
+                                        </div>
+                                            
+                                    </div>
+
+                                </div>
+                                
+                            </div>
+                
+                        </div>
+        
+                    </div>
+                    
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+

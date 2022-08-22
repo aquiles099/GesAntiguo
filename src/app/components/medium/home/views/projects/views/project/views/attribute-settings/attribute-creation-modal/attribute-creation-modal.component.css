@@ -1,0 +1,81 @@
+
+.modal-content{
+    padding: 1rem 4rem 3rem 4rem;
+    border-radius: 10px;
+  }
+  
+  .modal-body{
+    padding: 0;
+  }
+  
+  .modal-header{
+    border-bottom: none;
+  }
+  
+  .modal-title{
+    color: #333;
+    font-weight: bold;
+    font-size: .9rem;
+  }
+  
+  .ng-select.custom ::ng-deep .ng-select-container  {            
+    min-height: 0px;
+    border-radius: 0;
+    min-height: 1.5rem;
+    font-size: .8rem !important;
+  }
+  
+  .close{
+    margin-right: -3rem;
+  }
+  
+  .icon{
+    width: 1rem;
+    height: 1rem;
+    transition: transform .2s;
+  }
+  
+  .icon:hover{
+    transform: scale(1.1);
+  }
+  
+  .icon.help{
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+  
+  label{
+    color: #333;
+    font: .8rem;
+    font-weight: bolder;
+  }
+  
+  input, select{
+    border-color: #BDBDBD;
+    color: #BDBDBD;
+    font-size: .8rem !important;
+    border-radius: 3px !important;
+  }
+  
+  .checkbox {
+    border: 1px solid #000;
+    cursor: pointer;
+    font-size: .75rem;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+  
+  .checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  .btn-block{
+    font-size: .8rem;
+    border-radius: 0;
+    line-height: 1rem;
+  }
+  

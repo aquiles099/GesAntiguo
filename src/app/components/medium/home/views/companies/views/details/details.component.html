@@ -1,0 +1,234 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+
+    <home-view-header
+    title="Detalles de empresa"
+    [enableTourButton]="false"
+    ></home-view-header> 
+
+    <form [formGroup]="form" class="col-12 px-0 py-2 d-flex align-items-center">
+        
+        <div class="row m-0 justify-content-center">
+
+            <div class="col-12 p-2 company-info-section">
+
+                <div class="row m-0">
+
+                    <div class="col-12 col-md-6 py-0 pl-0 pr-2">
+
+                        <div class="row m-0">
+
+                            <div class="col-12 p-0 mb-3">
+                                <b>Empresa</b>:
+                            </div>
+
+                            <div class="col-5 px-1 mb-2">
+     
+                                <label class="mb-2" for="company-logo-preview">Logo de la empresa:</label>
+                                
+                                <div class="row mx-0 align-items-end">
+
+                                    <div class="col-12 p-0 icon-preview-container">
+
+                                        <img id="company-logo-preview" class="icon-preview pointer" (click)="toggleFullscreen($event)" [src]="company.image_path" alt="icono">
+
+                                    </div>
+                
+                                </div>
+                                
+                            </div>
+
+                            <div class="col-7 px-1 mb-2">
+
+                                <div class="row m-0">
+
+                                    <div class="col-12 p-0 mb-2">
+
+                                        <label class="mb-2" for="name">Nombre de la empresa:</label>
+                                        
+                                        <input type="text" id="name" name="name" formControlName="name">
+                                        
+                                    </div>
+
+                                    <div class="col-12 p-0">
+
+                                        <label class="mb-2" for="cif">CIF:</label>
+                                        
+                                        <input type="text" id="cif" name="cif" formControlName="cif">
+
+                                    </div>
+
+                                </div>
+     
+                            </div>
+
+                            <div class="col-6 px-1 mb-2">
+                            
+                                <label class="mb-2" for="company-province">Ubicación:</label>
+
+                                <input type="text" id="province" name="province" formControlName="province">
+
+                            </div>
+                           
+                            <div class="col-6 px-1 mb-2 mt-1">
+                            
+                                <input type="text" class="mt-4" id="municipality" name="municipality" formControlName="municipality">
+
+                            </div>
+
+                            <div class="col-12 mb-2 px-0 mt-1">
+
+                                <div class="row m-0">
+
+                                    <div class="col-12 col-lg-6 px-0 mb-2">
+                                        
+                                        <label class="mb-2" for="users_per_project">Nº usuarios por proyecto:</label>
+
+                                        <input type="number" id="users_per_project" name="users_per_project" formControlName="users_per_project">
+
+                                    </div>
+
+                                    <div class="col-12 col-lg-6 px-1 mb-2">
+                                        
+                                        <label class="mb-2" for="installers_per_project">Nº instaladores por proyecto:</label>
+
+                                        <input type="number" id="installers_per_project" name="installers_per_project" formControlName="installers_per_project">
+
+                                    </div>
+
+                                    <div class="col-12 col-lg-6 px-0 mb-2">
+                                        
+                                        <label class="mb-2" for="max_users_number">Nº usuarios permitidos:</label>
+
+                                        <input type="number" id="max_users_number" name="max_users_number" formControlName="max_users_number">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="left-bordered col-12 col-md-6 pl-2 pr-0">
+        
+                        <div formGroupName="admin_1" class="row m-0">
+        
+                            <div class="col-12 p-0 mb-3">
+                                <b>Administrador 1</b>:
+                            </div>
+    
+                            <div class="col-4 px-1 mb-2">
+     
+                                <label class="mb-2" for="admin_1_name">Nombres:</label>
+                                
+                                <input type="text" id="admin_1_name" formControlName="nombre">
+                        
+                            </div>
+                
+                            <div class="col-4 px-1 mb-2">
+                
+                                <label class="mb-2" for="admin_1_last_name">Apellidos:</label>
+                                
+                                <input type="text" id="admin_1_last_name" formControlName="apellidos">
+                        
+                            </div>
+                
+                            <div class="col-4 px-1 mb-2">
+                
+                                <label class="mb-2" for="admin_1_nif">NIF/NIE:</label>
+                                
+                                <input type="text" id="admin_1_nif" formControlName="nif">
+                        
+                            </div>
+    
+                            <div class="col-6 pl-0 pr-1 mb-2">
+                
+                                <label class="mb-2" for="admin_1_id_usuario">Nombre usuario:</label>
+                                
+                                <input type="text" id="admin_1_id_usuario" formControlName="id_usuario">
+                        
+                            </div>
+                            
+                            <div class="col-6 pl-1 pr-0 mb-2">
+                
+                                <label class="mb-2" for="admin_1_email">Email:</label>
+                                
+                                <input type="email" id="admin_1_email" formControlName="email">
+                        
+                            </div>
+                
+                        </div>
+
+                        <div formGroupName="admin_2" class="row m-0">
+        
+                            <div class="col-12 p-0 mb-3">
+                                <b>Administrador 2</b>:
+                            </div>
+    
+                            <div class="col-4 p-0 mb-2">
+     
+                                <label class="mb-2" for="admin_2_name">Nombres:</label>
+                                
+                                <input type="text" id="admin_2_name" formControlName="nombre">
+                        
+                            </div>
+                
+                            <div class="col-4 px-1 mb-2">
+                
+                                <label class="mb-2" for="admin_2_last_name">Apellidos:</label>
+                                
+                                <input type="text" id="admin_2_last_name" formControlName="apellidos">
+                        
+                            </div>
+                
+                            <div class="col-4 p-0 mb-2">
+                
+                                <label class="mb-2" for="admin_2_nif">NIF/NIE:</label>
+                                
+                                <input type="text" id="admin_2_nif" formControlName="nif">
+                        
+                            </div>
+    
+                            <div class="col-6 pl-0 pr-1 mb-2">
+                
+                                <label class="mb-2" for="admin_2_id_usuario">Nombre usuario:</label>
+                                
+                                <input type="text" id="admin_2_id_usuario" formControlName="id_usuario">
+                        
+                            </div>
+
+                            <div class="col-6 pl-1 pr-0 mb-2">
+                
+                                <label class="mb-2" for="admin_2_email">Email:</label>
+                                
+                                <input type="email" id="admin_2_email" formControlName="email">
+                        
+                            </div>
+
+                
+                           
+                        </div>
+        
+                    </div>
+                   
+                </div>
+
+            </div>
+           
+        </div>
+        
+    </form>
+
+    <div class="col-12 px-0 d-flex align-items-center justify-content-end">
+        
+        <div class="col-2 pl-2 pr-0">
+            <button type="button" (click)="backToTable()" class="btn btn-block btn-outline-info p-1">
+                Volver
+            </button>
+        </div>
+    </div>
+
+
+</div>
+

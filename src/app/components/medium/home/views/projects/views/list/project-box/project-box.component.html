@@ -1,0 +1,69 @@
+<div  (click)="goToActions()" class="row mx-1 pb-2 item animate__animated animate__fadeIn animate__faster">
+    
+    <div class="col-12 mb-4 p-0">
+
+        <div *ngIf="project.modulos.length || project.usuarios?.length" 
+                class="info-header" 
+                [class.on-tour]="tourIsActive">
+
+            <div class="row h-100 m-0 align-items-center">
+                
+                <div class="col-6 text-left px-2 project-modules-icons">
+                    <img *ngFor="let module of project.modulos | slice:0:3" class="module-icon mx-1"
+                        [attr.title]="module.modulo" [src]="module.icono_modulo">
+                    <span *ngIf="(project.modulos.length - 3) > 0">
+                        + {{ project.modulos.length - 3 }}
+                    </span>
+                </div>
+
+                <div class="col-6 text-right px-1 project-users">
+                    <div *ngFor="let user of project.usuarios | slice:0:3; let i = index" class="user-badge"
+                        [attr.title]="user.nombre" [ngStyle]="{
+                        'background-color': badgeColors[i],
+                        'color': badgeColors[i] === '#FFF' ? '#000' : '#FFF'
+                    }">
+                        {{ getUserNameInitials( user.nombre ) }}
+                    </div>
+                    <span *ngIf="(project.usuarios?.length - 3) > 0">
+                        + {{ project.usuarios?.length - 3 }}
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+ 
+        <div #loading class="w-100 h-100 project-zone-image-spinner">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <img class="img-fluid w-100 d-none project-zone-image" 
+            #img 
+            [src]="project.url_osm" 
+            [attr.alt]="project.nombre"
+            title="Ir al mapa GIS"
+            (load)="onLoadProjectImage(img, loading)"
+            >
+
+    </div>
+
+    <div class="col-2 px-0">
+        <img class="project-icon" [src]="project.icono" alt="proyecto_icono">
+    </div>
+
+    <div class="px-2 col-8">
+        <h4 class="text-truncate" [attr.title]="project.nombre">{{project.nombre}}</h4>
+        <h6 class="last-access-tag">{{ project.ultimo_acceso ? getLastAccess(project.ultimo_acceso) : "sin registro" }}</h6>
+    </div>
+
+    <div class="col-2 text-center px-0">
+        
+        <span class="w-100 h-100 pointer" 
+                (click)="toggleFavoriteState()"
+                [attr.title]="project.favorito ? 'Remover de favoritos' : 'Añadir a favoritos'">
+            <img class="star add-project-to-favorite" [class._disabled]="sendingRequest" [src]="project.favorito ? 'assets/icons/SVG/FAVORITO_R.svg' : 'assets/icons/SVG/FAVORITO.svg'" alt="icono-favorito">
+        </span>
+
+    </div>
+    
+</div>

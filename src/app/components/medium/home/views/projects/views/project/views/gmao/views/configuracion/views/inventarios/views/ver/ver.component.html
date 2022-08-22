@@ -1,0 +1,251 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+<div class="col-12 p-0">
+	<br>
+    <br>
+    <br>
+      <div class="parametros valor">
+        <div class="movimientos">
+        	<div>
+            <label><strong>Ver Artículo</strong></label>
+            <br>
+            <br>
+        </div>
+        <div>
+            <div class="col-7">
+                <div class="form-group">
+                	<label for="">Código</label>
+                  <input type="text" class="form-control"  [(ngModel)]="inventario.codigo" [disabled]="isDisabled">
+          </div>
+            </div>
+        </div>
+        <div>
+            <div class="col-7">
+              <div class="form-group">
+                <label for="">Almacén</label>
+                <input type="text" class="form-control"  [(ngModel)]="inventario.almacen" [disabled]="isDisabled">
+              </div>
+            </div>
+        </div>
+        <div>
+            <div class="col-7">
+              <div class="form-group">
+                <label for="">Tipo</label>
+                <input type="text" class="form-control"  [(ngModel)]="inventario.tipo_inventario" [disabled]="isDisabled">
+              </div>
+            </div>
+        </div>
+        <div>
+            <div class="col-7">
+              <div class="form-group">
+                <label for="">Marca</label>
+                <input type="text" class="form-control"  [(ngModel)]="inventario.nombre_marca" [disabled]="isDisabled">
+              </div>
+            </div>
+        </div>
+        <div>
+            <div class="col-7">
+                <div class="form-group">
+                  <label for="">Modelo</label>
+                  <input type="text" class="form-control"  [(ngModel)]="inventario.nombre_modelo" [disabled]="isDisabled">
+          </div>
+            </div>
+        </div>
+        <div>
+            <div class="col-7">
+                <div class="form-group">
+                   <textarea class="form-control" name="" id="" cols="10" rows="5" [(ngModel)]="inventario.descripcion_inventario" placeholder="Ingrese una descripción" [disabled]="isDisabled"></textarea>
+                 </div>
+            </div>
+            <div>
+              <div class="col-7">
+                <div class="form-group">
+                  <p>¿Tiene Stock?</p>
+                    <div>
+                      <input type="text" class="form-control"  [(ngModel)]="inventario.stock" [disabled]="isDisabled">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="col-7" *ngIf="inventario.stock=='Si'">
+                <div class="form-group">
+                  <p>Cantidad</p>
+                  <input class="form-control" type="number"  [(ngModel)]="inventario.cantidad_inventario" placeholder="ingrese cantidad" [disabled]="isDisabled">
+                </div>
+              </div>
+            </div>
+        </div>
+        </div>
+      </div>
+     <hr>
+        <div class="form-group">
+        	<label><strong>Movimientos de inventario</strong></label>
+        	<table class="table table-borderless table_2 table-hover">
+					  <thead class="color_table">
+					    <tr>
+					      <th scope="col">ID</th>
+					      <th scope="col">Tipo</th>
+					      <th scope="col"># Orden</th>
+					      <th scope="col">Cantidad</th>
+					      <th scope="col">Descripción</th>
+					      <th scope="col">Fecha</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr *ngIf="carga_datos==2">
+					    	No hay datos que mostrar 
+					    </tr>
+					    <ng-container *ngFor="let item of _det_inventario; let i = index" class="animate__animated animate__fadeIn" > 
+							  <tr class="animate__animated animate__fadeIn cursor_pointer">
+						      <td>{{item.id_det_inventario}}</td>
+						      <td>{{item.tipo}}</td>
+						      <th >{{item.num_orden_solicitud}}</th>
+						      <th >{{item.cantidad}}</th>
+                  <th >{{item.descripcion}}</th>
+						      <th >{{item.fecha}}</th>
+							  </tr>
+							</ng-container>
+					  </tbody>
+					</table>
+        <div class="parametros valor">
+          <div *ngIf="inventario.stock=='Si'">
+  	        <div class="row botonera2">
+  	            <div class="col-3">
+  	                <button class="btn color_btn_crear btn_crear_consulta btn-default tamano_texto_boton" data-toggle="modal" data-target="#exampleModal1">
+  	              <div class="lds-ring" *ngIf="isDisabled=='entrada'"> <!-- *ngIf="isDisabled" -->
+  	                <div></div>
+  	                <div></div>
+  	                <div></div>
+  	              </div>
+  	             Entrada de inventario</button>
+  	            </div>
+  	            <div class="col-3">
+  	            <button class="btn color_btn_crear btn_crear_consulta btn-default tamano_texto_boton" data-toggle="modal" data-target="#exampleModal2">
+  	              <div class="lds-ring" *ngIf="isDisabled=='salida'"> <!-- *ngIf="isDisabled" -->
+  	                <div></div>
+  	                <div></div>
+  	                <div></div>
+  	              </div>
+  	             Salida de inventario</button></div>
+  	            <div class="col-3">
+  	                <button class="btn btn1 btn-light btn_crear_consulta tamano_texto_boton" (click)="volver()">volver</button>
+  	            </div>
+  	        </div>
+          </div>
+          <div *ngIf="inventario.stock=='No'">
+            <div class="row botonera2">
+                <div class="col-3">
+                    
+                </div>
+                <div class="col-3">
+                
+               </div>
+                <div class="col-3">
+                    <button class="btn btn1 btn-light btn_crear_consulta tamano_texto_boton" (click)="volver()">volver</button>
+                </div>
+            </div>
+          </div>
+        </div>
+        <br>
+      <br>
+    </div>
+    <div class="modal fade bd-example-modal-lg" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+       <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h3 class="modal-title">Entrada de inventario</h3>
+		        <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <div class="form-group">
+              <ng-select
+                  id="user_ids"
+                  class="custom" 
+                  name="user_ids" 
+                  required 
+                  placeholder="Seleccione Orden"
+                  [clearable]="false"
+                  [multiple]="false"
+                  maxSelectedItems="1"
+                  [items]="data_orden"
+                  bindLabel="id"
+                  bindValue="id"
+                  [(ngModel)]="data_det_inventario.num_orden_solicitud"
+              >
+              </ng-select>
+             <!--  <ng-select [(ngModel)]="data_det_inventario.num_orden_solicitud" name="ng_orden" >
+                 <ng-option *ngFor="let item of data_orden" [value]="item.id">Orden #: {{item.id}}</ng-option>
+              </ng-select> -->
+            </div>
+		        <div class="form-group">
+		        	<input type="number" class="form-control" placeholder="Cantidad" [(ngModel)]="data_det_inventario.cantidad">
+		        </div>
+		         <div class="form-group">
+		        	<textarea class="form-control" placeholder="Observaciones" [(ngModel)]="data_det_inventario.obervaciones"></textarea>
+		        </div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" (click)="guardar_det_inventario(1)">
+		          <div class="lds-ring" *ngIf="isDisabled=='entrada'"> <!-- *ngIf="isDisabled" -->
+		            <div></div>
+		            <div></div>
+		            <div></div>
+		          </div>
+		        Guardar</button>
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+		       </div>
+		    	</div>
+  	</div>
+    </div>
+    <div class="modal fade bd-example-modal-lg" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+       <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Salida de inventario</h3>
+        <button type="button" #closebutton2 class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+         <ng-select
+            id="user_ids"
+            class="custom" 
+            name="user_ids" 
+            formControlName="user_ids"
+            required 
+            placeholder="Seleccione Orden"
+            [clearable]="false"
+            [multiple]="false"
+            maxSelectedItems="1"
+            [items]="data_orden"
+            bindLabel="id"
+            bindValue="id"
+            [(ngModel)]="inventario.num_orden_solicitud"
+            >
+        </ng-select>
+        </div>
+        <div class="form-group">
+          <input type="number" class="form-control" placeholder="Cantidad" [(ngModel)]="data_det_inventario.cantidad">
+        </div>
+         <div class="form-group">
+          <textarea class="form-control" placeholder="Observaciones" [(ngModel)]="data_det_inventario.obervaciones"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="guardar_det_inventario(2)">
+          <div class="lds-ring" *ngIf="isDisabled=='salida'"> <!-- *ngIf="isDisabled" -->
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        Guardar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    	</div>
+ 	</div>

@@ -1,0 +1,66 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+<div class="col-12 p-0">
+   <div class="container">
+      <div class="row valor">
+      <div class="col-1 col11">
+          <img [src]="proyecto.icono" alt="icono" class="escudo_proyecto" />
+      </div>
+      <div class="col-3">
+        <strong>Proyecto: </strong> <span class="texto_proyecto">{{proyecto.nombre}}</span>
+        <div class="espacio_vertical">
+         <strong>Módulos: </strong><span *ngFor="let modulos of proyecto.modulos">  <img [src]="modulos.icono_modulo" alt="icono" class="icon_modulo" /></span>
+        </div>
+      </div>
+       <div class="col-4">
+          <div class="">
+          <input type="text"  name="usuario" placeholder="Buscar" class="sinborde" size="25" required/>
+          </div>
+      </div>
+    </div>
+    <br>
+    <br>
+        <table class="table table-borderless table_2 table-hover">
+          <thead class="color_table">
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">ID</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Ciudad</th>
+              <th scope="col">Calle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="carga_datos==2">
+              No hay datos que mostrar 
+            </tr>
+            <ng-container  class="animate__animated animate__fadeIn"  *ngFor="let item of locations; let i = index"> 
+              <tr class="cursor_pointer">
+                <th scope="col"></th>
+                <th scope="col" >{{item.id}}</th>
+                <th scope="col" >{{item.name}}</th>
+                <th scope="col" >{{item.address.country.name}}</th>
+                <th scope="col" >{{item.address.street}}</th>
+            </tr>
+             <!--  <tr *ngIf="i >= valor_0 && i<valor_1" class="animate__animated animate__fadeIn"> 
+                <td>{{item.id}}</td>
+                <td>{{item.palabra_clave}}</td>
+                <th >{{item.description}}</th>
+              </tr> -->
+            </ng-container>
+          </tbody>
+        </table>
+        <div align="right" class="table_2">
+              <hr>
+              <div class="btn-group"  role="group" aria-label="Basic example">
+                <button type="button" class="btn btn1 btn-light" (click)="resta_valor(10)"><</button>
+                <button type="button" class="btn btn1 btn-light">{{valor_0_1}}</button>
+                <button type="button" class="btn btn1 btn-light" (click)="suma_valor(10)">></button>
+              </div>
+            </div>
+            <br>
+            <br>
+      </div>
+        </div>

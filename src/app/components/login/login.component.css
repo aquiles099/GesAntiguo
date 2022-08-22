@@ -1,0 +1,217 @@
+/* mobile */
+
+.cover{
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('../../../assets/images/imagenLoginFondo.png');
+}
+
+img.logo, form, .form-section{
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+img.logo{
+  top: 14.5%;
+  width: 45%;
+  height: auto;
+}
+
+form{
+  top: 27.5%;
+  border-radius: 1rem;
+  width: 72.5%;
+  height: 45%;
+  background-color: #FFF;
+  box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 55%);
+  -webkit-box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 55%);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.55);
+  color: #828282;
+}
+
+.form-section{
+  width: 100%;
+  padding: 0% 2.5rem;
+  height: 33.3%;
+}
+
+.form-section.top-section{
+  top: 0%;
+  padding-top: 7.5%;
+}
+
+.form-section.middle-section{
+  top: 33.3%;
+}
+
+.form-section.bottom-section{
+  top: 66.6%;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 7.5%;
+}
+
+h3{
+  margin: 0;
+  font-weight: lighter;
+  font-size: .8rem;
+  line-height: 0.8rem;
+  margin-bottom: 7.5%;
+}
+
+.big-text{
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 2.75%;
+}
+
+input{
+  border: 1px solid #E0E0E0;
+  border-radius: .3rem;
+  width: 100%;
+  color: #828282;
+  font-size: .675rem;
+  padding: 0.4rem 0.5rem;
+  font-family: 'Raleway Light' !important;
+}
+
+.eye-icon{
+  margin-left: -17.5%;
+  width: 1rem;
+  opacity: .5;
+}
+
+.btn-block{
+  font-size: .675rem;
+  border-radius: .3rem !important;
+  position: relative;
+  bottom: 0%;
+  font-family: 'Raleway Extrabold' !important;
+}
+
+#password-recovery-link{
+  color: rgba(114,207,247,0.99);
+  font-style: italic;
+  font-size: .6rem;
+  font-family: 'Raleway Light' !important;
+}
+
+.invalid{
+  border-color: rgba(253,47,51,0.87) !important;
+}
+
+.valid{
+  border-color: #26AAE2 !important;
+}
+
+footer {
+  position: absolute;
+  bottom: 5%;
+  width: 100%;
+  text-align: center;
+}
+
+footer > a {
+  font-weight: bold;
+  color: #fff !important;
+  font-size: .8rem;
+  text-decoration: none;
+}
+
+/* desktop  */
+
+@media (min-width: 568px)
+{
+  img.logo{
+    width: 15%;
+  }
+  
+  form{
+    top: 32.5%;
+    width: 35%;
+    height: 50%;
+    font-size: .95rem;
+  }
+  
+  .form-section{
+    padding: 0% 6rem;
+  }
+
+  .form-section.top-section{
+    padding-top: 10%;
+  }
+
+  .form-section.bottom-section{
+    padding-bottom: 10%;
+  }
+
+  h3{
+    font-size: .95rem;
+    line-height: .95rem;
+  }
+  
+  .big-text{
+    font-size: 1.65rem;
+  }
+
+  input{
+    font-size: .875rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .eye-icon{
+    margin-left: -10%;
+    width: 1.2rem;
+  }
+
+  #password-recovery-link{
+    font-size: .8rem;
+  }
+ 
+  .btn-block{
+    font-size: .75rem;
+  }  
+}
+
+/*spinner*/
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 24px;
+  height: 17px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  margin: 0px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/*********/

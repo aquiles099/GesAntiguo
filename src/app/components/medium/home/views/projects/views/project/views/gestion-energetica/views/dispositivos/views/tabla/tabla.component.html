@@ -1,0 +1,102 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+<div class="col-12 p-0">
+	<div class="row valor">
+        <div class="col-10" align="right">
+          <div class="form-group">
+            <label><strong>&nbsp;</strong></label>
+            <button class="btn color_btn_crear btn-default tamano_texto_boton btn_nueva_solicitud" (click)="nuevo_dispositivo()" [disabled]="isDisabled">Nuevo dispositivo</button>
+          </div>
+        </div>
+        <br>
+    </div>
+	  <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a [ngClass]="activo==0 ? 'nav-link active' : 'nav-link'" (click)="pendientes_aceptados(0)">Aceptados</a>
+      </li>
+      <li class="nav-item">
+        <a [ngClass]="activo==1 ? 'nav-link active' : 'nav-link'" (click)="pendientes_aceptados(1)">Pendientes</a>
+      </li>
+    </ul>
+    <div class="container valor_2" *ngIf="disp_pendientes==0">
+        <table class="table  table-borderless table_2 table-hover">
+            <thead class="color_table">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="carga_datos==2">
+                    No hay datos que mostrar
+                </tr>
+                <ng-container class="animate__animated animate__fadeIn" *ngFor="let item of devices; let i = index">
+                    <tr (click)="ver(item)" class="cursor_pointer">
+                        <th scope="col"></th>
+                        <th scope="col">{{item.id}}</th>
+                        <th scope="col">{{item.name}}</th>
+                        <th scope="col" *ngIf="item.status=='ACCEPTED'">Aceptado</th>
+                        <th scope="col" *ngIf="item.status=='PENDING'">Pendiente</th>
+                       
+                    </tr>
+                    <!--  <tr *ngIf="i >= valor_0 && i<valor_1" class="animate__animated animate__fadeIn"> 
+					      <td>{{item.id}}</td>
+					      <td>{{item.palabra_clave}}</td>
+					      <th >{{item.description}}</th>
+						  </tr> -->
+                </ng-container>
+            </tbody>
+        </table>
+        <div align="right" class="table_2 valor_2">
+            <hr>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn1 btn-light" (click)="resta_valor(10)"><</button>
+                <button type="button" class="btn btn1 btn-light">{{valor_0_1}}</button>
+                <button type="button" class="btn btn1 btn-light" (click)="suma_valor(10)">></button>
+            </div>
+        </div>
+    </div>
+    <div class="container valor_2" *ngIf="disp_pendientes==1">
+        <table class="table table-borderless table_2 table-hover">
+            <thead class="color_table">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="carga_datos==2">
+                    No hay datos que mostrar
+                </tr>
+                <ng-container class="animate__animated animate__fadeIn" *ngFor="let item of devices_pending; let i = index">
+                    <tr class="cursor_pointer" (click)="ver(item)" class="cursor_pointer">
+                      <th scope="col"></th>
+                      <th scope="col">{{item.id}}</th>
+                      <th scope="col">{{item.name}}</th>
+                      <th scope="col">{{item.status}}</th>
+                    </tr>
+                    <!--  <tr *ngIf="i >= valor_0 && i<valor_1" class="animate__animated animate__fadeIn"> 
+                <td>{{item.id}}</td>
+                <td>{{item.palabra_clave}}</td>
+                <th >{{item.description}}</th>
+              </tr> -->
+                </ng-container>
+            </tbody>
+        </table>
+        <div align="right" class="table_2">
+            <hr>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn1 btn-light" (click)="resta_valor(10)"><</button>
+                <button type="button" class="btn btn1 btn-light">{{valor_0_1}}</button>
+                <button type="button" class="btn btn1 btn-light" (click)="suma_valor(10)">></button>
+            </div>
+        </div>
+    </div>
+</div>

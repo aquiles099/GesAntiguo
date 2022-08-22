@@ -1,0 +1,190 @@
+<div class="row m-0 animate__animated animate__fadeIn animate__faster">
+
+    <form id="companyEditionForm" enctype="multipart/form-data" #companyForm [formGroup]="form" (submit)="onSubmit(companyForm)" class="col-12  px-0 d-flex align-items-center">
+            
+        <div class="row m-0 py-4 justify-content-center">
+    
+            <div class="col-7 p-0">
+    
+                <div class="row m-0">
+    
+                    <div class="col-12 col-md-6 pl-0 pr-1 mb-2">
+
+                        <label class="mb-2" for="name">Nombre de la empresa: <span class="required-mark">*</span></label>
+                        
+                        <input type="text" id="name" name="name" formControlName="name" required>
+
+                        <small *ngIf="controlIsInvalid('name')" class="d-block text-danger">
+                            El campo es requerido.
+                        </small>
+                        
+                    </div>
+
+                    <div class="col-12 col-md-6 pr-0 pl-1 mb-2">
+
+                        <label class="mb-2" for="cif">CIF: <span class="required-mark">*</span></label>
+                        
+                        <input type="text" minlength="10" maxlength="10"  id="cif" name="cif" formControlName="cif" required>
+
+                        <small *ngIf="controlIsInvalid('cif')" class="d-block text-danger">
+                            El campo debe ser un valor de 10 caracteres.
+                        </small>
+
+                    </div>
+                    
+                    <div class="col-12 col-md-6 pl-0 pr-1 mb-2">
+
+                        <label class="mb-2" for="user_ids">Administradores (max. 2):<span class="required-mark">*</span></label>
+                        
+                        <ng-select
+                            id="user_ids"
+                            class="custom" 
+                            name="user_ids" 
+                            formControlName="user_ids"
+                            required 
+                            placeholder="Seleccione usuario..."
+                            [clearable]="false"
+                            [multiple]="true"
+                            maxSelectedItems="2"
+                            [items]="users"
+                            bindLabel="full_name"
+                            bindValue="id"
+                        >
+                        </ng-select>
+
+                        <small *ngIf="controlIsInvalid('user_ids')" class="d-block text-danger">
+                            El campo es requerido.
+                        </small>
+
+                    </div>
+
+                    <div class="col-12 col-md-6 pr-0 pl-1 mb-2">
+                    
+                        <label class="mb-2" for="company-province">Ubicación: <span class="required-mark">*</span></label>
+
+                        <ng-select
+                            id="company-province"
+                            class="custom" 
+                            name="province_id" 
+                            formControlName="province_id"
+                            placeholder="Seleccione provincia..."
+                            [clearable]="false"
+                            [items]="provinces"
+                            bindLabel="name"
+                            bindValue="provincia"
+                            [loading]="loadingFormData"
+                            [loadingText]="'Cargando provincias...'"
+                            (change)="onChangeProvinceSelector($event)"
+                        >
+                        </ng-select>
+
+                    </div>
+
+                    <div class="col-12 col-md-6 pl-0 pr-1 mb-2">
+                
+                        <div class="row h-100 align-items-center m-0 text-left">
+                            
+                            <div class="col-4 pl-0 pr-1">
+                                <label class="m-0" for="is_active">Activo:</label>
+                            </div>
+
+                            <div class="col-8 pl-1 pr-0 text-center">
+                                <label for="is_active" class="checkbox m-0">
+                                    <input type="checkbox" class="checkbox" id="is_active" value="1" formControlName="is_active" name="is_active" required>
+                                    <i *ngIf="getFormValue('is_active')" class="fas fa-check"></i>
+                                </label>                
+
+                            </div>
+                            
+                        </div>
+                
+                    </div>   
+                    
+                    <div class="col-12 col-md-6 pr-0 pl-1 mb-2">
+                    
+                        <ng-select
+                            id="company-municipality"
+                            required 
+                            formControlName="municipality_id" 
+                            name="municipality_id" 
+                            class="custom mt-1" 
+                            [clearable]="false"
+                            placeholder="Seleccione municipio..."
+                            [loading]="loadingFormData"
+                            [loadingText]="'Cargando municipios...'"
+                            [items]="municipalities"
+                            bindLabel="name"
+                            bindValue="id"
+                        >
+                        </ng-select>
+
+                        <small *ngIf="controlIsInvalid('municipality_id')" class="d-block text-danger">
+                            El campo es requerido.
+                        </small>
+
+                    </div>
+
+                </div>
+    
+            </div>
+
+            <div class="col-3 p-0">
+
+                <div class="row m-0">
+
+                    <div class="col-12 px-3 mb-2">
+
+                        <div class="row m-0 justify-content-center">
+
+                            <div class="col-12 p-0 mb-2">
+                                <label class="mb-0" for="company-image">Logo de empresa:</label>
+                            </div>
+
+                            <div class="col-12 p-0 bg-white company-image-col">
+                                <div class="company-image-container">
+                                    <img (click)="toggleFullscreen($event)" [src]="selectedImageSrc" alt="image-perfil">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="col-12 text-right px-3 mb-4">
+                        
+                            <label class="btn btn-sm image-input-btn rounded-lg" for="company-image">
+                                <img class="small-icon" src="assets/icons/SVG/CARGAR.svg" alt="icono-cargar">
+                                &nbsp;
+                                Cargar imagen
+                            </label>
+
+                            <input 
+                            #imageInput
+                            formControlName="image"
+                            accept=".png, .jpg, .jpeg" 
+                            class="hide"
+                            type="file" 
+                            name="image" 
+                            id="company-image"
+                            (change)="onSelectImage($event)">
+
+                    </div>
+                
+                </div>
+
+            </div>
+
+            <div class="col-3 offset-7 px-3 mt-4">
+               
+                <button type="submit" form="companyEditionForm" [disabled]="form.invalid" class="btn btn-block btn-info p-1">
+                    guardar
+                </button>
+
+            </div>
+           
+        </div>
+        
+    </form>
+
+</div>
+

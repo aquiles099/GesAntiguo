@@ -1,0 +1,75 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+<div class="container">
+		<br>
+			<div class="row valor">
+				<div class="col-4">
+				<div class="form-group" *ngIf="_dispositivo==0">
+    			<label><strong>Dispositivo</strong></label>
+    		 	<div class="imput_form">
+    		 		<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    		 	</div>
+      	</div>
+      	<div class="form-group" *ngIf="_dispositivo==1">
+					<label><strong>Dispositivo</strong></label>
+					<select name="tipo" class="form-control tamano_inputs"  [(ngModel)]="data_alerta.device" [disabled]="isDisabled" placeholder="Seleccione dispositivo">
+      			<option value="{{item.id}}" *ngFor="let item of devices">{{item.name}}</option>
+      		</select>
+				</div>
+			</div>
+			<div class="col-2">
+				<div class="form-group">
+					<label><strong>&nbsp;</strong></label>
+					<input type="date" class="form-control tamano_inputs" placeholder="Fecha">
+				</div>
+			</div>
+			<div class="col-1">
+				<div class="form-group">
+					<label><strong>&nbsp;</strong></label>
+					<button class="btn color_btn_crear btn_crear_consulta btn-default tamano_texto_boton" >Buscar</button>
+				</div>
+			</div>
+				<div class="col-5" align="right">
+					<div class="form-group">
+						<label><strong>&nbsp;</strong></label>
+						<!-- <button class="btn btn_crear_consulta btn-light btn1 color_btn_eliminar tamano_texto_boton" >Eliminar</button> -->
+					</div>
+				</div>
+			</div>
+			<br>
+			<div>
+				<table class="table table-borderless table_2 table-hover">
+				  <thead class="color_table">
+				    <tr>
+				      <th scope="col"></th>
+				      <th scope="col">Fecha</th>
+				      <th scope="col">Dispositivo</th>
+				      <th scope="col">Mensaje</th>
+				      <th scope="col">Tipo</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				   
+				    <tr *ngIf="carga_datos==2">
+				    	No hay datos que mostrar 
+				    </tr>
+				    <ng-container  class="animate__animated animate__fadeIn" > <!-- *ngFor="let item of inventario; let i = index" --> 
+						 <!--  <tr *ngIf="i >= valor_0 && i<valor_1" class="animate__animated animate__fadeIn"> 
+					      <td>{{item.id}}</td>
+					      <td>{{item.palabra_clave}}</td>
+					      <th >{{item.description}}</th>
+						  </tr> -->
+						</ng-container>
+				  </tbody>
+				</table>
+					<div align="right" class="table_2">
+							<hr>
+			    <div class="btn-group"  role="group" aria-label="Basic example">
+					  <button type="button" class="btn btn1 btn-light" (click)="resta_valor(10)"><</button>
+					  <button type="button" class="btn btn1 btn-light">{{valor_0_1}}</button>
+					  <button type="button" class="btn btn1 btn-light" (click)="suma_valor(10)">></button>
+					</div>
+		    </div>
+			</div>
+	</div>

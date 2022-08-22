@@ -1,0 +1,9 @@
+<!-- spinner -->
+<ngx-spinner name="appSpinner" [fullScreen]="true" [type]="null" bdColor="rgba(255,255,255,0.5)">
+    <div class="logo-container">
+        <img src="assets/images/logo-animacion.gif" class="logo mb-4" alt="LOGO">
+        <div class="spinner-html" [innerHTML]="spinnerContent | safeHtml"></div>
+    </div>
+</ngx-spinner>
+
+<router-outlet></router-outlet>

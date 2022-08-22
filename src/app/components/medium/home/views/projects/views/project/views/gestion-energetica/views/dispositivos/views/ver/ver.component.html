@@ -1,0 +1,100 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+<div class="col-12 p-0">
+
+	<div class="parametros valor">
+		<br>
+		<br>
+	<div>
+		<div class="col-7">
+			<div class="form-group">
+					<label><strong>Nombre</strong></label>
+				<input type="text" class="form-control" name="name"  [(ngModel)]="data_disp.name" placeholder="Ingrese un nombre" disabled="true">
+				<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==1">
+					  <strong>Advertencia!</strong> {{mensaje}}.
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		<div class="col-7">
+			<div class="form-group">
+				<label><strong>Clave</strong></label>
+				<input type="text" class="form-control" name="key"  [(ngModel)]="data_disp.local_id" placeholder="Ingrese una clave" disabled="true">
+				<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==2">
+					  <strong>Advertencia!</strong> {{mensaje}}.
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+			</div>
+		</div>
+		<div>
+	</div>
+	<div>
+		<div class="col-7">
+			<div class="form-group">
+				<label><strong>Descripción</strong></label>
+				<textarea class="form-control" disabled="true">{{this.data_disp.description}}</textarea>
+				<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==3">
+					  <strong>Advertencia!</strong> {{mensaje}}.
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+			</div>
+		</div>
+		<div class="col-7">
+			<div class="form-group">
+				<label><strong>Status</strong></label>
+				<div *ngIf="data_disp.status=='ACCEPTED'">
+					<input type="text" class="form-control" name="key" placeholder="Aceptado" disabled="true">
+				</div>
+				<div *ngIf="data_disp.status=='PENDING'">
+					<input type="text" class="form-control" name="key" placeholder="Pendiente" disabled="true">
+				</div>
+				<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==2">
+					  <strong>Advertencia!</strong> {{mensaje}}.
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+			</div>
+		</div>
+	</div>
+	<div class="row botonera2">
+			<div class="col-2">
+				<button class="btn color_btn_crear btn_crear_consulta btn-default tamano_texto_boton" (click)="aceptar_dispositivo()" [disabled]="isDisabled">
+				<div class="lds-ring" *ngIf="isDisabled_accept">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+				Aceptar</button>
+			</div>
+			<div class="col-2">
+				<button class="btn btn1 btn-danger btn_crear_consulta tamano_texto_boton" (click)="eliminar_dispositivo()"  [disabled]="isDisabled">
+					<div class="lds-ring" *ngIf="isDisabled_delete">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+				 Eliminar</button>
+			</div>
+			<div class="col-2">
+				<button class="btn btn1 btn-light btn_crear_consulta tamano_texto_boton" (click)="cancelar()" [disabled]="isDisabled">
+					<div class="lds-ring" *ngIf="isDisabled_accept">
+	          <div></div>
+	          <div></div>
+	          <div></div>
+	        </div>
+				 Cancelar</button>
+			</div>
+	</div>
+</div>
+</div>
+</div>

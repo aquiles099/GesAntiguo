@@ -1,0 +1,11 @@
+{
+    "/API": {
+        "target": "http://srv.uvax.es:8084/API/web/index.php",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {
+        "^/API": ""
+        }    
+    }
+}
+

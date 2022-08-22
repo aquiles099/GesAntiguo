@@ -1,0 +1,156 @@
+
+<div class="modal fade" bsModal #modal="bs-modal" [config]="{backdrop: 'static'}" (onHidden)="clear()" tabindex="-1" role="dialog">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header text-center my-2">
+
+                <h4 class="modal-title w-100 mb-0">
+                    NUEVO ATRIBUTO                    
+                </h4>
+
+                <button type="button" class="close pull-right" (click)="modal.hide()" aria-label="Close">
+                    <img src="assets/icons/SVG/CERRARVENTANA.svg" class="icon" alt="cerrar">
+                </button>
+
+            </div>
+
+            <form [formGroup]="form" class="modal-body" (submit)="crearAtributo()">
+
+                <hr class="mt-0 w-100">
+
+                <div class="form-group row mx-0 mb-3">
+                    <label for="attribute-name" class="col-sm-2 col-form-label">Nombre:</label>
+                    <div class="col-sm-10">
+                        <input type="text" required formControlName="nombre" class="form-control" id="attribute-name" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group row mx-0 mb-3">
+                    
+                    <div class="col-sm-4 mb-3">
+                        <label class="mb-2" for="attribute-module">Módulo:</label>
+                        <ng-select 
+                            class="custom" 
+                            placeholder="Seleccionar" 
+                            [clearable]="false" 
+                            [items]="modulos"
+                            bindLabel="nombre" 
+                            bindValue="nombre" 
+                            required 
+                            formControlName="modulo"
+                            (change)="alCambiarSelectorDeModulos($event)"
+                            >
+                        </ng-select>
+                    </div>
+                    
+                    <div class="col-sm-4 mb-3">
+                        <label class="mb-2" for="attribute-group">Grupo:</label>
+                        <ng-select 
+                            class="custom" 
+                            placeholder="Seleccionar" 
+                            [clearable]="false" 
+                            [items]="grupos"
+                            bindLabel="nombre" 
+                            bindValue="nombre"
+                            required 
+                            formControlName="grupo" 
+                            (change)="alCambiarSelectorDeGrupos($event)"
+                            >
+                        </ng-select>
+                    </div>
+                    
+                    <div class="col-sm-4 mb-3">
+                        <label class="mb-2" for="attribute-layer">Capa:</label>
+                        <ng-select 
+                            class="custom" 
+                            placeholder="Seleccionar" 
+                            [clearable]="false" 
+                            [items]="capas"
+                            bindLabel="nombre" 
+                            bindValue="nombre"
+                            required 
+                            formControlName="capa"
+                            >
+                        </ng-select>
+                    </div>
+                    
+                    <div class="col-sm-6">
+                        <label class="mb-2" for="attribute-type">Tipo de atributo:</label>
+                        <ng-select 
+                            class="custom" 
+                            placeholder="Seleccionar" 
+                            [clearable]="false" 
+                            [items]="tiposDeAtributo"
+                            bindLabel="nombre" 
+                            bindValue="id"
+                            required 
+                            formControlName="tipo_dato"
+                            >
+                        </ng-select>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label class="mb-2" for="attribute-access-type">Tipo de acceso:</label>
+                        <ng-select 
+                            class="custom" 
+                            placeholder="Seleccionar" 
+                            [clearable]="false" 
+                            [items]="tiposDeAcceso"
+                            bindLabel="nombre" 
+                            bindValue="id" 
+                            required 
+                            formControlName="tipo_acceso"
+                            >
+                        </ng-select>
+                    </div>
+                  
+                </div>
+
+                <div class="form-group row mx-0 mb-4">
+
+                    <div class="col-12">
+                        <label class="mb-2" for="">Visible en:</label>
+                        <hr class="mt-0 w-100">
+                    </div>
+                    
+                    <div class="col-2 text-center mb-2" *ngFor="let herramienta of listaDeHerramientas">
+                        
+                        <label class="mb-2 d-block" for="tool_{{herramienta.nombre_formateado}}">{{ herramienta.nombre }}</label>
+                        
+                        <label class="checkbox" for="tool_{{herramienta.nombre_formateado}}">
+                                
+                            <input type="checkbox" 
+                            [checked]="herramienta.estado" 
+                            name="tool_{{herramienta.nombre_formateado}}" 
+                            id="tool_{{herramienta.nombre_formateado}}"
+                            [disabled]="tourIsActive"
+                            (change)="alternarEstadoHabilitadoDeHerramienta(herramienta)"
+                            >
+                            <i class="fas fa-check" *ngIf="herramienta.estado" ></i>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="row mx-0 justify-content-center">
+                    <div class="col-4">
+                        <button type="submit" [disabled]="form.invalid" class="btn btn-block btn-info">Guardar</button>
+                    </div>
+                    <div class="col-4">
+                        <button type="button" (click)="modal.hide()" class="btn btn-block btn-outline-info">Cancelar</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+

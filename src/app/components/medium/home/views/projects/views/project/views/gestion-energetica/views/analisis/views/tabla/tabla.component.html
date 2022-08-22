@@ -1,0 +1,79 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+
+	<div class="container">
+		<br>
+			<div class="row valor">
+				<div class="col-3">
+					<div class="form-group" *ngIf="_tipo==0">
+      			<label><strong>Dispositivo</strong></label>
+      		 	<div class="imput_form">
+      		 		<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+      		 	</div>
+      		</div>
+				<div class="form-group" *ngIf="_tipo==1">
+						<label><strong>Dispositivo</strong></label>
+						<ng-select [items]="devices" bindLabel="name" bindValue="id" placeholder="Seleccione dispositivo" appendTo="body" multiple="true" [(ngModel)]="selected" class="tamano_inputs">
+						</ng-select>
+        	<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_device==1">
+						  <strong>Advertencia!</strong> {{mensaje}}.
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(1)">
+						    <span aria-hidden="true">&times;</span>
+						  </button>
+					</div>
+				</div>
+			</div>
+				<div class="col-7">
+					<label><strong>Fecha</strong></label>
+					<div>
+						 <input type="text" autocomplete="off" ngxDaterangepickerMd [locale]="local" startKey="start" endKey="end" [(ngModel)]="selected_dates" name="daterange12" [maxDate]="maxDateRange" [minDate]="minDateRange" [alwaysShowCalendars]="true" [ranges]="ranges" class="imput_form_2 tamano_inputs" (ngModelChange)="datesUpdated($event)" [linkedCalendars]="true"/>
+					</div>
+					<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_inicio==1">
+						  <strong>Advertencia!</strong> {{mensaje}}.
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(2)">
+						    <span aria-hidden="true">&times;</span>
+						  </button>
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="form-group">
+			      <div>
+			      		<label>&nbsp;<strong>Frecuencia</strong></label>
+			    	</div>
+				    <div class="btn-group"  role="group" aria-label="Basic example">
+						  <button type="button" class="btn btn-light btn-group-lg input_group fuente" [ngClass]="el_boton==5 ?'btn_grupo_2' : 'btn_grupo btn1'" (click)="boton(5)">5min</button>
+						  <button type="button" class="btn btn-light btn-group-lg input_group fuente" [ngClass]="el_boton==10 ?'btn_grupo_2' : 'btn_grupo btn1'" (click)="boton(10)">10min</button>
+						  <button type="button" class="btn btn-light btn-group-lg input_group fuente" [ngClass]="el_boton==15 ?'btn_grupo_2' : 'btn_grupo btn1'" (click)="boton(15)">15min</button>
+						  <button type="button" class="btn btn-light btn-group-lg input_group fuente" [ngClass]="el_boton==30 ?'btn_grupo_2' : 'btn_grupo btn1'" (click)="boton(30)">30min</button>
+						  <button type="button" class="btn btn-light btn-group-lg input_group fuente" [ngClass]="el_boton==1 ?'btn_grupo_2' : 'btn_grupo btn1'" (click)="boton(1)">Hora</button>
+						  <button type="button" class="btn btn-light btn-group-lg input_group fuente" [ngClass]="el_boton==2 ?'btn_grupo_2' : 'btn_grupo btn1'" (click)="boton(2)">Día</button>
+						  <button type="button" class="btn btn-light btn-group-lg input_group fuente" [ngClass]="el_boton==3 ?'btn_grupo_2' : 'btn_grupo btn1'" (click)="boton(3)">Semana</button>
+						  <button type="button" class="btn btn-light btn-group-lg input_group fuente" [ngClass]="el_boton==4 ?'btn_grupo_2' : 'btn_grupo btn1'" (click)="boton(4)">Mes</button>
+						</div>
+			    </div>
+				</div>
+				<div class="col-1 boton" align="right">
+				<div class="form-group">
+					<button class="btn color_btn_crear btn_crear_consulta btn-default tamano_texto_boton" (click)="get_buscar()">Ver</button>
+				</div>
+				</div>
+				<span class="borde_bajo">&nbsp;</span>
+					<div id="spinnerCargaMapa" *ngIf="el_chart==0" class="h-100" [ngClass]="el_chart==0 ? 'loading' : 'notLoading'">
+				    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+				  </div>
+				  <div class="container_chart">
+					 <div class="spline" [chart]="linechart" *ngIf="tipo==1"></div>
+					 <div class="bar" [chart]="barchart" *ngIf="tipo==2"></div>
+					</div>
+					<div class="row parametros borde_top" *ngIf="el_chart_barras==2">
+						<br>
+							<button class="btn btn2" [ngClass]="btn_barras_lineas==0 ?'btn_select' : ''" (click)="consulta_barras()">Barras</button>
+							<button class="btn btn2" [ngClass]="btn_barras_lineas==1 ? 'btn_select':''" (click)="consulta_lineas()">Lineas</button>
+					</div>
+							<br>
+							<br>
+							<br>
+			</div>
+			<br>
+	</div>

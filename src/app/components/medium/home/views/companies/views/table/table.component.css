@@ -1,0 +1,25 @@
+.finder{
+    padding: 0.25rem 1.75rem !important;
+}
+
+.magnifying-glass{
+    margin-left: -96.5%;
+}
+
+.table-col{
+    height: 74%;
+}
+  
+.number-label{
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: .875rem;
+}  
+
+table, th, tr, td{
+    border: none !important;
+} 
+
+.company-image{
+    width: 4rem;
+    height: auto;
+}

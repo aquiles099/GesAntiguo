@@ -1,0 +1,108 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+<div class="container valor">
+		<br>
+			<div >
+				<div align="left">
+					<span><strong class="text- cursor_pointer">Fecha</strong></span>
+				</div>
+				<br>
+					<div>
+						<input type="radio" id="contactChoice1" name="contact" value="ultimo"  [(ngModel)]="data_consulta.radio" (click)="seleccion_periodo(0)">
+			    	<label for="contactChoice1">&nbsp;Último</label>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-2 periodo">
+								<input type="radio" id="contactChoice1" name="contact" value="periodo" [(ngModel)]="data_consulta.radio" (click)="seleccion_periodo(1)">
+					    	<label for="contactChoice1">&nbsp;Periodo</label>
+						</div>
+						<div class="col-9 fechas" align="left">
+						 <div *ngIf="seleccione_periodo==1">
+								<input type="text" autocomplete="off" ngxDaterangepickerMd [locale]="local" startKey="start" endKey="end" [(ngModel)]="selected_dates" name="daterange12" [maxDate]="maxDateRange" [minDate]="minDateRange" [alwaysShowCalendars]="true" [ranges]="ranges" class="imput_form_2 tamano_inputs" (ngModelChange)="datesUpdated($event)" [linkedCalendars]="true"/>
+					   </div>
+							<br>
+					    <div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_inicio==1">
+							  <strong>{{mensaje}}.</strong>
+							  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(3)">
+							    <span aria-hidden="true">&times;</span>
+							  </button>
+							</div>
+						</div>
+					</div>
+					<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_fecha==1">
+					  <strong>Advertencia!</strong> {{mensaje}}.
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(2)">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+			</div>
+			
+			<br>
+	</div>
+		<div class="row parametros">
+			<div class="col-5">
+				<div class="form-group" *ngIf="_parametros==0">
+    			<label><strong>Parámetros</strong></label>
+    		 	<div class="imput_form_parametros_dispositivos">
+    		 		<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    		 	</div>
+    		</div>
+				<div class="form-group" *ngIf="_parametros==1">
+						<label ><strong>Parámetros</strong></label>
+						<select name="tipo" class="form-control"  [(ngModel)]="data_consulta.parameter" [disabled]="isDisabled" placeholder="Seleccione parametros">
+        			<option value="{{item.id}}" *ngFor="let item of parameters">{{item.name}}</option>
+        		</select>
+        		<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==1">
+						  <strong>Advertencia!</strong> {{mensaje}}.
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(0)">
+						    <span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+				</div>
+			</div>
+			<div class="col-5">
+				<div class="form-group" *ngIf="_dispositivos==0">
+    			<label><strong>Dispositivos*</strong></label>
+    		 	<div class="imput_form_parametros_dispositivos">
+    		 		<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    		 	</div>
+    		</div>
+				<div class="form-group" *ngIf="_dispositivos==1">
+						<label><strong>Dispositivos*</strong></label>
+						<ng-select [items]="devices" bindLabel="name" bindValue="id" placeholder="Seleccione dispositivo" appendTo="body" multiple="true" [(ngModel)]="selected">
+						</ng-select>
+        		<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_device==1">
+						  <strong>Advertencia!</strong> {{mensaje}}.
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert(1)">
+						    <span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+				</div>
+			</div>
+			<div class="col-2" align="right">
+				<div class="form-group">
+						<button class="btn color_btn_crear btn_crear_consulta btn-default tamano_texto_boton" (click)="get_buscar()" >Ver</button>
+				</div>
+			</div>
+			<span class="borde_bajo">&nbsp;</span>
+			<div id="spinnerCargaMapa" *ngIf="el_chart==0" class="h-100" [ngClass]="el_chart==0 ? 'loading' : 'notLoading'">
+		    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+		  </div>
+			<div class="container_chart" *ngIf="el_chart==1">
+				 <div class="spline" [chart]="linechart" *ngIf="tipo==1"></div>
+				 <div class="bar" [chart]="barchart" *ngIf="tipo==2"></div>
+			</div>
+				<div class="row parametros borde_top" *ngIf="el_chart_barras==2">
+						<br>
+							<button class="btn btn2" [ngClass]="btn_barras_lineas==0 ?'btn_select' : ''" (click)="consulta_barras()">Barras</button>
+							<button class="btn btn2" [ngClass]="btn_barras_lineas==1 ? 'btn_select': ''" (click)="consulta_lineas()">Lineas</button>
+							<br>
+					</div>
+					<!-- <div class="row parametros botonera" *ngIf="el_chart_barras==2 && el_chart==1">
+							<button class="btn btn1 " (click)="consulta_barras()">Barras</button>
+							<button class="btn btn1" (click)="consulta_lineas()">Lineas</button>
+					</div> -->
+</div>
+

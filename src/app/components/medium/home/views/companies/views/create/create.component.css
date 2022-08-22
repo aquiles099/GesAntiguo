@@ -1,0 +1,55 @@
+
+form{
+    background-color: inherit !important;
+  }
+
+  .company-info-section{
+    background-color: #F8F8F8;
+  }
+
+label{
+    color: #333;
+    font-size: .875rem;
+    font-weight: normal;
+}
+
+  .eye-icon{
+    margin-left: -12.5%;
+    width: 1rem;
+    opacity: .5;
+  }
+
+  .icon-preview-container{
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 6rem;
+    padding: 0;
+}
+
+.bkg-dark{
+    background-color: #828282;
+}
+
+.bkg-transparent{
+    background-color: transparent;
+}
+
+.icon-preview{
+    width: 100%;
+    height: 100%;
+}
+
+.load-icon-btn{
+    border: 1px solid #BDBDBD;
+    color: #828282;
+    font-size: .6rem;
+    margin: 0;
+    background-color: #F7F7F7;
+}
+
+.left-bordered{
+    border-left: 1px solid #E0E0E0;
+}

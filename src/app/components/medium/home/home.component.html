@@ -1,0 +1,16 @@
+
+<medium-home-header
+></medium-home-header>
+
+<sidebar-menu
+    (showProjectCreationModal)="ProjectCreationModal.show()"
+></sidebar-menu>
+
+<div class="_container">
+
+    <router-outlet></router-outlet>
+  
+</div>
+  
+<project-creation-modal
+></project-creation-modal>

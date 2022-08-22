@@ -1,0 +1,121 @@
+.sidebar{
+    bottom: 0%;
+    height: 93.67%;
+    width: 20%;
+    background-color: #4F4F4F;
+    overflow: hidden;
+    z-index: 1000;
+    font-size: .875rem;
+    left: 0;
+    position: fixed;
+  }
+  
+  .top-section,
+  .middle-section,
+  .bottom-section{
+    position: absolute;
+    width: 100%;
+    background-color: #4F4F4F;
+    border-top: 1px solid grey;
+  }
+  
+  .top-section{
+    top: 0%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .top-section > ul{
+    width: 100%;
+  }
+  
+  .middle-section{
+    top: 20%;
+    height: 50%;
+  }
+  
+  .middle-section.with-selected-project{
+    height: 79%;
+  }
+  
+  .bottom-section{
+    top: 70%;
+    height: 30%;
+    background-color: #333;
+  }
+  
+  .icon{
+    width: 1.1rem;
+  }
+  
+  .menu{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+  
+  .menu.scrollable{
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 99%;
+  }
+  
+  .menu > li{
+    cursor: pointer;
+    padding: .8rem;
+    color: #fff;   
+    font-size: .75rem;
+  }
+  
+  .menu > li > div.row{
+    align-items: center;
+    justify-content: start;
+  }
+  
+  .menu.sub{
+    padding-left: .6rem;
+  }
+  
+  .menu.sub > li{
+    padding: .3rem .6rem;
+  }
+  
+  .sub-menu-option{
+    padding: .3rem .6rem  !important;
+  }
+
+  .menu > li:hover,
+  .menu > li.link-active,
+  div.link-active{
+    background-color: #333;
+  }
+  
+  .bottom-section > .menu > li:hover,
+  .bottom-section > .menu > li.link-active,
+  .menu.sub > li:hover{
+    background-color: #4F4F4F;
+  }
+  
+  @media (min-width: 768px)
+  {   
+    .sidebar{
+        width: 14.84%;
+        z-index: initial;
+    }
+  
+    .bar{
+        width: 100%;
+    }
+  }
+  
+  @media (min-width: 992px)
+  {   
+   
+  }
+  
+  @media (min-width: 1280px)
+  {
+  
+  }
+  

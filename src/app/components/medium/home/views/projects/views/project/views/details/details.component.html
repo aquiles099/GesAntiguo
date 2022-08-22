@@ -1,0 +1,138 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+
+    <home-view-header
+        title="información de proyecto"
+        (showTour)="showTour()"
+    ></home-view-header>
+
+    <div class="col-12 p-0">
+
+        <div class="row mx-0 mt-2 mb-3"> 
+    
+            <div class="col-3 col-md-1 p-0">
+                <img class="project-icon" [src]="project.icono" alt="icono-proyecto">
+            </div>
+    
+            <div class="col-9 col-md-8 pl-4 pr-0 text-left project-main-info-container">
+    
+                <div class="row ml-3">
+    
+                    <div class="col-12 title">
+    
+                        {{ project.nombre}}
+    
+                        &nbsp;&nbsp;&nbsp;
+    
+                        <img *ngFor="let module of project.modulos | slice:0:2" 
+                        class="module-icon mx-1"
+                        [attr.title]="module.modulo"
+                        [src]="module.icono_modulo"
+                        >
+                        &nbsp;
+                        <span *ngIf="(project.modulos.length - 2) > 0">
+                            + {{ project.modulos.length - 2 }}
+                        </span>
+                    </div>
+    
+                    <div class="col-12">
+                        {{ project.nombre }}
+                    </div>
+                    <div class="col-12">
+                        {{ additionalData.informacion_proyecto.provincia }}
+                    </div>
+                    <div class="col-12">
+                        Proyección {{ additionalData.informacion_proyecto.nombre_proyeccion }}
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+            <div class="co-12 col-md-3 my-2 my-md-0 p-0 text-right project-users-info-container">
+                <ul class="users-data-list">
+                    <li *ngFor="let usersData of additionalData.informacion_proyecto.lista_cantidades; let isTheFirst = first">
+                        <div class="row m-0">
+                            <div class="col-10 p-0 text-truncate text-left">
+                                <span [class.bolder]="isTheFirst">
+                                    {{ usersData.nombre }}:
+                                </span>
+                            </div>
+                            <div class="col-2 p-0 text-right">
+                                <span [class.bolder]="isTheFirst">
+                                    {{ usersData.cantidad }}
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+    
+        </div>
+    
+        <div class="row mx-0 mt-3 scrollable module-layer-data-container">
+            <div class="col-12 p-0" *ngFor="let modulo of additionalData.modulos">
+                <div class="row mx-0">
+            
+                    <div (click)="toggleModuleLayerDataVisibility(modulo)" 
+                        class="bordered-bottom pointer col-12 px-0 pb-2 my-2 title module-row">
+            
+                        <b> {{ modulo.nombre }} </b>
+            
+                        <span class="icon float-right">
+                           <i class="fas" [ngClass]="{
+                               'fa-chevron-up': ! modulo.colapsado,
+                               'fa-chevron-down': modulo.colapsado
+                           }"></i> 
+                       </span>
+            
+                    </div>
+            
+                    <div [collapse]="modulo.colapsado" [isAnimated]="true" class="col-12 px-0 groups-row">
+                
+                        <div *ngFor="let grupo of modulo.grupos" class="row m-0 align-items-center">
+            
+                            <div (click)="toggleLayerGroupDataVisibility(grupo)" class="col-12 pl-3 pr-0 pb-2 my-2 bordered-bottom pointer">
+                
+                                <label class="ml-2">{{grupo.nombre}}</label> 
+            
+                                <span class="icon float-right">
+                                    <i class="fas" [ngClass]="{
+                                        'fa-chevron-up': ! grupo.colapsado,
+                                        'fa-chevron-down': grupo.colapsado
+                                    }"></i> 
+                                </span>
+                                
+                            </div>
+            
+                            <div [collapse]="grupo.colapsado" [isAnimated]="true" class="col-12 p-0 layers-row">
+            
+                                <div *ngFor="let capa of grupo.capas" class="row m-0 align-items-center">
+                    
+                                    <div class="col-12 px-4 pb-2 my-2 bordered-bottom">
+                                        
+                                        <label class="ml-4" for="">
+                                            {{capa.capa}} 
+                                        </label>
+                                        
+                                        <span class="float-right mr-4 layer-elements-tag">
+                                            {{capa.cuenta}}
+                                        </span>
+            
+                                    </div>
+            
+                                </div>
+            
+                            </div>
+            
+                        </div>
+            
+                    </div>
+                        
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+

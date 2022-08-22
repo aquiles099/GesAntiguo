@@ -1,0 +1,62 @@
+<div class="cover animate__animated animate__fadeIn animate__faster"
+    style="background-image: url('assets/images/imagenLoginFondo.png');">
+
+    <img class="logo" src="assets/images/GIS SMART.png">
+
+    <form #loginForm [formGroup]="form" (submit)="onSubmit()">
+
+        <div class="form-section top-section">
+
+            <h1 class="big-text">Bienvenido,</h1>
+            <h3>por favor, inicia sesión para comenzar.</h3>
+
+        </div>
+    
+        <div class="form-section middle-section">
+
+            <input [ngClass]="{
+                'invalid': (userField.dirty || userField.touched) && userField.invalid,
+                'valid': userField.valid
+            }" formControlName="user" name="user" class="mb-3" required type="text" placeholder="Escribe tu usuario o email">
+    
+            <input #_passwordField [ngClass]="{
+                'invalid': (passwordField.dirty || passwordField.touched) && passwordField.invalid,
+                'valid': passwordField.valid
+            }" formControlName="password" name="password" required type="password" placeholder="Escribe tu contraseña">
+    
+            <img [src]="_passwordField.type === 'password' ? 'assets/icons/visualizar.svg' : 'assets/icons/OCULTAR.svg'" 
+                class="eye-icon pointer" 
+                (click)="togglePasswordVisibility(_passwordField)">
+    
+            <p class="text-right my-1">
+                <a (click)="passwordRecovery()" class="pointer" id="password-recovery-link">
+                    <i>¿Has olvidado tu contraseña?</i>
+                </a>
+            </p>
+
+        </div>
+
+        <div class="form-section bottom-section">
+
+            <button type="submit" class="btn py-2 btn-block btn-info" [disabled]="loginForm.invalid || sendingForm">
+                
+                <div class="lds-ring mr-3" *ngIf="sendingForm">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+
+                Entrar
+            </button>
+
+        </div>
+
+    </form>
+
+    <footer>
+        <a  href="https://www.fisotecsolutions.com/" target="_blank">
+            © www.fisotecsolutions.com
+        </a>
+    </footer>
+
+</div>

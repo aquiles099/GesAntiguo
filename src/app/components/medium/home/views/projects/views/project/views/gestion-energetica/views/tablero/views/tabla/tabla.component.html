@@ -1,0 +1,27 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+<div class="col-12 p-0">
+  <div class="parametros row" *ngIf="carga_datos==1">
+		<div class="panel_lleno col-3 animate__animated animate__fadeIn" *ngFor="let item of dispositivo; let i = index">
+			<div class="periodo">
+				<span *ngIf="item.periodo=='ult_24_horas'">Últimas 24 horas</span>
+				<span *ngIf="item.periodo=='ayer'">Ayer</span>
+				<span *ngIf="item.periodo=='semana_hoy'">Última semana</span>
+				<span *ngIf="item.periodo=='ult_7_dias'">Últimos 7 dias</span>
+				<span *ngIf="item.periodo=='ult_30_dias'">Últimos 30 dias</span>
+				<span *ngIf="item.periodo=='sem_pasada'">Semana pasada</span>
+				<span *ngIf="item.periodo=='mes_pasado'">Mes pasado</span>
+				<span *ngIf="item.periodo=='ult_12_meses'">Últimos 12 meses</span>
+				<span *ngIf="item.periodo=='anio_pasado'">Año pasao</span>
+			</div>
+			<div class="valor1">{{item.valor}} kW</div>
+		</div>
+		<div class="panel col-3 animate__fadeIn" (click)="dashboard_nuevo()">
+			<div align="center">
+				<span class="tamano" align="center">+</span>
+			</div>
+		</div>
+	</div>
+</div>

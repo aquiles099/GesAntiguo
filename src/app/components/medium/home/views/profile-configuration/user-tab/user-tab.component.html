@@ -1,0 +1,165 @@
+<div class="row m-0 animate__animated animate__fadeIn animate__faster">
+                    
+    <form id="userDataForm" enctype="multipart/form-data" #userDataForm [formGroup]="form" (submit)="onSubmit(userDataForm)" class="col-12 d-flex align-items-center">
+        
+        <div class="row m-0 py-4 justify-content-center">
+
+            <div class="col-7 p-0">
+
+                <div class="row m-0">
+
+                    <div class="col-12 col-md-6 px-3 mb-2">
+
+                        <label class="mb-2" for="nombre">Nombre: <span class="required-mark">*</span></label>
+                        
+                        <input type="text" id="nombre" name="nombre" formControlName="nombre" required>
+
+                        <small *ngIf="controlIsInvalid('nombre')" class="d-block text-danger">
+                            El campo es requerido.
+                        </small>
+                
+                    </div>
+        
+                    <div class="col-12 col-md-6 px-3 mb-2">
+        
+                        <label class="mb-2" for="apellidos">Apellido: <span class="required-mark">*</span></label>
+                        
+                        <input type="text" id="apellidos" name="apellidos" formControlName="apellidos" required>
+
+                        <small *ngIf="controlIsInvalid('apellidos')" class="d-block text-danger">
+                            El campo es requerido.
+                        </small>
+                
+                    </div>
+        
+                    <div class="col-12 col-md-6 px-3 mb-2">
+        
+                        <label class="mb-2" for="nif">NIF/NIE: <span class="required-mark">*</span></label>
+                        
+                        <input type="text" minlength="10" maxlength="10" id="nif" name="nif" formControlName="nif" required>
+
+                        <small *ngIf="controlIsInvalid('nif')" class="d-block text-danger">
+                            El campo debe ser un valor de 10 caracteres.
+                        </small>
+                
+                    </div>
+                    
+                    <div class="col-12 col-md-6 px-3 mb-2">
+                        
+                        <label class="mb-2" for="email">Email:</label>
+                        
+                        <input type="email" id="email" name="email" formControlName="email">
+
+                        <small *ngIf="controlIsInvalid('email')" class="d-block text-danger">
+                            El campo debe ser un email valido.
+                        </small>
+                        
+                    </div>
+                    
+                    <div class="col-12 col-md-6 px-3 mb-2">
+        
+                        <label class="mb-2" for="id_usuario">Nombre usuario: <span class="required-mark">*</span></label>
+                        
+                        <input type="text" minlength="4" id="id_usuario" name="id_usuario" formControlName="id_usuario" required>
+
+                        <small *ngIf="controlIsInvalid('id_usuario')" class="d-block text-danger">
+                            El campo debe tener 4 caracteres como minimo.
+                        </small>
+                
+                    </div>
+                    
+                    <div class="col-12 col-md-6 px-3 mb-2">
+        
+                        <label class="mb-2" for="nueva_clave">Nueva contraseña:</label>
+                        
+                        <input #passwordField type="password" minlength="8" maxlength="30" id="nueva_clave" name="nueva_clave" formControlName="nueva_clave">
+                    
+                        <img [src]="passwordField.type === 'password' ? 'assets/icons/visualizar.svg' : 'assets/icons/OCULTAR.svg'" 
+                            class="eye-icon pointer" 
+                            (click)="togglePasswordVisibility(passwordField)">
+
+                        <small *ngIf="controlIsInvalid('nueva_clave')" class="d-block text-danger">
+                            El campo debe tener 8 caracteres como minimo.
+                        </small>
+                    </div>
+                    
+                    <div class="col-12 col-md-6 offset-md-6 px-3 mb-2">
+        
+                        <label class="mb-2" for="nueva_clave_confirmation">Confirmar contraseña:</label>
+                        
+                        <input #confirmPasswordField type="password" minlength="8" maxlength="30" id="nueva_clave_confirmation" name="nueva_clave_confirmation" formControlName="nueva_clave_confirmation">
+                    
+                        <img [src]="confirmPasswordField.type === 'password' ? 'assets/icons/visualizar.svg' : 'assets/icons/OCULTAR.svg'" 
+                            class="eye-icon pointer" 
+                            (click)="togglePasswordVisibility(confirmPasswordField)">
+
+                        <small *ngIf="controlIsInvalid('nueva_clave_confirmation')" class="d-block text-danger">
+                            El campo debe tener 8 caracteres como minimo.
+                        </small>
+    
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-3 p-0">
+
+                <div class="row m-0">
+
+                    <div class="col-12 px-3 mb-2">
+
+                        <div class="row m-0 justify-content-center">
+
+                            <div class="col-12 p-0 mb-2">
+                                <label class="mb-0" for="profile-image">Imagen de perfil:</label>
+                            </div>
+
+                            <div class="col-12 p-0 bg-white profile-image-col">
+                                <div class="profile-image-container">
+                                    <img (click)="toggleFullscreen($event)" [src]="selectedImageSrc" alt="image-perfil">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="col-12 text-right px-3 mb-4">
+                        
+                            <label class="btn btn-sm image-input-btn rounded-lg" for="profile-image">
+                                <img class="small-icon" src="assets/icons/SVG/CARGAR.svg" alt="icono-cargar">
+                                &nbsp;
+                                Cargar imagen
+                            </label>
+
+                            <input 
+                            #imageInput
+                            formControlName="image"
+                            accept=".png, .jpg, .jpeg" 
+                            class="hide"
+                            type="file" 
+                            name="image" 
+                            id="profile-image"
+                            (change)="onSelectImage($event)">
+
+                    </div>
+                
+                </div>
+
+            </div>
+
+            <div class="col-3 offset-7 px-3 mt-4">
+               
+                <button type="submit" form="userDataForm" [disabled]="form.invalid" class="btn btn-block btn-info p-1">
+                    guardar
+                </button>
+
+            </div>
+
+        </div>
+        
+    </form>
+
+
+</div>

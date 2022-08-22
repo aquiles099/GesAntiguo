@@ -1,0 +1,51 @@
+
+.title{
+    color: #333;
+    font-size: 1rem;
+    font-weight: bolder;
+  }
+  
+  .scrollable{
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+  
+  ._label{
+    font-size: .875rem;
+    color: #828282;
+  }
+  
+  .category-selector{
+    width: 60%;
+  }
+  
+  .separator{
+    background-color: transparent;
+    border-right: 1px solid #333;
+    height: 100% !important;
+  } 
+  
+  .search-input{
+    position: relative;
+    right: -41%;
+    color: #828282;
+    font-family: Raleway !important;
+    font-size: 13px;
+    width: 54%;
+    padding-left: 10%;
+    opacity: 0.7;
+    top: -16%;
+    display: inline;
+  }
+  
+  .search-icon{
+    position: relative;
+    top: 35%;
+    right: -46%;
+    width: 3%;
+  }
+  
+  select{
+    border: none;
+  }

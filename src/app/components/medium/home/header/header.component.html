@@ -1,0 +1,81 @@
+<header>
+
+    <div class="brand-section">
+        
+        <img class="d-none d-md-block" src="assets/icons/FISOTEC_1215.svg" alt="fisotec-logo">
+        
+        <span (click)="toggleSideBarMenuVisibilityEvent()" class="d-block d-md-none plugin-tag">
+            <i class="fas fa-bars"></i>
+        </span>
+
+    </div>
+
+    <div class="bussines-section">
+
+        <div class="bussines-logo-container">
+            <img [src]="userData.company.image_path" class="w-100" [attr.alt]="userData.company.name">
+        </div>
+
+        <h4 class="my-0 ml-3">{{ userData.company.name }}</h4>
+        
+    </div>
+
+    <div class="user-options-section">
+
+        <div (click)="showLogoutWindow()"
+             (mouseenter)="showLogoutWindow()"
+            (mouseleave)="hideLogoutWindowAutomatically()"
+             class="user-name-initials circle show-logout-window">
+            <span>{{ user.fullNameInitials }}</span>
+        </div>
+
+    </div>
+
+    <div *ngIf="logoutWindowIsVisible" 
+        [@fadeInOnEnter] [@fadeOutOnLeave] 
+        (mouseenter)="overTheLogoutWindow()" 
+        (mouseleave)="hideLogoutWindow()" 
+        class="logout-window">
+        <div class="row m-0">
+            
+            <div class="col-12 px-md-2 px-lg-3 py-2">
+
+                <div class="circle profile-image-container"
+                    [ngStyle]="{
+                        'background-image': 'url('+userProfileImageSrc+')
+                    '}">
+                </div>
+                
+            </div>
+            
+            <div class="col-12 px-md-2 px-lg-3 py-2">
+                <h6 class="mb-1">{{ user.fullName }}</h6>
+                <h4 [attr.title]="user.email ? user.email : 'No disponible'" class="mb-1 text-truncate"> {{ user.email ? user.email : "No disponible" }} </h4>
+            </div>
+            
+            <div [routerLink]="['/medium/home/perfil/configuracion']" class="col-12 px-md-2 px-lg-3 py-2 top-bordered logout-window-option">
+                <div class="row m-0">
+                    <div class="col-2 p-0">
+                        <img class="icon" src="assets/icons/SVG/ADMUSUARIO.svg" alt="ADMUSUARIO">
+                    </div>
+                    <div class="col-10 pl-1 pr-0 text-truncate">
+                        Config. de perfil
+                    </div>
+                </div>
+            </div>
+            
+            <div (click)="logout()" class="col-12 px-md-2 px-lg-3 py-2 top-bordered logout-window-option">
+                <div class="row m-0">
+                    <div class="col-2 p-0">
+                        <img class="icon" src="assets/icons/CERRARSESION.svg" alt="icono-cerrar-sesion">
+                    </div>
+                    <div class="col-10 pl-1 pr-0 text-truncate">
+                        Cerrar sesión
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+</header>

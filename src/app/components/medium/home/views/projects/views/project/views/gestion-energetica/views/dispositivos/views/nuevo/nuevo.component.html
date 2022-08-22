@@ -1,0 +1,84 @@
+<div class="animate__animated animate__fadeIn animate__faster row m-0">
+    <home-view-header title="" [enableTourButton]="false"></home-view-header>
+</div>
+<div class="col-12 p-0">
+		<div class="parametros valor">
+			<div>
+					<label><strong>Crear nuevo dispositivo</strong></label>
+					<br>
+					<br>
+			</div>
+		<div class="col-7">
+				<div class="form-group" *ngIf="_parametros==0">
+	  		 	<div class="imput_form">
+	  		 		<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+	  		 	</div>
+	  		</div>
+				<div class="form-group" *ngIf="_parametros==1">
+						<select name="tipo" class="form-control"  [(ngModel)]="data_disp_nuevo.datasource_id" placeholder="Seleccione un concentrador" [disabled]="isDisabled">
+	      			<option value="" >Seleccione concentrador</option>
+	      			<option value="{{item.id}}" *ngFor="let item of gateway">{{item.name}}</option>
+	      		</select>
+	      		<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==0">
+						  <strong>Advertencia!</strong> {{mensaje}}.
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+						    <span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+				</div>
+		</div>
+		<div>
+			<div class="col-7">
+				<div class="form-group">
+					<input type="text" class="form-control" name="name"  [(ngModel)]="data_disp_nuevo.name" placeholder="Ingrese un nombre" [disabled]="isDisabled">
+					<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==1">
+						  <strong>Advertencia!</strong> {{mensaje}}.
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+						    <span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="col-7">
+				<div class="form-group">
+					<input type="text" class="form-control" name="key"  [(ngModel)]="data_disp_nuevo.local_id" placeholder="Ingrese una clave" [disabled]="isDisabled">
+					<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==2">
+						  <strong>Advertencia!</strong> {{mensaje}}.
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+						    <span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="col-7">
+				<div class="form-group">
+					<textarea class="form-control" placeholder="ingrese una descripción"  [(ngModel)]="data_disp_nuevo.description" [disabled]="isDisabled"></textarea>
+					<div class="alert alert-error alert-dismissible fade show animate__animated animate__fadeIn" role="alert" *ngIf="alerta_parametro==3">
+						  <strong>Advertencia!</strong> {{mensaje}}.
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="cerrar_alert()">
+						    <span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+				</div>
+			</div>
+		</div>
+		<div class="row botonera2">
+				<div class="col-3">
+					<button class="btn color_btn_crear btn_crear_consulta btn-default tamano_texto_boton" (click)="guardar()" [disabled]="isDisabled">
+						<div class="lds-ring" *ngIf="isDisabled">
+	            <div></div>
+	            <div></div>
+	            <div></div>
+	          </div>
+					 Guardar</button>
+				</div>
+				<div class="col-3">
+					<button class="btn btn1 btn-light btn_crear_consulta tamano_texto_boton" (click)="cancelar()" [disabled]="isDisabled"> Cancelar</button>
+				</div>
+		</div>
+	</div>
+</div>
